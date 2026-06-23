@@ -1,0 +1,173 @@
+slorado base-caller version 0.5.0-beta
+model path:         models/dna_r10.4.1_e8.2_400bps_hac@v5.0.0
+input path:         test/PGXXXX230339/reads_20k.blow5
+output path:        /home/riley/slorado/benchmark_runs/hac_20k/20260623_214056/output_hac_20k.fastq
+device:             cuda:all
+chunk size:         12288
+read batch size:    4096
+gpu batch size:     128
+no. threads:        8
+overlap:            150
+
+[parse_qscore_params::INFO][1;34m mean_qscore_start_pos not found in config toml, setting default to 60[0m
+[basecaller_main::0.851*1.73] 4096 Entries (201.7M bytes) loaded
+[basecaller_main::195.502*0.81] 4096 Entries (201.7M bytes) processed
+[basecaller_main::196.127*0.81] 4096 Entries (212.8M bytes) loaded
+[basecaller_main::397.632*0.80] 4096 Entries (212.8M bytes) processed
+[basecaller_main::398.247*0.80] 4096 Entries (198.2M bytes) loaded
+[basecaller_main::587.010*0.80] 4096 Entries (198.2M bytes) processed
+[basecaller_main::587.595*0.80] 4096 Entries (203.8M bytes) loaded
+[basecaller_main::780.874*0.80] 4096 Entries (203.8M bytes) processed
+[basecaller_main::781.718*0.80] 3616 Entries (181.5M bytes) loaded
+[basecaller_main::954.970*0.80] 3616 Entries (181.5M bytes) processed
+[basecaller_main] total entries: 20000
+[basecaller_main] total bytes: 998.1 M
+[basecaller_main] model initialization: 0.291 sec
+[basecaller_main] data loading: 2.905 sec
+[basecaller_main] data processing: 951.449 sec
+[basecaller_main]     - parse: 4.179 sec
+[basecaller_main]     - preprocess: 0.392 sec
+[basecaller_main]     - runners: 946.614 sec
+[basecaller_main]          - synchronisation: 0.000 sec
+[basecaller_main]          - model runner [0]: 946.606 sec
+[basecaller_main]             - accept: 5.359 sec
+[basecaller_main]             - basecall: 941.247 sec
+[basecaller_main]                 - inference: 800.800 sec
+[basecaller_main]                 - decode: 119.420 sec
+[basecaller_main]             - modcall: 0.000 sec
+[basecaller_main]     - postprocess: 0.264 sec
+[basecaller_main]     - mod_preprocess: 0.000 sec
+[basecaller_main]     - mod_postprocess: 0.000 sec
+[basecaller_main] data output: 0.391 sec
+[basecaller_main] data free: 0.082 sec
+[main] Version: 0.5.0-beta
+[main] CMD: ./slorado basecaller -t 8 -K 4096 -C 128 -B 512M -c 12288 -p 150 -o /home/riley/slorado/benchmark_runs/hac_20k/20260623_214056/output_hac_20k.fastq models/dna_r10.4.1_e8.2_400bps_hac@v5.0.0 test/PGXXXX230339/reads_20k.blow5
+[main] Real time: 955.152 sec; CPU time: 765.061 sec; Peak RAM: 5.967 GB
+
+
+
+slorado base-caller version 0.5.0-beta
+model path:         models/dna_r10.4.1_e8.2_400bps_fast@v5.0.0
+input path:         test/PGXXXX230339/reads_20k.blow5
+output path:        /home/riley/slorado/benchmark_runs/fast_20k/20260623_215938/output_fast_20k.fastq
+device:             cuda:all
+chunk size:         12288
+read batch size:    4096
+gpu batch size:     256
+no. threads:        8
+overlap:            150
+
+[parse_qscore_params::INFO][1;34m mean_qscore_start_pos not found in config toml, setting default to 60[0m
+[basecaller_main::0.881*1.75] 4096 Entries (201.7M bytes) loaded
+[basecaller_main::52.388*0.21] 4096 Entries (201.7M bytes) processed
+[basecaller_main::53.006*0.21] 4096 Entries (212.8M bytes) loaded
+[basecaller_main::104.177*0.17] 4096 Entries (212.8M bytes) processed
+[basecaller_main::104.779*0.18] 4096 Entries (198.2M bytes) loaded
+[basecaller_main::153.129*0.16] 4096 Entries (198.2M bytes) processed
+[basecaller_main::153.755*0.17] 4096 Entries (203.8M bytes) loaded
+[basecaller_main::203.199*0.16] 4096 Entries (203.8M bytes) processed
+[basecaller_main::203.790*0.16] 3616 Entries (181.5M bytes) loaded
+[basecaller_main::247.703*0.15] 3616 Entries (181.5M bytes) processed
+[basecaller_main] total entries: 20000
+[basecaller_main] total bytes: 998.1 M
+[basecaller_main] model initialization: 0.313 sec
+[basecaller_main] data loading: 2.676 sec
+[basecaller_main] data processing: 244.384 sec
+[basecaller_main]     - parse: 4.191 sec
+[basecaller_main]     - preprocess: 0.359 sec
+[basecaller_main]     - runners: 239.561 sec
+[basecaller_main]          - synchronisation: 0.000 sec
+[basecaller_main]          - model runner [0]: 239.555 sec
+[basecaller_main]             - accept: 5.087 sec
+[basecaller_main]             - basecall: 234.469 sec
+[basecaller_main]                 - inference: 132.765 sec
+[basecaller_main]                 - decode: 96.445 sec
+[basecaller_main]             - modcall: 0.000 sec
+[basecaller_main]     - postprocess: 0.273 sec
+[basecaller_main]     - mod_preprocess: 0.000 sec
+[basecaller_main]     - mod_postprocess: 0.000 sec
+[basecaller_main] data output: 0.377 sec
+[basecaller_main] data free: 0.092 sec
+[main] Version: 0.5.0-beta
+[main] CMD: ./slorado basecaller -t 8 -K 4096 -C 256 -B 512M -c 12288 -p 150 -o /home/riley/slorado/benchmark_runs/fast_20k/20260623_215938/output_fast_20k.fastq models/dna_r10.4.1_e8.2_400bps_fast@v5.0.0 test/PGXXXX230339/reads_20k.blow5
+[main] Real time: 247.872 sec; CPU time: 38.398 sec; Peak RAM: 5.764 GB
+
+
+slorado base-caller version 0.5.0-beta
+model path:         models/dna_r10.4.1_e8.2_400bps_fast@v5.0.0
+input path:         test/PGXXXX230339/reads_1k.blow5
+output path:        /home/riley/slorado/benchmark_runs/fast_1k/20260623_220454/output_fast_1k.fastq
+device:             cuda:all
+chunk size:         12288
+read batch size:    4096
+gpu batch size:     256
+no. threads:        8
+overlap:            150
+
+[parse_qscore_params::INFO][1;34m mean_qscore_start_pos not found in config toml, setting default to 60[0m
+[basecaller_main::0.412*3.26] 1000 Entries (49.5M bytes) loaded
+[basecaller_main::14.159*0.31] 1000 Entries (49.5M bytes) processed
+[basecaller_main] total entries: 1000
+[basecaller_main] total bytes: 49.5 M
+[basecaller_main] model initialization: 0.316 sec
+[basecaller_main] data loading: 0.092 sec
+[basecaller_main] data processing: 13.747 sec
+[basecaller_main]     - parse: 0.358 sec
+[basecaller_main]     - preprocess: 0.015 sec
+[basecaller_main]     - runners: 13.350 sec
+[basecaller_main]          - synchronisation: 0.000 sec
+[basecaller_main]          - model runner [0]: 13.349 sec
+[basecaller_main]             - accept: 0.228 sec
+[basecaller_main]             - basecall: 13.121 sec
+[basecaller_main]                 - inference: 7.941 sec
+[basecaller_main]                 - decode: 4.913 sec
+[basecaller_main]             - modcall: 0.000 sec
+[basecaller_main]     - postprocess: 0.025 sec
+[basecaller_main]     - mod_preprocess: 0.000 sec
+[basecaller_main]     - mod_postprocess: 0.000 sec
+[basecaller_main] data output: 0.020 sec
+[basecaller_main] data free: 0.010 sec
+[main] Version: 0.5.0-beta
+[main] CMD: ./slorado basecaller -t 8 -K 4096 -C 256 -B 512M -c 12288 -p 150 -o /home/riley/slorado/benchmark_runs/fast_1k/20260623_220454/output_fast_1k.fastq models/dna_r10.4.1_e8.2_400bps_fast@v5.0.0 test/PGXXXX230339/reads_1k.blow5
+[main] Real time: 14.212 sec; CPU time: 4.445 sec; Peak RAM: 4.021 GB
+
+
+slorado base-caller version 0.5.0-beta
+model path:         models/dna_r10.4.1_e8.2_400bps_hac@v5.0.0
+input path:         test/PGXXXX230339/reads_1k.blow5
+output path:        /home/riley/slorado/benchmark_runs/hac_1k/20260623_220649/output_hac_1k.fastq
+device:             cuda:all
+chunk size:         12288
+read batch size:    4096
+gpu batch size:     128
+no. threads:        8
+overlap:            150
+
+[parse_qscore_params::INFO][1;34m mean_qscore_start_pos not found in config toml, setting default to 60[0m
+[basecaller_main::0.382*3.29] 1000 Entries (49.5M bytes) loaded
+[basecaller_main::49.738*0.82] 1000 Entries (49.5M bytes) processed
+[basecaller_main] total entries: 1000
+[basecaller_main] total bytes: 49.5 M
+[basecaller_main] model initialization: 0.322 sec
+[basecaller_main] data loading: 0.048 sec
+[basecaller_main] data processing: 49.355 sec
+[basecaller_main]     - parse: 0.374 sec
+[basecaller_main]     - preprocess: 0.014 sec
+[basecaller_main]     - runners: 48.937 sec
+[basecaller_main]          - synchronisation: 0.000 sec
+[basecaller_main]          - model runner [0]: 48.937 sec
+[basecaller_main]             - accept: 0.264 sec
+[basecaller_main]             - basecall: 48.672 sec
+[basecaller_main]                 - inference: 41.453 sec
+[basecaller_main]                 - decode: 6.025 sec
+[basecaller_main]             - modcall: 0.000 sec
+[basecaller_main]     - postprocess: 0.029 sec
+[basecaller_main]     - mod_preprocess: 0.000 sec
+[basecaller_main]     - mod_postprocess: 0.000 sec
+[basecaller_main] data output: 0.023 sec
+[basecaller_main] data free: 0.010 sec
+[main] Version: 0.5.0-beta
+[main] CMD: ./slorado basecaller -t 8 -K 4096 -C 128 -B 512M -c 12288 -p 150 -o /home/riley/slorado/benchmark_runs/hac_1k/20260623_220649/output_hac_1k.fastq models/dna_r10.4.1_e8.2_400bps_hac@v5.0.0 test/PGXXXX230339/reads_1k.blow5
+[main] Real time: 49.805 sec; CPU time: 41.092 sec; Peak RAM: 4.258 GB
+
+

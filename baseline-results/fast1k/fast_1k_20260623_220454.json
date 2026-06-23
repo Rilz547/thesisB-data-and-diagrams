@@ -1,0 +1,71 @@
+{
+  "id": "20260623_220454",
+  "group": "fast_1k",
+  "model": "fast",
+  "dataset": "1k",
+  "name": "fast_1k_20260623_220454",
+  "tags": [],
+  "status": "completed",
+  "source": "jetson",
+  "imported_at": "2026-06-23T12:10:00.135490+00:00",
+  "analysed_at": "2026-06-23T12:11:12.209968+00:00",
+  "hostDetails": {
+    "hostname": "riley-pc-ubuntu",
+    "os": "Linux 6.17.0-35-generic (#35~24.04.1-Ubuntu SMP PREEMPT_DYNAMIC Tue May 26 19:30:42 UTC 2)",
+    "cpu": "AMD Ryzen 7 9800X3D",
+    "ram_capacity": "64GB (2\u00d732GB)",
+    "ram_frequency": "6000MHz",
+    "ram_latency": "16-16-16-30",
+    "minimap2_version": "2.24-mm2-gb-biosys"
+  },
+  "jetsonDetails": {
+    "hostname": "riley-jetson",
+    "os": "Linux 5.15.185-tegra",
+    "cpu": "NVIDIA Jetson Orin Nano Engineering Reference Developer Kit Super",
+    "ram_capacity": "7GB",
+    "ram_frequency": null,
+    "power_profile": "NV Power Mode: 25W"
+  },
+  "basecallDetails": {
+    "basecaller_version": "0.5.0-beta",
+    "model_path": "models/dna_r10.4.1_e8.2_400bps_fast@v5.0.0",
+    "input_path": "test/PGXXXX230339/reads_1k.blow5",
+    "output_path": "/home/riley/slorado/benchmark_runs/fast_1k/20260623_220454/output_fast_1k.fastq",
+    "device": "cuda:all",
+    "chunk_size": 12288,
+    "read_batch_size": 4096,
+    "gpu_batch_size": 256,
+    "no_threads": 8,
+    "overlap": 150
+  },
+  "basecallResults": {
+    "total_entries": 1000,
+    "total_bytes": "49.5 M",
+    "model_initialization_sec": 0.316,
+    "data_loading_sec": 0.092,
+    "data_processing_sec": 13.747,
+    "parse_sec": 0.358,
+    "preprocess_sec": 0.015,
+    "runners_sec": 13.35,
+    "inference_sec": 7.941,
+    "decode_sec": 4.913,
+    "postprocess_sec": 0.025,
+    "data_output_sec": 0.02,
+    "data_free_sec": 0.01,
+    "real_time_sec": 14.212,
+    "cpu_time_sec": 4.445,
+    "peak_memory_gb": 4.021
+  },
+  "accuracy": {
+    "mean": 0.9098994500485,
+    "sstdev": 0.074096957572456,
+    "q1": 0.897965,
+    "median": 0.940763,
+    "q3": 0.955073,
+    "mapped_count": 1031
+  },
+  "analysis_runtime_seconds": 25,
+  "raw_file_deleted": true,
+  "error": null,
+  "created_at": "2026-06-23T12:05:11.194209+00:00"
+}
