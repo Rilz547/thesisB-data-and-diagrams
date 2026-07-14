@@ -1,0 +1,167 @@
+Generating SQLite file nsys_hac_1k_base.sqlite from nsys_hac_1k_base.nsys-rep
+Processing [nsys_hac_1k_base.sqlite] with [/opt/nvidia/nsight-systems/2026.3.1/target-linux-x64/reports/nvtx_sum.py]... 
+SKIPPED: nsys_hac_1k_base.sqlite does not contain NV Tools Extension (NVTX) data.
+
+Processing [nsys_hac_1k_base.sqlite] with [/opt/nvidia/nsight-systems/2026.3.1/target-linux-x64/reports/osrt_sum.py]... 
+
+ ** OS Runtime Summary (osrt_sum):
+
+ Time (%)  Total Time (ns)  Num Calls     Avg (ns)       Med (ns)    Min (ns)     Max (ns)       StdDev (ns)            Name         
+ --------  ---------------  ---------  ---------------  -----------  --------  --------------  ---------------  ---------------------
+     72.2   47,668,339,680         25  1,906,733,587.2     99,872.0     4,640  47,254,299,392  9,447,671,897.0  pthread_join         
+     25.7   16,981,643,552      3,051      5,565,927.1     15,488.0     1,184     173,458,368     11,779,924.2  ioctl                
+      0.8      558,420,672        118      4,732,378.6     42,272.0     1,280     103,695,584     20,846,195.7  futex                
+      0.7      447,144,064         10     44,714,406.4  5,162,848.0    46,624     370,015,712    114,977,073.6  poll                 
+      0.3      210,208,800        911        230,745.1     13,408.0       992       8,640,128        793,080.9  fread                
+      0.2      158,653,824        231        686,813.1     60,768.0     1,248      58,312,032      4,408,439.8  pthread_mutex_lock   
+      0.0       17,882,464         31        576,853.7    360,736.0    65,120       3,998,272        843,361.1  pthread_create       
+      0.0       10,012,384         83        120,631.1      3,904.0     1,088         608,672        175,309.9  read                 
+      0.0        4,988,288         54         92,375.7     12,032.0     3,264       1,800,928        310,154.7  fopen                
+      0.0        1,772,512         53         33,443.6     11,136.0     4,320         303,712         73,046.8  open                 
+      0.0        1,691,872         54         31,331.0     24,368.0     9,504          92,032         23,372.5  fopen64              
+      0.0        1,609,728         10        160,972.8     65,584.0    37,472         960,512        282,732.2  sem_wait             
+      0.0        1,413,696         69         20,488.3     11,744.0     5,472          75,904         17,637.5  mmap                 
+      0.0          726,144         70         10,373.5      7,760.0     3,264          96,736         11,344.1  fclose               
+      0.0          315,232        170          1,854.3      1,328.0       992          15,296          1,481.1  fcntl                
+      0.0          125,536          4         31,384.0     22,688.0     1,280          78,880         36,971.2  fgets                
+      0.0           86,592         12          7,216.0      6,816.0     3,776          11,872          2,586.2  write                
+      0.0           69,312          2         34,656.0     34,656.0    21,664          47,648         18,373.5  open64               
+      0.0           67,328          8          8,416.0      7,232.0     4,576          18,240          4,380.1  munmap               
+      0.0           32,416          1         32,416.0     32,416.0    32,416          32,416              0.0  connect              
+      0.0           28,736          1         28,736.0     28,736.0    28,736          28,736              0.0  socket               
+      0.0           28,192          2         14,096.0     14,096.0     8,544          19,648          7,851.7  mmap64               
+      0.0           23,552          5          4,710.4      3,648.0     3,072           7,552          1,947.7  pthread_cond_signal  
+      0.0           19,872          1         19,872.0     19,872.0    19,872          19,872              0.0  pipe2                
+      0.0           12,992          1         12,992.0     12,992.0    12,992          12,992              0.0  fwrite               
+      0.0            4,512          1          4,512.0      4,512.0     4,512           4,512              0.0  prctl                
+      0.0            3,104          2          1,552.0      1,552.0     1,536           1,568             22.6  pthread_mutex_trylock
+      0.0            2,528          1          2,528.0      2,528.0     2,528           2,528              0.0  getc                 
+      0.0            1,824          1          1,824.0      1,824.0     1,824           1,824              0.0  fputs                
+      0.0            1,280          1          1,280.0      1,280.0     1,280           1,280              0.0  getline              
+
+Processing [nsys_hac_1k_base.sqlite] with [/opt/nvidia/nsight-systems/2026.3.1/target-linux-x64/reports/cuda_api_sum.py]... 
+
+ ** CUDA API Summary (cuda_api_sum):
+
+ Time (%)  Total Time (ns)  Num Calls    Avg (ns)     Med (ns)    Min (ns)    Max (ns)    StdDev (ns)             Name           
+ --------  ---------------  ---------  ------------  -----------  ---------  -----------  ------------  -------------------------
+     57.6   23,743,920,576    833,925      28,472.5     16,448.0      7,008   88,359,808     431,671.2  cudaLaunchKernel         
+     29.5   12,144,676,192        907  13,389,940.7  9,559,840.0      6,304   88,221,152  12,719,150.5  cudaStreamSynchronize    
+     10.0    4,129,411,040        280  14,747,896.6  4,082,608.0      3,296   64,315,264  18,082,625.5  cudaDeviceSynchronize    
+      1.8      740,987,520         26  28,499,520.0  2,206,784.0      5,408  194,572,128  51,352,928.3  cudaMalloc               
+      0.3      104,709,984     41,725       2,509.5      2,304.0        992      577,760       3,740.9  cudaEventRecord          
+      0.2       90,187,808     64,220       1,404.4      1,024.0        736    6,387,392      25,282.9  cudaEventCreateWithFlags 
+      0.2       64,482,176     64,200       1,004.4        960.0        640      208,160         929.5  cudaEventDestroy         
+      0.1       61,392,768     28,800       2,131.7      2,048.0        992      104,192         967.4  cudaStreamWaitEvent      
+      0.1       33,750,272         13   2,596,174.8     55,584.0      2,432   14,032,544   4,845,428.2  cudaFree                 
+      0.1       31,770,240        207     153,479.4     42,976.0      7,520      697,568     224,470.1  cudaMemcpyAsync          
+      0.1       25,014,464          8   3,126,808.0  2,979,328.0  1,687,840    3,983,712     797,621.7  cuLibraryLoadData        
+      0.0       18,722,208         80     234,027.6     36,864.0     25,760    8,024,448   1,234,114.1  cudaLaunchKernelExC      
+      0.0       10,232,608         19     538,558.3     90,656.0     32,960    4,126,944   1,121,009.8  cuLibraryUnload          
+      0.0       10,109,568        122      82,865.3     10,416.0      5,888    1,743,136     249,496.1  cudaHostAlloc            
+      0.0        4,296,736         40     107,418.4      5,536.0      4,672    4,081,472     644,464.8  cuKernelGetFunction      
+      0.0        3,320,160        162      20,494.8     16,976.0      1,120       80,416      17,053.1  cudaMemsetAsync          
+      0.0        2,932,256        120      24,435.5     15,968.0     10,112       75,968      14,624.9  cudaFreeHost             
+      0.0        2,150,592        603       3,566.5      3,136.0      1,088       48,672       3,333.2  cudaStreamIsCapturing    
+      0.0        1,961,248         40      49,031.2     37,392.0     22,848       98,208      25,132.3  cuLaunchKernel           
+      0.0        1,211,200         32      37,850.0      3,616.0      2,752      392,320     104,720.1  cudaStreamCreateWithFlags
+      0.0        1,081,088      2,478         436.3        288.0        160       39,552         919.4  cuGetProcAddress_v2      
+      0.0           50,816          7       7,259.4      7,264.0      4,992        8,768       1,389.6  cuInit                   
+      0.0           28,896          9       3,210.7      2,880.0      2,560        5,280         878.7  cuLibraryGetKernel       
+      0.0            7,136          7       1,019.4        864.0        320        2,656         750.3  cuModuleGetLoadingMode   
+      0.0            2,432          2       1,216.0      1,216.0        576        1,856         905.1  cudaGetDriverEntryPoint  
+
+Processing [nsys_hac_1k_base.sqlite] with [/opt/nvidia/nsight-systems/2026.3.1/target-linux-x64/reports/cuda_gpu_kern_sum.py]... 
+
+ ** CUDA GPU Kernel Summary (cuda_gpu_kern_sum):
+
+ Time (%)  Total Time (ns)  Instances    Avg (ns)      Med (ns)     Min (ns)    Max (ns)    StdDev (ns)                                                   Name                                                
+ --------  ---------------  ---------  ------------  ------------  ----------  -----------  ------------  ----------------------------------------------------------------------------------------------------
+     29.3   12,636,492,576    409,600      30,850.8      30,048.0      27,840    3,984,384      20,446.1  ampere_fp16_s16816gemm_fp16_128x64_ldg8_f2f_stages_64x3_nn                                          
+     22.7    9,765,412,640    409,600      23,841.3      23,520.0      21,696    3,928,544      19,189.2  void elemWiseRNNcell<__half, __half, float, (cudnnRNNMode_t)2, (cudnnRNNBiasMode_t)2>(int, int, int…
+     14.8    6,372,769,184     12,800     497,872.6     488,096.0     476,416    4,461,024     107,072.9  ampere_fp16_s16816gemm_fp16_128x128_ldg8_f2f_stages_32x5_nn                                         
+      8.0    3,448,276,000         80  43,103,450.0  41,977,008.0   9,655,360  126,600,032  34,263,164.0  void at::native::elementwise_kernel<(int)128, (int)4, void at::native::gpu_kernel_impl_nocast<at::n…
+      5.4    2,323,312,416        240   9,680,468.4   9,505,424.0   9,412,736   22,989,440   1,038,929.7  void at::native::index_elementwise_kernel<(int)128, (int)4, void at::native::flip_kernel_impl<at::n…
+      4.9    2,093,148,256         40  52,328,706.4  51,805,232.0  46,648,544   64,250,176   3,651,897.7  void beam_search<__half>(beam_params, const void *, const float *, int *, unsigned char *, beam_ele…
+      2.6    1,140,780,224         40  28,519,505.6  27,097,856.0  27,043,808   66,188,288   6,308,845.3  sm80_xmma_fprop_implicit_gemm_indexed_wo_smem_f16f16_f16f32_f32_nhwckrsc_nhwc_tilesize128x32x16_sta…
+      2.5    1,072,936,704         40  26,823,417.6  26,566,416.0  26,551,648   32,339,200     958,177.3  void fwd_post_scan<__half>(scan_params, const void *, const float *, float *)                       
+      2.4    1,041,693,440         40  26,042,336.0  25,411,824.0  25,364,000   30,500,832   1,344,813.1  void cutlass::Kernel2<cutlass_80_tensorop_f16_s16816gemm_relu_f16_64x256_32x4_tn_align8>(T1::Params)
+      1.6      707,172,288        120   5,893,102.4   2,832,736.0   2,812,032   16,787,136   4,182,550.4  void at::native::elementwise_kernel<(int)128, (int)4, void at::native::gpu_kernel_impl_nocast<at::n…
+      1.6      679,847,616         40  16,996,190.4  16,878,704.0  15,442,304   21,700,000   1,028,275.8  void bwd_scan<__half>(scan_params, const void *, float *)                                           
+      1.1      460,319,904         40  11,507,997.6  11,095,072.0  11,075,136   16,757,088   1,172,344.2  void at::native::vectorized_elementwise_kernel<(int)4, at::native::<unnamed>::launch_clamp_scalar(a…
+      0.8      350,485,760         80   4,381,072.0   5,590,720.0   2,709,792    9,470,752   1,663,226.3  void cudnn::engines_precompiled::nhwcToNchwKernel<__half, __half, float, (bool)1, (bool)0, (cudnnKe…
+      0.5      220,736,800        160   1,379,605.0   1,333,952.0       6,016    6,876,640   1,448,324.1  void cudnn::engines_precompiled::nchwToNhwcKernel<__half, __half, float, (bool)0, (bool)1, (cudnnKe…
+      0.4      172,361,536         40   4,309,038.4   4,141,536.0   4,131,008    6,279,296     509,476.0  void at::native::vectorized_elementwise_kernel<(int)4, at::native::tanh_kernel_cuda(at::TensorItera…
+      0.4      162,344,192         40   4,058,604.8   4,032,576.0   4,024,064    4,656,160     114,818.0  compute_qual_data(beam_params, const float *, int *, float *, float)                                
+      0.3      129,770,176         40   3,244,254.4   3,092,256.0   3,090,464    9,149,024     957,575.3  _5x_cudnn_ampere_fp16_scudnn_fp16_128x32_relu_small_nn_v1                                           
+      0.2      101,502,304         40   2,537,557.6   2,512,448.0   2,403,584    3,421,056     158,984.6  generate_sequence(beam_params, const unsigned char *, const int *, const float *, float *, float *,…
+      0.2       88,484,288         80   1,106,053.6   1,039,920.0   1,033,280    3,008,448     317,198.3  void at::native::vectorized_elementwise_kernel<(int)4, at::native::<unnamed>::silu_kernel(at::Tenso…
+      0.2       88,003,584         40   2,200,089.6   2,100,304.0   2,093,472    5,981,376     613,437.5  sm80_xmma_fprop_implicit_gemm_indexed_wo_smem_f16f16_f16f32_f32_nhwckrsc_nhwc_tilesize128x16x64_sta…
+      0.1       33,824,064        400      84,560.2      83,856.0      80,064      195,904       8,185.2  void internal::region_transform_ABC_val<int, (int)32, (int)32, (bool)0, internal::TransformParamsAB…
+      0.0        2,470,720        405       6,100.5       4,960.0       4,224       79,712       8,027.2  void at::native::vectorized_elementwise_kernel<(int)4, at::native::FillFunctor<c10::Half>, std::arr…
+      0.0          249,824         40       6,245.6       5,760.0       5,696       15,872       1,626.5  void cask__5x_cudnn::computeOffsetsKernel<(bool)0, (bool)0>(cask__5x_cudnn::ComputeOffsetsParams)   
+
+Processing [nsys_hac_1k_base.sqlite] with [/opt/nvidia/nsight-systems/2026.3.1/target-linux-x64/reports/cuda_gpu_mem_time_sum.py]... 
+
+ ** CUDA GPU MemOps Summary (by Time) (cuda_gpu_mem_time_sum):
+
+ Time (%)  Total Time (ns)  Count  Avg (ns)   Med (ns)   Min (ns)  Max (ns)  StdDev (ns)            Operation           
+ --------  ---------------  -----  ---------  ---------  --------  --------  -----------  ------------------------------
+     84.0       17,703,200     67  264,226.9  389,568.0     1,440   504,896    176,849.1  [CUDA memcpy Host-to-Device]  
+      7.0        1,464,416    120   12,203.5   11,392.0    11,328    15,008      1,131.1  [CUDA memcpy Device-to-Host]  
+      4.7          986,272     20   49,313.6   48,832.0    10,336    96,288     39,178.4  [CUDA memcpy Device-to-Device]
+      4.3          911,872    122    7,474.4    7,104.0     3,776    11,040      1,423.7  [CUDA memset]                 
+
+Processing [nsys_hac_1k_base.sqlite] with [/opt/nvidia/nsight-systems/2026.3.1/target-linux-x64/reports/cuda_gpu_mem_size_sum.py]... 
+
+ ** CUDA GPU MemOps Summary (by Size) (cuda_gpu_mem_size_sum):
+
+ Total (MB)  Count  Avg (MB)  Med (MB)  Min (MB)  Max (MB)  StdDev (MB)            Operation           
+ ----------  -----  --------  --------  --------  --------  -----------  ------------------------------
+    138.680     67     2.070     3.146     0.000     3.146        1.367  [CUDA memcpy Host-to-Device]  
+     31.460    122     0.258     0.262     0.002     0.262        0.033  [CUDA memset]                 
+     31.457    120     0.262     0.262     0.262     0.262        0.000  [CUDA memcpy Device-to-Host]  
+     11.827     20     0.591     0.591     0.003     1.180        0.604  [CUDA memcpy Device-to-Device]
+
+Processing [nsys_hac_1k_base.sqlite] with [/opt/nvidia/nsight-systems/2026.3.1/target-linux-x64/reports/openmp_sum.py]... 
+SKIPPED: nsys_hac_1k_base.sqlite does not contain OpenMP event data.
+
+Processing [nsys_hac_1k_base.sqlite] with [/opt/nvidia/nsight-systems/2026.3.1/target-linux-x64/reports/opengl_khr_range_sum.py]... 
+SKIPPED: nsys_hac_1k_base.sqlite does not contain KHR Extension (KHR_DEBUG) data.
+
+Processing [nsys_hac_1k_base.sqlite] with [/opt/nvidia/nsight-systems/2026.3.1/target-linux-x64/reports/opengl_khr_gpu_range_sum.py]... 
+SKIPPED: nsys_hac_1k_base.sqlite does not contain GPU KHR Extension (KHR_DEBUG) data.
+
+Processing [nsys_hac_1k_base.sqlite] with [/opt/nvidia/nsight-systems/2026.3.1/target-linux-x64/reports/vulkan_marker_sum.py]... 
+SKIPPED: nsys_hac_1k_base.sqlite does not contain Vulkan Debug Extension (Vulkan Debug Util) data.
+
+Processing [nsys_hac_1k_base.sqlite] with [/opt/nvidia/nsight-systems/2026.3.1/target-linux-x64/reports/vulkan_gpu_marker_sum.py]... 
+SKIPPED: nsys_hac_1k_base.sqlite does not contain GPU Vulkan Debug Extension (GPU Vulkan Debug markers) data.
+
+Processing [nsys_hac_1k_base.sqlite] with [/opt/nvidia/nsight-systems/2026.3.1/target-linux-x64/reports/dx11_pix_sum.py]... 
+SKIPPED: nsys_hac_1k_base.sqlite does not contain DX11 CPU debug markers.
+
+Processing [nsys_hac_1k_base.sqlite] with [/opt/nvidia/nsight-systems/2026.3.1/target-linux-x64/reports/dx12_gpu_marker_sum.py]... 
+SKIPPED: nsys_hac_1k_base.sqlite does not contain DX12 GPU debug markers.
+
+Processing [nsys_hac_1k_base.sqlite] with [/opt/nvidia/nsight-systems/2026.3.1/target-linux-x64/reports/dx12_pix_sum.py]... 
+SKIPPED: nsys_hac_1k_base.sqlite does not contain DX12 CPU debug markers.
+
+Processing [nsys_hac_1k_base.sqlite] with [/opt/nvidia/nsight-systems/2026.3.1/target-linux-x64/reports/wddm_queue_sum.py]... 
+SKIPPED: nsys_hac_1k_base.sqlite does not contain WDDM context data.
+
+Processing [nsys_hac_1k_base.sqlite] with [/opt/nvidia/nsight-systems/2026.3.1/target-linux-x64/reports/um_sum.py]... 
+SKIPPED: nsys_hac_1k_base.sqlite does not contain CUDA Unified Memory CPU page faults data.
+
+Processing [nsys_hac_1k_base.sqlite] with [/opt/nvidia/nsight-systems/2026.3.1/target-linux-x64/reports/um_total_sum.py]... 
+SKIPPED: nsys_hac_1k_base.sqlite does not contain CUDA Unified Memory CPU page faults data.
+
+Processing [nsys_hac_1k_base.sqlite] with [/opt/nvidia/nsight-systems/2026.3.1/target-linux-x64/reports/um_cpu_page_faults_sum.py]... 
+SKIPPED: nsys_hac_1k_base.sqlite does not contain CUDA Unified Memory CPU page faults data.
+
+Processing [nsys_hac_1k_base.sqlite] with [/opt/nvidia/nsight-systems/2026.3.1/target-linux-x64/reports/openacc_sum.py]... 
+SKIPPED: nsys_hac_1k_base.sqlite does not contain OpenACC event data.
+
+Processing [nsys_hac_1k_base.sqlite] with [/opt/nvidia/nsight-systems/2026.3.1/target-linux-x64/reports/syscall_sum.py]... 
+SKIPPED: nsys_hac_1k_base.sqlite does not contain syscall data.
+

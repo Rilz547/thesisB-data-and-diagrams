@@ -1,0 +1,69 @@
+slorado base-caller version 0.5.0-beta
+model path:         models/dna_r10.4.1_e8.2_400bps_fast@v5.0.0
+input path:         test/PGXXXX230339/reads_1k.blow5
+output path:        output_fast_1k.fastq
+device:             cuda:all
+chunk size:         12288
+read batch size:    4096
+gpu batch size:     256
+no. threads:        8
+overlap:            150
+
+[parse_qscore_params::INFO] mean_qscore_start_pos not found in config toml, setting default to 60
+[basecaller_main::0.268*4.27] 1000 Entries (49.5M bytes) loaded
+[basecaller_main::12.136*0.35] 1000 Entries (49.5M bytes) processed
+[basecaller_main] total entries: 1000
+[basecaller_main] total bytes: 49.5 M
+[basecaller_main] model initialization: 0.214 sec
+[basecaller_main] data loading: 0.051 sec
+[basecaller_main] data processing: 11.868 sec
+[basecaller_main]     - parse: 0.371 sec
+[basecaller_main]     - preprocess: 0.014 sec
+[basecaller_main]     - runners: 11.464 sec
+[basecaller_main]          - synchronisation: 0.000 sec
+[basecaller_main]          - model runner [0]: 11.464 sec
+[basecaller_main]             - accept: 0.249 sec
+[basecaller_main]             - basecall: 11.214 sec
+[basecaller_main]                 - inference: 7.932 sec
+[basecaller_main]                     - conv_stack: 1.697 sec
+[basecaller_main]                         - conv[0]: 0.547 sec
+[basecaller_main]                             - shape [N,C,T]: [256, 16, 12288]
+[basecaller_main]                         - conv[1]: 0.562 sec
+[basecaller_main]                             - shape [N,C,T]: [256, 16, 12288]
+[basecaller_main]                         - conv[2]: 0.587 sec
+[basecaller_main]                             - shape [N,C,T]: [256, 96, 2048]
+[basecaller_main]                         - transpose: 0.001 sec
+[basecaller_main]                     - rnns: 5.732 sec
+[basecaller_main]                         - rnn[0] (reverse): 2.156 sec
+[basecaller_main]                             - shape [N,T,C]: [256, 2048, 96]
+[basecaller_main]                             - flip: 0.112 sec
+[basecaller_main]                             - lstm: 2.044 sec
+[basecaller_main]                         - rnn[1] (forward): 0.884 sec
+[basecaller_main]                             - shape [N,T,C]: [256, 2048, 96]
+[basecaller_main]                             - flip: 0.098 sec
+[basecaller_main]                             - lstm: 0.786 sec
+[basecaller_main]                         - rnn[2] (reverse): 0.875 sec
+[basecaller_main]                             - shape [N,T,C]: [256, 2048, 96]
+[basecaller_main]                             - flip: 0.096 sec
+[basecaller_main]                             - lstm: 0.778 sec
+[basecaller_main]                         - rnn[3] (forward): 0.874 sec
+[basecaller_main]                             - shape [N,T,C]: [256, 2048, 96]
+[basecaller_main]                             - flip: 0.096 sec
+[basecaller_main]                             - lstm: 0.778 sec
+[basecaller_main]                         - rnn[4] (reverse): 0.943 sec
+[basecaller_main]                             - shape [N,T,C]: [256, 2048, 96]
+[basecaller_main]                             - flip: 0.100 sec
+[basecaller_main]                             - lstm: 0.842 sec
+[basecaller_main]                     - crf_1: 0.345 sec
+[basecaller_main]                     - crf_2: 0.000 sec
+[basecaller_main]                     - clamp: 0.127 sec
+[basecaller_main]                 - decode: 3.016 sec
+[basecaller_main]             - modcall: 0.000 sec
+[basecaller_main]     - postprocess: 0.018 sec
+[basecaller_main]     - mod_preprocess: 0.000 sec
+[basecaller_main]     - mod_postprocess: 0.000 sec
+[basecaller_main] data output: 0.029 sec
+[basecaller_main] data free: 0.010 sec
+[main] Version: 0.5.0-beta
+[main] CMD: ./slorado basecaller -C 256 -o output_fast_1k.fastq models/dna_r10.4.1_e8.2_400bps_fast@v5.0.0 test/PGXXXX230339/reads_1k.blow5
+[main] Real time: 12.206 sec; CPU time: 4.279 sec; Peak RAM: 4.017 GB

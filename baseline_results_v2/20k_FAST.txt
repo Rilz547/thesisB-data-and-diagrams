@@ -1,0 +1,77 @@
+slorado base-caller version 0.5.0-beta
+model path:         models/dna_r10.4.1_e8.2_400bps_fast@v5.0.0
+input path:         test/PGXXXX230339/reads_20k.blow5
+output path:        output_fast_20k.fastq
+device:             cuda:all
+chunk size:         12288
+read batch size:    4096
+gpu batch size:     256
+no. threads:        8
+overlap:            150
+
+[parse_qscore_params::INFO] mean_qscore_start_pos not found in config toml, setting default to 60
+[basecaller_main::1.092*1.58] 4096 Entries (201.7M bytes) loaded
+[basecaller_main::45.448*0.25] 4096 Entries (201.7M bytes) processed
+[basecaller_main::46.068*0.25] 4096 Entries (212.8M bytes) loaded
+[basecaller_main::89.749*0.21] 4096 Entries (212.8M bytes) processed
+[basecaller_main::90.371*0.21] 4096 Entries (198.2M bytes) loaded
+[basecaller_main::131.437*0.20] 4096 Entries (198.2M bytes) processed
+[basecaller_main::132.009*0.20] 4096 Entries (203.8M bytes) loaded
+[basecaller_main::174.052*0.19] 4096 Entries (203.8M bytes) processed
+[basecaller_main::174.468*0.19] 3616 Entries (181.5M bytes) loaded
+[basecaller_main::211.909*0.19] 3616 Entries (181.5M bytes) processed
+[basecaller_main] total entries: 20000
+[basecaller_main] total bytes: 998.1 M
+[basecaller_main] model initialization: 0.515 sec
+[basecaller_main] data loading: 2.323 sec
+[basecaller_main] data processing: 208.587 sec
+[basecaller_main]     - parse: 4.255 sec
+[basecaller_main]     - preprocess: 0.360 sec
+[basecaller_main]     - runners: 203.713 sec
+[basecaller_main]          - synchronisation: 0.000 sec
+[basecaller_main]          - model runner [0]: 203.707 sec
+[basecaller_main]             - accept: 5.108 sec
+[basecaller_main]             - basecall: 198.600 sec
+[basecaller_main]                 - inference: 133.803 sec
+[basecaller_main]                     - conv_stack: 28.484 sec
+[basecaller_main]                         - conv[0]: 7.260 sec
+[basecaller_main]                             - shape [N,C,T]: [256, 16, 12288]
+[basecaller_main]                         - conv[1]: 10.367 sec
+[basecaller_main]                             - shape [N,C,T]: [256, 16, 12288]
+[basecaller_main]                         - conv[2]: 10.843 sec
+[basecaller_main]                             - shape [N,C,T]: [256, 96, 2048]
+[basecaller_main]                         - transpose: 0.014 sec
+[basecaller_main]                     - rnns: 95.627 sec
+[basecaller_main]                         - rnn[0] (reverse): 25.875 sec
+[basecaller_main]                             - shape [N,T,C]: [256, 2048, 96]
+[basecaller_main]                             - flip: 1.942 sec
+[basecaller_main]                             - lstm: 23.933 sec
+[basecaller_main]                         - rnn[1] (forward): 17.352 sec
+[basecaller_main]                             - shape [N,T,C]: [256, 2048, 96]
+[basecaller_main]                             - flip: 1.898 sec
+[basecaller_main]                             - lstm: 15.454 sec
+[basecaller_main]                         - rnn[2] (reverse): 17.517 sec
+[basecaller_main]                             - shape [N,T,C]: [256, 2048, 96]
+[basecaller_main]                             - flip: 1.924 sec
+[basecaller_main]                             - lstm: 15.593 sec
+[basecaller_main]                         - rnn[3] (forward): 17.352 sec
+[basecaller_main]                             - shape [N,T,C]: [256, 2048, 96]
+[basecaller_main]                             - flip: 1.905 sec
+[basecaller_main]                             - lstm: 15.447 sec
+[basecaller_main]                         - rnn[4] (reverse): 17.531 sec
+[basecaller_main]                             - shape [N,T,C]: [256, 2048, 96]
+[basecaller_main]                             - flip: 1.889 sec
+[basecaller_main]                             - lstm: 15.642 sec
+[basecaller_main]                     - crf_1: 6.813 sec
+[basecaller_main]                     - crf_2: 0.000 sec
+[basecaller_main]                     - clamp: 2.297 sec
+[basecaller_main]                 - decode: 59.611 sec
+[basecaller_main]             - modcall: 0.000 sec
+[basecaller_main]     - postprocess: 0.259 sec
+[basecaller_main]     - mod_preprocess: 0.000 sec
+[basecaller_main]     - mod_postprocess: 0.000 sec
+[basecaller_main] data output: 0.578 sec
+[basecaller_main] data free: 0.071 sec
+[main] Version: 0.5.0-beta
+[main] CMD: ./slorado basecaller -C 256 -o output_fast_20k.fastq models/dna_r10.4.1_e8.2_400bps_fast@v5.0.0 test/PGXXXX230339/reads_20k.blow5
+[main] Real time: 212.114 sec; CPU time: 39.489 sec; Peak RAM: 5.867 GB
