@@ -1,54 +1,51 @@
-# Infer∥Decode Overlap — Notes + Report Draft
-
-Hardware: Jetson Orin · slorado 0.5.0-beta · openfish (stream-aware)  
-Models: FAST / HAC `dna_r10.4.1_e8.2_400bps_*@v5.0.0` · `-C 128` · `reads_{1k,20k}.blow5`
+# Infer/Decode Overlap: Notes and Draft
 
 ---
 
-# Part A — Simple notes (for you / demonstrator chat)
+# Simple notes
 
 ## What the idea is
 
 Each GPU batch does two jobs:
 
-1. **Infer** — neural net → scores  
-2. **Decode** — openfish → DNA letters + qualities  
+1. **Infer:** neural net to scores  
+2. **Decode:** openfish to DNA letters and qualities  
 
-**Baseline:** finish infer, then decode, then next batch.  
-**Overlap (`--overlap-decode=yes`):** while decoding batch *N*, start inferring batch *N+1* on a second CUDA stream.
+**Baseline:** finish infer, then decode, then start the next batch.  
+**Overlap (`--overlap-decode=yes`):** while decoding batch *N*, I start inferring batch *N+1* on a second CUDA stream.
 
 Same answers; better schedule.
 
-## What we changed (short)
+## What I changed (short)
 
-1. **Two GPU lanes** — infer stream + decode stream, ping-pong input buffers.  
-2. **Fewer “wait for the whole GPU” calls** — skip per-layer / device-wide syncs when overlapping; only sync the decode stream when we need the bases.  
-3. **Pinned host memory for decode outputs** — so GPU→CPU copies don’t secretly stall.  
-4. **Openfish takes a stream** — decode kernels run on the decode lane.  
-5. **NTC layout fix** — stop flipping scores to TNC (broke accuracy for `-C > 1`). Not a speedup; required for correct batched results.
+1. **Two GPU lanes:** infer stream and decode stream, using ping-pong input buffers.  
+2. **Fewer “wait for the whole GPU” calls:** I skipped per-layer and device-wide syncs when overlapping; I only sync the decode stream when I need the bases.  
+3. **Pinned host memory for decode outputs:** so GPU-to-CPU copies do not secretly stall.  
+4. **Openfish takes a stream:** decode kernels run on the decode lane.  
+5. **NTC layout fix:** I stopped flipping scores to TNC, which broke accuracy for `-C > 1`. This was not a speedup, but rather a required fix for correct batched results.
 
 ## Headline numbers
 
-| Run | Wall baseline → overlap | Gain | Accuracy base vs overlap |
+| Run | Wall baseline to overlap | Gain | Accuracy base vs overlap |
 |-----|-------------------------|------|---------------------------|
-| FAST 1k | 11.9 → 10.7 s | **10.4%** | identical (0.940763) |
-| FAST 20k | 210.4 → 186.2 s | **11.5%** | identical (0.939375) |
-| HAC 1k | 48.4 → 46.6 s | **3.8%** | identical (0.976852) |
-| HAC 20k | 950.7 → 932.8 s | **1.9%** | identical (0.977333) |
+| FAST 1k | 11.9 to 10.7 s | **10.4%** | identical (0.940763) |
+| FAST 20k | 210.4 to 186.2 s | **11.5%** | identical (0.939375) |
+| HAC 1k | 48.4 to 46.6 s | **3.8%** | identical (0.976852) |
+| HAC 20k | 950.7 to 932.8 s | **1.9%** | identical (0.977333) |
 
-**Why FAST ≫ HAC:** FAST has a large decode share to hide; HAC is almost all LSTM infer, so little decode left to overlap.
+**Why FAST is much greater than HAC:** FAST has a large decode share to hide; HAC is almost entirely LSTM infer, meaning there is very little decode left for me to overlap.
 
-## Nsight in one paragraph
+## Nsight
 
-Baseline CUDA API time is mostly **waiting** (`cudaStreamSynchronize` + `cudaDeviceSynchronize`). Overlap **removes device-wide sync** from the dominant list and waits more narrowly on the decode stream. GPU kernels stay the same hotspots (FAST: LSTM + beam search; HAC: GEMM/RNN cell + beam search). Overlap does not delete that work — it runs infer and decode together. On overlap runs, `cudaFreeHost` often looks expensive on the host API timeline (possible next cleanup).
+Baseline CUDA API time is mostly spent **waiting** (`cudaStreamSynchronize` and `cudaDeviceSynchronize`). My overlap implementation **removes device-wide sync** from the dominant list and waits more narrowly on the decode stream. GPU kernels stay the same hotspots (FAST: LSTM and beam search; HAC: GEMM/RNN cell and beam search). Overlap does not delete that work; it simply runs infer and decode together. On my overlap runs, `cudaFreeHost` often looks expensive on the host API timeline, which represents a possible next cleanup target for me.
 
-## How to talk about host timers
+## Host timers
 
-Under overlap, slorado’s printed `inference:` / `decode:` times are **misleading** (decode’s host clock includes waiting while infer runs). Prefer **wall time**, **Nsight**, and event-based decode phases.
+Under overlap, slorado’s printed `inference:` and `decode:` times are **misleading** because decode’s host clock includes waiting while infer runs. I prefer to use **wall time**, **Nsight**, and event-based decode phases.
 
 ---
 
-# Part B — Report draft
+# Part B: Report draft stuff
 
 ## 1. Motivation
 
@@ -57,19 +54,19 @@ Slorado’s GPU basecall path is inference (conv + bidirectional LSTMs + CRF hea
 ## 2. Implementation
 
 ### 2.1 Openfish
-- `openfish_decode_gpu(..., stream)` — kernels + D2H on caller stream (`NULL` = legacy).  
-- Pinned host buffers (`cudaHostAlloc`); `openfish_decode_free_host`.  
-- No mid-phase `cudaDeviceSynchronize` / no final sync when `stream != NULL` (caller syncs).  
-- CUDA-event phase timing + `openfish_decode_stats_finish` after caller sync.
+- `openfish_decode_gpu(..., stream)`: kernels and D2H on caller stream (`NULL` for legacy behavior).  
+- Pinned host buffers (`cudaHostAlloc`) and `openfish_decode_free_host`.  
+- No mid-phase `cudaDeviceSynchronize` and no final sync when `stream != NULL` (the caller syncs instead).  
+- CUDA-event phase timing and `openfish_decode_stats_finish` after caller sync.
 
 ### 2.2 Slorado
-- CLI `--overlap-decode=yes|no` (default no).  
-- Depth-1 ping-pong: dual input tensors, infer/decode streams, events.  
-- Order: **queue decode(N−1) → infer(N) → sync decode stream → write results**.  
-- `sync_layers = 0` when overlapping (skip per-layer stream sync in CRFModel).
+- CLI `--overlap-decode=yes|no` (defaulting to no).  
+- Depth-1 ping-pong: dual input tensors, infer/decode streams, and events.  
+- Order: **queue decode(N−1) -> infer(N) -> sync decode stream -> write results**.  
+- I set `sync_layers = 0` when overlapping to skip per-layer stream sync in CRFModel.
 
 ### 2.3 Correctness
-Openfish expects scores **NTC** `[N,T,C]`. Removing the TNC transpose restored batched accuracy (`-C 128`).
+Openfish expects scores in **NTC** layout `[N,T,C]`. Removing the TNC transpose restored my batched accuracy (`-C 128`).
 
 ## 3. Methods
 
@@ -98,17 +95,17 @@ Openfish expects scores **NTC** `[N,T,C]`. Removing the TNC transpose restored b
 
 Baseline phase context (serial host timers, meaningful only without overlap):
 
-- **FAST 20k:** infer ≈ 130 s, decode ≈ 67 s → decode large enough to hide.  
-- **HAC 20k:** infer ≈ 849 s (RNNs ≈ 751 s), decode ≈ 85 s → decode ~9% of basecall → small relative gain.
+- **FAST 20k:** infer ≈ 130 s, decode ≈ 67 s, meaning decode is large enough to hide.  
+- **HAC 20k:** infer ≈ 849 s (RNNs ≈ 751 s), decode ≈ 85 s. Decode takes about 9% of basecall, leading to a small relative gain.
 
 ### 4.3 Nsight Systems evidence
 
 Profiles: `nsys_{fast,hac}_{1k,20k}_{base,overlap}.nsys-rep`. Open with `nsys-ui <file>.nsys-rep`.  
-Reports below from `nsys stats` CUDA API + GPU kernel summaries.
+Reports below from `nsys stats` CUDA API and GPU kernel summaries.
 
-#### 4.3.1 CUDA API — waiting pattern
+#### 4.3.1 CUDA API: waiting pattern
 
-**FAST (API time dominated by syncs → then stream waits / frees):**
+**FAST (API time dominated by syncs, followed by stream waits and frees):**
 
 | Profile | Top API signals |
 |---------|-----------------|
@@ -124,39 +121,39 @@ Reports below from `nsys stats` CUDA API + GPU kernel summaries.
 | HAC 1k base | `cudaLaunchKernel` ~58%, `cudaStreamSynchronize` ~30%, `cudaDeviceSynchronize` ~10% |
 | HAC 1k overlap | `cudaLaunchKernel` ~88%; `cudaDeviceSynchronize` gone; `cudaFreeHost` ~8%; stream sync small |
 | HAC 20k base | `cudaLaunchKernel` ~58%, `cudaStreamSynchronize` ~29%, `cudaDeviceSynchronize` ~10% |
-| HAC 20k overlap | `cudaLaunchKernel` ~90%; `cudaFreeHost` ~8%; stream sync ≪1% of API time |
+| HAC 20k overlap | `cudaLaunchKernel` ~90%; `cudaFreeHost` ~8%; stream sync much less than 1% of API time |
 
-**Interpretation:** Overlap removes **device-wide** synchronisation from the critical path. Remaining waits are narrower (decode stream and/or pinned-buffer free). Huge `cudaLaunchKernel` % on HAC reflects many small LSTM/GEMM launches, not “overlap failed.”
+**Interpretation:** Overlap removes **device-wide** synchronisation from the critical path. Remaining waits are narrower, dealing with the decode stream or pinned-buffer freeing. The huge `cudaLaunchKernel` percentage on HAC reflects many small LSTM/GEMM launches rather than a failure of my overlap path.
 
-#### 4.3.2 GPU kernels — where time goes
+#### 4.3.2 GPU kernels: where time goes
 
-| Model | Dominant kernels (both base & overlap) |
+| Model | Dominant kernels (both base and overlap) |
 |-------|----------------------------------------|
 | **FAST** | LSTM (`RNN_blockPersist…`) ≈ 23–26%; `beam_search` ≈ 25%; plus GEMM / `fwd_post_scan` |
 | **HAC** | cuDNN GEMM + `elemWiseRNNcell` ≈ 50%+ combined; `beam_search` ≈ 5%; decode is a minority |
 
-Under overlap, decode kernels (e.g. beam search, `fwd_post_scan`) are often slightly slower per call (GPU contention). Absolute LSTM work stays similar. Kernel-time percentages can reshuffle because concurrent streams make “sum of kernel durations” exceed exclusive wall time.
+Under overlap, decode kernels (such as beam search and `fwd_post_scan`) are often slightly slower per call due to GPU contention. Absolute LSTM work stays similar. Kernel-time percentages can reshuffle because concurrent streams make the sum of kernel durations exceed exclusive wall time.
 
 #### 4.3.3 Memory ops
 
-H2D / D2H memcpy totals are small vs compute. Overlap may show higher D2H *time share* under contention; not the main bottleneck.
+H2D and D2H memcpy totals are small compared to compute. Overlap may show a higher D2H *time share* under contention, though this is not the main bottleneck.
 
 ## 5. Discussion
 
-1. **FAST:** overlap is an effective systems win (~10–12% wall) at matched accuracy; Nsight confirms sync-bound baseline and concurrent-capable overlap path.  
-2. **HAC:** infer-bound; ~2–4% wall gain; Nsight shows LSTM/GEMM dominate — next levers are production sync gating and quantisation, not more decode overlap.  
-3. **`cudaFreeHost` on overlap:** large host API cost; candidate follow-up (buffer reuse / avoid free on critical path).  
-4. Report **wall time + Nsight**, not skewed host `decode:` timers under overlap.
+1. **FAST:** my overlap implementation is an effective systems win (around 10 to 12% wall-clock reduction) at matched accuracy. Nsight confirms a sync-bound baseline and a concurrent-capable overlap path.  
+2. **HAC:** infer-bound with a minor 2 to 4% wall gain. Nsight shows LSTM and GEMM dominate the run, meaning my next levers are production sync gating and quantisation, rather than more decode overlap.  
+3. **`cudaFreeHost` on overlap:** large host API cost that is a candidate for my follow-up work, specifically buffer reuse to avoid freeing on the critical path.  
+4. I will report **wall time and Nsight**, rather than skewed host `decode:` timers under overlap conditions.
 
 ## 6. Conclusions
 
-Depth-1 infer∥decode overlap (CUDA streams, pinned D2H, sync policy) plus NTC score-layout fix:
+My depth-1 infer/decode overlap (CUDA streams, pinned D2H, sync policy) plus the NTC score-layout fix yielded the following results:
 
-- Accuracy unchanged vs baseline on all tested FAST/HAC 1k/20k sets.  
-- FAST 20k **+11.5%** throughput; HAC 20k **+1.9%**.  
-- Nsight: baseline wait-heavy (`DeviceSynchronize`); overlap eliminates device-wide sync dominance while preserving LSTM + beam-search as the real GPU work.
+- Accuracy remained unchanged versus the baseline on all tested FAST/HAC 1k/20k sets.  
+- FAST 20k achieved **+11.5%** throughput, while HAC 20k saw a **+1.9%** improvement.  
+- Nsight reports show the baseline is wait-heavy (`DeviceSynchronize`), whereas my overlap eliminates device-wide sync dominance while preserving LSTM and beam-search as the real GPU work.
 
-**Next:** gate profiling syncs for production; address pinned free cost; PTQ / LSTM optimisations for HAC.
+**Next steps:** I need to gate profiling syncs for production; address pinned free costs; and implement PTQ and LSTM optimisations for HAC.
 
 ## 7. Reproducibility
 
@@ -169,4 +166,3 @@ Depth-1 infer∥decode overlap (CUDA streams, pinned D2H, sync policy) plus NTC 
 
 # see also nsight_runner.sh
 nsys-ui nsys_fast_20k_base.nsys-rep
-```
