@@ -1,20 +1,51 @@
 #!/usr/bin/env python3
 """
-Run on your main PC (has minimap2), not the Jetson.
+Run on your main PC (has minimap2 + nsys), not the Jetson.
 
-  1. rsync matching FASTQs from the Jetson repo
-  2. optionally rsync matching .nsys-rep + sibling .sqlite (mtime close to the FASTQ)
-  3. run minimap2 against a reference for each FASTQ
-  4. delete the local FASTQs (nsys reports + sqlite are kept)
+Default pipeline
+----------------
+  1. List remote FASTQs on the Jetson (SSH), or use -f/--file
+  2. Match nearby .nsys-rep (+ .sqlite if present) by mtime window
+  3. rsync FASTQs (and matching nsys files) into ./slorado-accuracy-tmp/
+  4. minimap2 each FASTQ vs hg38 → median identity (PAF col10/col11)
+  5. Delete local FASTQs; keep nsys reports, sqlite, CSV, and .mmi index
 
-Edit the CONFIG block, then:
-
+Examples
+--------
   python3 fetch-and-minimap.py
+      Full pipeline: pull all output_*.fastq + matching nsys, run minimap2, summarise.
+
   python3 fetch-and-minimap.py --dry-run
-  python3 fetch-and-minimap.py --file output_fast_1k.fastq
-  python3 fetch-and-minimap.py -f a.fastq -f b.fastq
+      SSH only: list remote FASTQs and which nsys reports would match. No rsync,
+      no minimap2, no deletes.
+
+  python3 fetch-and-minimap.py -f output_fast_1k.fastq
+  python3 fetch-and-minimap.py --file output_hac_20k_overlap.fastq
+      Pull only the named remote FASTQ(s) (repo-relative). Repeatable. Skips --glob.
+
+  python3 fetch-and-minimap.py --glob 'output_hac_*.fastq'
+      Override the remote shell glob (default: output_*.fastq). Ignored if -f is used.
+
+  python3 fetch-and-minimap.py --keep-fastq
+      After minimap2, leave the pulled FASTQs in slorado-accuracy-tmp/ (default: delete).
+
   python3 fetch-and-minimap.py --keep-paf
+      Keep per-FASTQ .paf alignment files (default: delete after median is computed).
+
   python3 fetch-and-minimap.py --no-nsys
+      Do not look for or rsync .nsys-rep / .sqlite; accuracy-only run.
+
+  python3 fetch-and-minimap.py --nsys-window 1500
+      Max |mtime(nsys) − mtime(fastq)| in seconds to treat as the same profiling run
+      (default: CONFIG NSYS_MATCH_WINDOW_SEC). Raise if long HAC jobs finish much
+      later than their FASTQ write.
+
+  python3 fetch-and-minimap.py --nsight-convert overlapping/nsight-overlap-vs-base2
+      Skip Jetson/rsync/minimap2 entirely. For every *.nsys-rep already in
+      slorado-accuracy-tmp/, run `nsys stats` and write <stem>_stats.txt into DIRECTORY.
+
+Edit the CONFIG block below for Jetson host/user/repo, reference FASTA, minimap2 path,
+expected 1k medians, and the nsys mtime window.
 """
 
 from __future__ import annotations
@@ -64,7 +95,7 @@ RESULTS_CSV = LOCAL_WORK_DIR / "minimap_results.csv"
 # nsight_runner.sh writes e.g. output_fast_1k.fastq + nsys_fast_1k_base.nsys-rep
 # in the same run, so mtimes are typically within seconds–minutes.
 FETCH_NSYS = True
-NSYS_MATCH_WINDOW_SEC = 1300  # |mtime(nsys) - mtime(fastq)| must be ≤ this
+NSYS_MATCH_WINDOW_SEC = 1500  # |mtime(nsys) - mtime(fastq)| must be ≤ this
 
 _SSH_CONTROL = f"/tmp/ssh-slorado-{JETSON_USER}@{JETSON_HOST}-%p"
 _SSH_OPTS = [
@@ -353,6 +384,58 @@ def append_result_row(row: dict) -> None:
         w.writerow(row)
 
 
+def find_nsys() -> str:
+    nsys = shutil.which("nsys")
+    if nsys:
+        return nsys
+    candidates = [
+        Path("/opt/nvidia/nsight-systems/2026.3.1/target-linux-x64/nsys"),
+        Path("/opt/nvidia/nsight-systems/2026.3.1/host-linux-x64/nsys"),
+        Path("/usr/local/bin/nsys"),
+    ]
+    for p in candidates:
+        if p.is_file():
+            return str(p)
+    die("nsys not found on PATH; install Nsight Systems or fix /usr/local/bin/nsys")
+
+
+def nsight_convert(out_dir: Path, work_dir: Path = LOCAL_WORK_DIR) -> None:
+    """Run `nsys stats` on every .nsys-rep in work_dir → out_dir/<stem>_stats.txt."""
+    nsys = find_nsys()
+    reps = sorted(work_dir.glob("*.nsys-rep"))
+    if not reps:
+        die(f"no .nsys-rep files in {work_dir}")
+
+    out_dir = out_dir.expanduser().resolve()
+    out_dir.mkdir(parents=True, exist_ok=True)
+
+    banner(f"nsight convert → {out_dir}", Col.GREEN)
+    print(c(f"nsys:  {nsys}", Col.DIM))
+    print(c(f"src:   {work_dir}", Col.DIM))
+    print(f"Found {len(reps)} report(s)\n")
+
+    for i, rep in enumerate(reps, 1):
+        stem = rep.name[: -len(".nsys-rep")] if rep.name.endswith(".nsys-rep") else rep.stem
+        out = out_dir / f"{stem}_stats.txt"
+        print(c(f"[{i}/{len(reps)}] {rep.name} → {out.name}", Col.CYAN, Col.BOLD))
+        print(c(f"+ {nsys} stats {rep} > {out}", Col.DIM))
+        with out.open("w") as f:
+            proc = subprocess.run(
+                [nsys, "stats", str(rep)],
+                stdout=f,
+                stderr=subprocess.PIPE,
+                text=True,
+            )
+        if proc.returncode != 0:
+            err = (proc.stderr or "").strip() or f"exit {proc.returncode}"
+            print(c(f"  FAILED: {err}", Col.RED, Col.BOLD))
+            continue
+        print(c(f"  wrote {out} ({out.stat().st_size} bytes)", Col.GREEN))
+        print()
+
+    print(c(f"done. stats in {out_dir}", Col.GREEN, Col.BOLD))
+
+
 def print_summary(rows: list[dict]) -> None:
     banner("summary", Col.GREEN)
     hdr = (
@@ -400,16 +483,43 @@ def print_summary(rows: list[dict]) -> None:
 
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--dry-run", action="store_true", help="list remote FASTQs / matching nsys only")
-    ap.add_argument("--keep-fastq", action="store_true", help="do not delete pulled FASTQs")
-    ap.add_argument("--keep-paf", action="store_true", help="keep .paf alignment files")
-    ap.add_argument("--no-nsys", action="store_true", help="do not fetch .nsys-rep files")
+    ap.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="list remote FASTQs and matching nsys only (no rsync / minimap2 / deletes)",
+    )
+    ap.add_argument(
+        "--keep-fastq",
+        action="store_true",
+        help="keep pulled FASTQs in the work dir after analysis (default: delete)",
+    )
+    ap.add_argument(
+        "--keep-paf",
+        action="store_true",
+        help="keep .paf files after median identity is computed (default: delete)",
+    )
+    ap.add_argument(
+        "--no-nsys",
+        action="store_true",
+        help="skip nsys match/rsync; run accuracy pipeline only",
+    )
+    ap.add_argument(
+        "--nsight-convert",
+        metavar="DIRECTORY",
+        help=(
+            "skip Jetson/minimap2; run `nsys stats` on every .nsys-rep in "
+            f"{LOCAL_WORK_DIR.name}/ and write <stem>_stats.txt into DIRECTORY"
+        ),
+    )
     ap.add_argument(
         "--nsys-window",
         type=int,
         default=NSYS_MATCH_WINDOW_SEC,
         metavar="SEC",
-        help=f"max |mtime(nsys)-mtime(fastq)| to treat as same run (default {NSYS_MATCH_WINDOW_SEC})",
+        help=(
+            "max |mtime(nsys)-mtime(fastq)| seconds to count as same run "
+            f"(default {NSYS_MATCH_WINDOW_SEC})"
+        ),
     )
     ap.add_argument(
         "-f",
@@ -422,9 +532,13 @@ def main() -> None:
     ap.add_argument(
         "--glob",
         default=REMOTE_FASTQ_GLOB,
-        help=f"remote glob under repo (default: {REMOTE_FASTQ_GLOB})",
+        help=f"remote shell glob under Jetson repo (default: {REMOTE_FASTQ_GLOB})",
     )
     args = ap.parse_args()
+
+    if args.nsight_convert:
+        nsight_convert(Path(args.nsight_convert))
+        return
 
     mm2 = Path(MINIMAP2)
     if not args.dry_run and not (mm2.is_file() or shutil.which(MINIMAP2)):
