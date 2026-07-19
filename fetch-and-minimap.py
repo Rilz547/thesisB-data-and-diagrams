@@ -418,10 +418,10 @@ def nsight_convert(out_dir: Path, work_dir: Path = LOCAL_WORK_DIR) -> None:
         stem = rep.name[: -len(".nsys-rep")] if rep.name.endswith(".nsys-rep") else rep.stem
         out = out_dir / f"{stem}_stats.txt"
         print(c(f"[{i}/{len(reps)}] {rep.name} → {out.name}", Col.CYAN, Col.BOLD))
-        print(c(f"+ {nsys} stats {rep} > {out}", Col.DIM))
+        print(c(f"+ {nsys} stats --force-export=true {rep} > {out}", Col.DIM))
         with out.open("w") as f:
             proc = subprocess.run(
-                [nsys, "stats", str(rep)],
+                [nsys, "stats", "--force-export=true", str(rep)],
                 stdout=f,
                 stderr=subprocess.PIPE,
                 text=True,
