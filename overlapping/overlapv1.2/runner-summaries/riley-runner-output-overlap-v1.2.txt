@@ -1,0 +1,177 @@
+riley's runner — variance + optional nsight + console capture
+timestamp:              2026-07-19 14:04:07 AEST
+repo:                   /home/riley/slorado-riley-v2
+FILENAME_APPEND_FLAG:   '-overlap-v1.2'
+NSIGHT:                 yes
+RECORD_CONSOLE:         yes
+EXTRA_ARGS:             '--overlap-decode=yes'
+BASE_ARGS:              '-C 128'
+overlap_mode:           True
+NSYS_TRACE:             'cuda,nvtx,osrt'
+NSYS_OSRT_THRESHOLD:    '1000'
+
+NUM_RUNS / WARMUP:
+  FAST_1K: runs=10  warmup=yes
+  HAC_1K: runs=10  warmup=yes
+  FAST_20K: runs=3  warmup=no
+  HAC_20K: runs=3  warmup=no
+
+FASTQ save rules:
+  - NSIGHT=yes → first timed run per config: nsys + real FASTQ; later runs /dev/null
+  - NSIGHT=no and NUM_RUNS==1 → that one run writes a real FASTQ (accuracy without nsys)
+  - otherwise timed runs use /dev/null; warmup never keeps FASTQ / never uses nsys
+
+=== Artifact names (this invocation) ===
+  report:         riley-runner-output-overlap-v1.2.txt
+  console fast:   riley-runner-fast-console-overlap-v1.2.txt
+  console hac:    riley-runner-hac-console-overlap-v1.2.txt
+  [FAST 1k] FASTQ (if saved): output_fast_1k_overlap-overlap-v1.2.fastq
+  [FAST 1k] nsys stem:        nsys_fast_1k_overlap-overlap-v1.2.nsys-rep
+  [HAC 1k] FASTQ (if saved): output_hac_1k_overlap-overlap-v1.2.fastq
+  [HAC 1k] nsys stem:        nsys_hac_1k_overlap-overlap-v1.2.nsys-rep
+  [FAST 20k] FASTQ (if saved): output_fast_20k_overlap-overlap-v1.2.fastq
+  [FAST 20k] nsys stem:        nsys_fast_20k_overlap-overlap-v1.2.nsys-rep
+  [HAC 20k] FASTQ (if saved): output_hac_20k_overlap-overlap-v1.2.fastq
+  [HAC 20k] nsys stem:        nsys_hac_20k_overlap-overlap-v1.2.nsys-rep
+
+=== Commands used ===
+  [FAST 1k] timed/devnull: ./slorado basecaller -C 128 -o /dev/null --overlap-decode=yes models/dna_r10.4.1_e8.2_400bps_fast@v5.0.0 test/PGXXXX230339/reads_1k.blow5
+  [FAST 1k] first timed+nsys: nsys profile --force-overwrite=true --trace=cuda,nvtx,osrt --sample=none --osrt-threshold=1000 --output=nsys_fast_1k_overlap-overlap-v1.2 ./slorado basecaller -C 128 -o output_fast_1k_overlap-overlap-v1.2.fastq --overlap-decode=yes models/dna_r10.4.1_e8.2_400bps_fast@v5.0.0 test/PGXXXX230339/reads_1k.blow5
+  [HAC 1k] timed/devnull: ./slorado basecaller -C 128 -o /dev/null --overlap-decode=yes models/dna_r10.4.1_e8.2_400bps_hac@v5.0.0 test/PGXXXX230339/reads_1k.blow5
+  [HAC 1k] first timed+nsys: nsys profile --force-overwrite=true --trace=cuda,nvtx,osrt --sample=none --osrt-threshold=1000 --output=nsys_hac_1k_overlap-overlap-v1.2 ./slorado basecaller -C 128 -o output_hac_1k_overlap-overlap-v1.2.fastq --overlap-decode=yes models/dna_r10.4.1_e8.2_400bps_hac@v5.0.0 test/PGXXXX230339/reads_1k.blow5
+  [FAST 20k] timed/devnull: ./slorado basecaller -C 128 -o /dev/null --overlap-decode=yes models/dna_r10.4.1_e8.2_400bps_fast@v5.0.0 test/PGXXXX230339/reads_20k.blow5
+  [FAST 20k] first timed+nsys: nsys profile --force-overwrite=true --trace=cuda,nvtx,osrt --sample=none --osrt-threshold=1000 --output=nsys_fast_20k_overlap-overlap-v1.2 ./slorado basecaller -C 128 -o output_fast_20k_overlap-overlap-v1.2.fastq --overlap-decode=yes models/dna_r10.4.1_e8.2_400bps_fast@v5.0.0 test/PGXXXX230339/reads_20k.blow5
+  [HAC 20k] timed/devnull: ./slorado basecaller -C 128 -o /dev/null --overlap-decode=yes models/dna_r10.4.1_e8.2_400bps_hac@v5.0.0 test/PGXXXX230339/reads_20k.blow5
+  [HAC 20k] first timed+nsys: nsys profile --force-overwrite=true --trace=cuda,nvtx,osrt --sample=none --osrt-threshold=1000 --output=nsys_hac_20k_overlap-overlap-v1.2 ./slorado basecaller -C 128 -o output_hac_20k_overlap-overlap-v1.2.fastq --overlap-decode=yes models/dna_r10.4.1_e8.2_400bps_hac@v5.0.0 test/PGXXXX230339/reads_20k.blow5
+
+How to read this file:
+  - Per-config tables: per-run timings + summary stats (mean/stdev/CV%/range).
+  - CV% = stdev/mean*100 on real time — headline for run-to-run jitter.
+  - Pair FASTQs with nsys by shared APPEND + mode tags (see module docstring).
+
+[FAST 1k] warmup: real=11.348s cpu=4.887s peak_ram=3.675GB
+=== FAST 1k ===
+command (typical timed /dev/null run): ./slorado basecaller -C 128 -o /dev/null --overlap-decode=yes models/dna_r10.4.1_e8.2_400bps_fast@v5.0.0 test/PGXXXX230339/reads_1k.blow5
+saved FASTQ: output_fast_1k_overlap-overlap-v1.2.fastq
+nsys report: nsys_fast_1k_overlap-overlap-v1.2.nsys-rep
+
+Per-run values:
+ run     real(s)      cpu(s)  peak_ram(GB)  nsight   fastq
+----------------------------------------------------------
+   1      10.410       4.946         3.882     yes     yes
+   2      10.165       4.175         3.680      no      no
+   3      10.046       4.128         3.678      no      no
+   4      10.104       4.180         3.680      no      no
+   5      10.114       4.138         3.681      no      no
+   6      10.257       4.182         3.679      no      no
+   7      10.141       4.175         3.681      no      no
+   8      10.114       4.185         3.683      no      no
+   9      10.196       4.154         3.677      no      no
+  10      10.130       4.223         3.679      no      no
+
+Summary (sample stdev/variance when n>=2):
+metric           real(s)        cpu(s)  peak_ram(GB)
+----------------------------------------------------
+n                     10            10            10
+mean              10.168         4.249         3.700
+stdev              0.102         0.246         0.064
+variance        0.010474      0.060752      0.004092
+min               10.046         4.128         3.677
+max               10.410         4.946         3.882
+range              0.364         0.818         0.205
+CV%               1.007%        5.801%        1.729%
+
+[HAC 1k] warmup: real=45.478s cpu=43.772s peak_ram=4.311GB
+=== HAC 1k ===
+command (typical timed /dev/null run): ./slorado basecaller -C 128 -o /dev/null --overlap-decode=yes models/dna_r10.4.1_e8.2_400bps_hac@v5.0.0 test/PGXXXX230339/reads_1k.blow5
+saved FASTQ: output_hac_1k_overlap-overlap-v1.2.fastq
+nsys report: nsys_hac_1k_overlap-overlap-v1.2.nsys-rep
+
+Per-run values:
+ run     real(s)      cpu(s)  peak_ram(GB)  nsight   fastq
+----------------------------------------------------------
+   1      46.896      51.914         4.610     yes     yes
+   2      45.380      43.722         4.304      no      no
+   3      45.020      43.410         4.308      no      no
+   4      45.584      43.958         4.302      no      no
+   5      45.097      43.467         4.305      no      no
+   6      45.456      43.862         4.300      no      no
+   7      45.115      43.507         4.303      no      no
+   8      45.301      43.624         4.304      no      no
+   9      45.010      43.404         4.300      no      no
+  10      45.571      43.912         4.305      no      no
+
+Summary (sample stdev/variance when n>=2):
+metric           real(s)        cpu(s)  peak_ram(GB)
+----------------------------------------------------
+n                     10            10            10
+mean              45.443        44.478         4.334
+stdev              0.554         2.621         0.097
+variance        0.307277      6.869358      0.009403
+min               45.010        43.404         4.300
+max               46.896        51.914         4.610
+range              1.886         8.510         0.310
+CV%               1.220%        5.893%        2.237%
+
+=== FAST 20k ===
+command (typical timed /dev/null run): ./slorado basecaller -C 128 -o /dev/null --overlap-decode=yes models/dna_r10.4.1_e8.2_400bps_fast@v5.0.0 test/PGXXXX230339/reads_20k.blow5
+saved FASTQ: output_fast_20k_overlap-overlap-v1.2.fastq
+nsys report: nsys_fast_20k_overlap-overlap-v1.2.nsys-rep
+
+Per-run values:
+ run     real(s)      cpu(s)  peak_ram(GB)  nsight   fastq
+----------------------------------------------------------
+   1     178.934      44.500         5.756     yes     yes
+   2     175.014      39.381         5.602      no      no
+   3     174.579      38.973         5.621      no      no
+
+Summary (sample stdev/variance when n>=2):
+metric           real(s)        cpu(s)  peak_ram(GB)
+----------------------------------------------------
+n                      3             3             3
+mean             176.176        40.951         5.660
+stdev              2.399         3.080         0.084
+variance        5.753608      9.486392      0.007050
+min              174.579        38.973         5.602
+max              178.934        44.500         5.756
+range              4.355         5.527         0.154
+CV%               1.362%        7.521%        1.484%
+
+=== HAC 20k ===
+command (typical timed /dev/null run): ./slorado basecaller -C 128 -o /dev/null --overlap-decode=yes models/dna_r10.4.1_e8.2_400bps_hac@v5.0.0 test/PGXXXX230339/reads_20k.blow5
+saved FASTQ: output_hac_20k_overlap-overlap-v1.2.fastq
+nsys report: nsys_hac_20k_overlap-overlap-v1.2.nsys-rep
+
+Per-run values:
+ run     real(s)      cpu(s)  peak_ram(GB)  nsight   fastq
+----------------------------------------------------------
+   1     909.585     989.871         6.431     yes     yes
+   2     875.532     826.488         6.128      no      no
+   3     875.427     826.538         6.106      no      no
+
+Summary (sample stdev/variance when n>=2):
+metric           real(s)        cpu(s)  peak_ram(GB)
+----------------------------------------------------
+n                      3             3             3
+mean             886.848       880.966         6.222
+stdev             19.691        94.315         0.182
+variance      387.731133   8895.279346      0.032986
+min              875.427       826.488         6.106
+max              909.585       989.871         6.431
+range             34.158       163.383         0.325
+CV%               2.220%       10.706%        2.919%
+
+=== Quick real-time comparison ===
+config           mean(s)    stdev(s)      min(s)      max(s)    range(s)       CV%
+----------------------------------------------------------------------------------
+FAST 1k           10.168       0.102      10.046      10.410       0.364    1.007%
+HAC 1k            45.443       0.554      45.010      46.896       1.886    1.220%
+FAST 20k         176.176       2.399     174.579     178.934       4.355    1.362%
+HAC 20k          886.848      19.691     875.427     909.585      34.158    2.220%
+
+Notes:
+  - stdev/variance are sample statistics (n-1) when n>=2.
+  - CV% = stdev/mean*100; lower = tighter run-to-run timing.
+  - Console logs: RECORD_CONSOLE=yes → riley-runner-{fast,hac}-console-overlap-v1.2.txt
+  - Change EXTRA_ARGS / FILENAME_APPEND_FLAG to label A/B experiments.
+

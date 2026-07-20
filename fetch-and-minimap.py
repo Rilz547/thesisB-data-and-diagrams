@@ -2,25 +2,42 @@
 """
 Run on your main PC (has minimap2 + nsys), not the Jetson.
 
+Jetson artifacts come from rileys-runner.py (FILENAME_APPEND_FLAG), e.g.:
+  output_fast_1k.fastq / output_fast_1k_overlap.fastq
+  output_fast_1k-v1.2.fastq / output_fast_1k_overlap-v1.2.fastq
+  nsys_fast_1k_base.nsys-rep / nsys_fast_1k_overlap.nsys-rep
+  nsys_fast_1k_base-v1.2.nsys-rep / nsys_fast_1k_overlap-v1.2.nsys-rep
+
+This script is a *single-condition* accuracy pass: pull whatever FASTQs (and
+matching nsys / runner summaries) are on the Jetson for that experiment, run
+minimap2, and auto-convert nsys → stats text. It does NOT A/B baseline vs
+overlap in one run — Riley runs separate Jetson experiments (different
+EXTRA_ARGS / APPEND); cross-run compare is done elsewhere from
+riley-runner-output*.txt + minimap CSVs.
+
 Default pipeline
 ----------------
   1. List remote FASTQs on the Jetson (SSH), or use -f/--file
   2. Match nearby .nsys-rep (+ .sqlite if present) by mtime window
-  3. rsync FASTQs (and matching nsys files) into ./slorado-accuracy-tmp/
-  4. minimap2 each FASTQ vs hg38 → median identity (PAF col10/col11)
-  5. Delete local FASTQs; keep nsys reports, sqlite, CSV, and .mmi index
+  3. Infer riley-runner-output / console files from FASTQ APPEND suffixes
+  4. rsync FASTQs + nsys + runner summaries (summaries → RUNNER_SUMMARY_DIR)
+  5. minimap2 each FASTQ vs hg38 → median identity (PAF col10/col11)
+  6. Auto `nsys stats` on pulled reports → NSIGHT_STATS_DIR/<stem>_stats.txt
+  7. Delete local FASTQs; keep nsys reports, sqlite, CSV, and .mmi index
 
 Examples
 --------
   python3 fetch-and-minimap.py
-      Full pipeline: pull all output_*.fastq + matching nsys, run minimap2, summarise.
+      Full pipeline: pull FASTQs + nsys + runner summaries, minimap2, auto stats.
+
+  python3 fetch-and-minimap.py --glob 'output_*-v1.2.fastq'
+      Only one APPEND experiment (e.g. FILENAME_APPEND_FLAG="-v1.2" on Jetson).
 
   python3 fetch-and-minimap.py --dry-run
-      SSH only: list remote FASTQs and which nsys reports would match. No rsync,
-      no minimap2, no deletes.
+      SSH only: list remote FASTQs, nsys matches, and runner summaries. No rsync,
+      no minimap2, no deletes, no stats write.
 
-  python3 fetch-and-minimap.py -f output_fast_1k.fastq
-  python3 fetch-and-minimap.py --file output_hac_20k_overlap.fastq
+  python3 fetch-and-minimap.py -f output_fast_1k_overlap-v1.2.fastq
       Pull only the named remote FASTQ(s) (repo-relative). Repeatable. Skips --glob.
 
   python3 fetch-and-minimap.py --glob 'output_hac_*.fastq'
@@ -33,19 +50,25 @@ Examples
       Keep per-FASTQ .paf alignment files (default: delete after median is computed).
 
   python3 fetch-and-minimap.py --no-nsys
-      Do not look for or rsync .nsys-rep / .sqlite; accuracy-only run.
+      Skip nsys match/rsync and auto stats convert; accuracy (+ summaries) only.
+
+  python3 fetch-and-minimap.py --no-runner-summaries
+      Do not pull riley-runner-output / console .txt files.
+
+  python3 fetch-and-minimap.py --no-nsight-stats
+      Pull nsys reports but skip auto `nsys stats` text export.
 
   python3 fetch-and-minimap.py --nsys-window 1500
       Max |mtime(nsys) − mtime(fastq)| in seconds to treat as the same profiling run
       (default: CONFIG NSYS_MATCH_WINDOW_SEC). Raise if long HAC jobs finish much
       later than their FASTQ write.
 
-  python3 fetch-and-minimap.py --nsight-convert overlapping/nsight-overlap-vs-base2
-      Skip Jetson/rsync/minimap2 entirely. For every *.nsys-rep already in
-      slorado-accuracy-tmp/, run `nsys stats` and write <stem>_stats.txt into DIRECTORY.
+  python3 fetch-and-minimap.py --nsight-convert overlapping/overlapv1.2/nsight-stats
+      Offline-only: skip Jetson/minimap2; run `nsys stats` on every .nsys-rep in
+      slorado-accuracy-tmp/ into DIRECTORY (overrides NSIGHT_STATS_DIR for this run).
 
-Edit the CONFIG block below for Jetson host/user/repo, reference FASTA, minimap2 path,
-expected 1k medians, and the nsys mtime window.
+Edit the CONFIG block below for Jetson host/user/repo, output dirs, reference FASTA,
+minimap2 path, expected 1k medians, and the nsys mtime window.
 """
 
 from __future__ import annotations
@@ -69,6 +92,8 @@ JETSON_USER = "riley"
 JETSON_REPO = "~/slorado-riley-v2"
 
 # Glob relative to JETSON_REPO (shell glob on the remote).
+# output_*.fastq matches all APPEND suffixes from rileys-runner.py.
+# Tighter example: "output_*-v1.2.fastq"
 REMOTE_FASTQ_GLOB = "output_*.fastq"
 
 # Local scratch for pulled FASTQs / nsys (cwd relative).
@@ -92,10 +117,19 @@ EXPECTED_MEDIAN = {
 RESULTS_CSV = LOCAL_WORK_DIR / "minimap_results.csv"
 
 # Pull nsys_*.nsys-rep alongside FASTQs when remote mtimes are close enough.
-# nsight_runner.sh writes e.g. output_fast_1k.fastq + nsys_fast_1k_base.nsys-rep
-# in the same run, so mtimes are typically within seconds–minutes.
+# rileys-runner.py writes FASTQ + nsys in the same first timed run (shared APPEND).
 FETCH_NSYS = True
 NSYS_MATCH_WINDOW_SEC = 1500  # |mtime(nsys) - mtime(fastq)| must be ≤ this
+
+# After pulling .nsys-rep files, run `nsys stats` → <stem>_stats.txt here.
+# Keep this separate from RUNNER_SUMMARY_DIR.
+NSIGHT_STATS_DIR = Path.cwd() / "overlapping" / "overlapv1.2" / "nsight-stats"
+AUTO_NSIGHT_CONVERT = True
+
+# Pull riley-runner-output{APPEND}.txt + fast/hac console files here (not into
+# LOCAL_WORK_DIR / NSIGHT_STATS_DIR). APPEND is inferred from pulled FASTQ names.
+RUNNER_SUMMARY_DIR = Path.cwd() / "overlapping" / "overlapv1.2" / "runner-summaries"
+FETCH_RUNNER_SUMMARIES = True
 
 _SSH_CONTROL = f"/tmp/ssh-slorado-{JETSON_USER}@{JETSON_HOST}-%p"
 _SSH_OPTS = [
@@ -204,19 +238,114 @@ def remote_mtime(rel_path: str) -> int | None:
 
 
 def nsys_name_for_fastq(fastq_name: str) -> str | None:
-    """Map output_*.fastq → nsys_*.nsys-rep per nsight_runner.sh naming."""
-    # output_fast_1k_overlap.fastq → nsys_fast_1k_overlap.nsys-rep
-    # output_fast_1k.fastq         → nsys_fast_1k_base.nsys-rep
+    """Map output_*.fastq → nsys_*.nsys-rep per rileys-runner.py naming.
+
+    FASTQ base has no '_base' (legacy); nsys base does.
+    Optional APPEND suffix is preserved, e.g. '-v1.2':
+      output_fast_1k_overlap-v1.2.fastq → nsys_fast_1k_overlap-v1.2.nsys-rep
+      output_hac_20k-v1.2.fastq         → nsys_hac_20k_base-v1.2.nsys-rep
+    """
     m = re.fullmatch(
-        r"output_(fast|hac)_(\d+k)(_overlap)?\.fastq",
+        r"output_(fast|hac)_(\d+k)(_overlap)?(.*)\.fastq",
         Path(fastq_name).name,
     )
     if not m:
         return None
-    model, size, overlap = m.group(1), m.group(2), m.group(3)
+    model, size, overlap, suffix = m.group(1), m.group(2), m.group(3), m.group(4)
     if overlap:
-        return f"nsys_{model}_{size}_overlap.nsys-rep"
-    return f"nsys_{model}_{size}_base.nsys-rep"
+        return f"nsys_{model}_{size}_overlap{suffix}.nsys-rep"
+    return f"nsys_{model}_{size}_base{suffix}.nsys-rep"
+
+
+def append_suffixes_from_fastqs(fastq_rels: list[str]) -> list[str]:
+    """FILENAME_APPEND_FLAG values inferred from FASTQ names (unique, sorted)."""
+    suffixes: set[str] = set()
+    for rel in fastq_rels:
+        m = re.fullmatch(
+            r"output_(fast|hac)_(\d+k)(_overlap)?(.*)\.fastq",
+            Path(rel).name,
+        )
+        if m:
+            suffixes.add(m.group(4) or "")
+    return sorted(suffixes)
+
+
+def runner_summary_names(suffixes: list[str]) -> list[str]:
+    """riley-runner report + console names for each APPEND (mode is not in these)."""
+    names: list[str] = []
+    for s in suffixes:
+        names.extend(
+            [
+                f"riley-runner-output{s}.txt",
+                f"riley-runner-fast-console{s}.txt",
+                f"riley-runner-hac-console{s}.txt",
+            ]
+        )
+    return names
+
+
+def confirm_dest_writes(dest: Path, incoming_names: list[str], label: str) -> bool:
+    """Warn on existing dest contents; prompt if same-named files would be overwritten.
+
+    - Same name present → warn + ask y/N (default N)
+    - Only other (different) files → warn that new files will be added; proceed
+    - Empty / missing dest → proceed
+    """
+    dest = dest.expanduser().resolve()
+    if not incoming_names:
+        return True
+    if not dest.exists():
+        return True
+    if not dest.is_dir():
+        die(f"{label} path exists but is not a directory: {dest}")
+
+    existing = {p.name for p in dest.iterdir() if p.is_file()}
+    incoming = set(incoming_names)
+    collisions = sorted(existing & incoming)
+    others = sorted(existing - incoming)
+
+    if others and not collisions:
+        print(
+            c(
+                f"WARNING: {label} directory already has other files; "
+                f"new files will be added alongside them in:\n  {dest}",
+                Col.YELLOW,
+            )
+        )
+        for n in others[:12]:
+            print(c(f"  existing: {n}", Col.DIM))
+        if len(others) > 12:
+            print(c(f"  ... +{len(others) - 12} more", Col.DIM))
+        return True
+
+    if collisions:
+        print(
+            c(
+                f"WARNING: {label} directory already has same-named file(s) "
+                f"that will be overwritten:\n  {dest}",
+                Col.YELLOW,
+                Col.BOLD,
+            )
+        )
+        for n in collisions:
+            print(c(f"  overwrite: {n}", Col.YELLOW))
+        if others:
+            print(
+                c(
+                    f"  ({len(others)} other file(s) already in this directory will be left alone)",
+                    Col.DIM,
+                )
+            )
+        try:
+            reply = input("Proceed and overwrite? [y/N] ").strip().lower()
+        except EOFError:
+            reply = ""
+        if reply not in {"y", "yes"}:
+            print(c("Aborted.", Col.RED))
+            return False
+        return True
+
+    return True
 
 
 def nsys_sqlite_name(nsys_rep: str) -> str:
@@ -349,7 +478,10 @@ def run_minimap2(fastq: Path, target: Path, out_paf: Path) -> tuple[float | None
 
 
 def expected_for(fastq_name: str) -> float | None:
-    """Expected median for 1k PGXXXX runs only; 20k (and others) → None."""
+    """Expected median for 1k PGXXXX runs only; 20k / unknown → None.
+
+    APPEND suffixes (e.g. -v1.2) are ignored; keyed only on 1k + fast/hac.
+    """
     lower = fastq_name.lower()
     if "1k" not in lower:
         return None
@@ -399,19 +531,40 @@ def find_nsys() -> str:
     die("nsys not found on PATH; install Nsight Systems or fix /usr/local/bin/nsys")
 
 
-def nsight_convert(out_dir: Path, work_dir: Path = LOCAL_WORK_DIR) -> None:
-    """Run `nsys stats` on every .nsys-rep in work_dir → out_dir/<stem>_stats.txt."""
+def nsight_convert(
+    out_dir: Path,
+    work_dir: Path = LOCAL_WORK_DIR,
+    reps: list[Path] | None = None,
+    *,
+    require_reps: bool = True,
+) -> None:
+    """Run `nsys stats` on .nsys-rep files → out_dir/<stem>_stats.txt."""
     nsys = find_nsys()
-    reps = sorted(work_dir.glob("*.nsys-rep"))
+    selected = reps is not None
+    if reps is None:
+        reps = sorted(work_dir.glob("*.nsys-rep"))
+    else:
+        reps = sorted(reps)
     if not reps:
-        die(f"no .nsys-rep files in {work_dir}")
+        if require_reps:
+            die(f"no .nsys-rep files in {work_dir}")
+        print(c("  (no .nsys-rep to convert)", Col.DIM))
+        return
 
     out_dir = out_dir.expanduser().resolve()
+    out_names = [
+        (rep.name[: -len(".nsys-rep")] if rep.name.endswith(".nsys-rep") else rep.stem)
+        + "_stats.txt"
+        for rep in reps
+    ]
+    if not confirm_dest_writes(out_dir, out_names, "nsight stats"):
+        die("nsight stats convert cancelled by user")
+
     out_dir.mkdir(parents=True, exist_ok=True)
 
     banner(f"nsight convert → {out_dir}", Col.GREEN)
     print(c(f"nsys:  {nsys}", Col.DIM))
-    print(c(f"src:   {work_dir}", Col.DIM))
+    print(c(f"src:   {work_dir if not selected else '(selected .nsys-rep files)'}", Col.DIM))
     print(f"Found {len(reps)} report(s)\n")
 
     for i, rep in enumerate(reps, 1):
@@ -438,18 +591,20 @@ def nsight_convert(out_dir: Path, work_dir: Path = LOCAL_WORK_DIR) -> None:
 
 def print_summary(rows: list[dict]) -> None:
     banner("summary", Col.GREEN)
+    fq_w = max(36, max((len(r["fastq"]) for r in rows), default=36))
+    ns_w = max(28, max((len(r.get("nsys_pulled", "") or "") for r in rows), default=28))
     hdr = (
-        f"{'fastq':<36} {'reads':>7} {'alns':>6} {'map%':>7} "
-        f"{'median':>10} {'expected':>10} {'delta':>10} {'nsys':>6}"
+        f"{'fastq':<{fq_w}} {'reads':>7} {'alns':>6} {'map%':>7} "
+        f"{'median':>10} {'expected':>10} {'delta':>10} {'nsys':<{ns_w}}"
     )
     print(c(hdr, Col.BOLD))
     print(c("-" * len(hdr), Col.DIM))
     for r in rows:
         line = (
-            f"{r['fastq']:<36} {r['n_reads']:>7} {r['n_alignments']:>6} "
+            f"{r['fastq']:<{fq_w}} {r['n_reads']:>7} {r['n_alignments']:>6} "
             f"{r['map_rate']:>7} {r['accuracy_median']:>10} "
             f"{r['expected_median']:>10} {r['delta_vs_expected']:>10} "
-            f"{r.get('nsys_pulled', ''):>6}"
+            f"{(r.get('nsys_pulled') or ''):<{ns_w}}"
         )
         map_ok = float(r["map_rate"].rstrip("%") or 0) >= 50
         delta = r["delta_vs_expected"]
@@ -486,7 +641,7 @@ def main() -> None:
     ap.add_argument(
         "--dry-run",
         action="store_true",
-        help="list remote FASTQs and matching nsys only (no rsync / minimap2 / deletes)",
+        help="list remote FASTQs, nsys matches, and runner summaries only",
     )
     ap.add_argument(
         "--keep-fastq",
@@ -501,7 +656,17 @@ def main() -> None:
     ap.add_argument(
         "--no-nsys",
         action="store_true",
-        help="skip nsys match/rsync; run accuracy pipeline only",
+        help="skip nsys match/rsync and auto stats convert; accuracy (+ summaries) only",
+    )
+    ap.add_argument(
+        "--no-runner-summaries",
+        action="store_true",
+        help="do not pull riley-runner-output / console .txt files",
+    )
+    ap.add_argument(
+        "--no-nsight-stats",
+        action="store_true",
+        help="pull nsys reports but skip auto `nsys stats` text export",
     )
     ap.add_argument(
         "--nsight-convert",
@@ -549,6 +714,8 @@ def main() -> None:
     print(c(f"Jetson: {JETSON_USER}@{JETSON_HOST}:{JETSON_REPO}", Col.BOLD))
     print(c(f"Work:   {LOCAL_WORK_DIR}", Col.DIM))
     print(c(f"Ref:    {REFERENCE_FASTA}", Col.DIM))
+    print(c(f"Stats:  {NSIGHT_STATS_DIR}", Col.DIM))
+    print(c(f"Runner: {RUNNER_SUMMARY_DIR}", Col.DIM))
     if args.files:
         remotes = args.files
         print(f"Files:  {', '.join(remotes)}")
@@ -569,6 +736,23 @@ def main() -> None:
         nsys_matches = select_matching_nsys(remotes, args.nsys_window)
         if not nsys_matches:
             print(c("  (no matching .nsys-rep files)", Col.DIM))
+
+    fetch_summaries = FETCH_RUNNER_SUMMARIES and not args.no_runner_summaries
+    runner_rels: list[str] = []
+    if fetch_summaries:
+        banner("runner summary / console match", Col.CYAN)
+        suffixes = append_suffixes_from_fastqs(remotes)
+        if not suffixes and remotes:
+            print(c("  (could not infer APPEND from FASTQ names)", Col.YELLOW))
+        wanted = runner_summary_names(suffixes)
+        for name in wanted:
+            if remote_mtime(name) is None:
+                print(c(f"  skip {name} (not on Jetson)", Col.DIM))
+                continue
+            print(c(f"  match {name}", Col.GREEN))
+            runner_rels.append(name)
+        if not runner_rels:
+            print(c("  (no riley-runner-*.txt files found for inferred APPEND)", Col.DIM))
 
     if args.dry_run:
         return
@@ -601,6 +785,15 @@ def main() -> None:
             local_nsys_sqlite = rsync_pull(sqlite_rels, LOCAL_WORK_DIR)
         for fq, ns, _ in nsys_matches:
             nsys_by_fastq[Path(fq).name] = ns
+
+    if runner_rels:
+        banner(f"rsync runner summaries → {RUNNER_SUMMARY_DIR}", Col.YELLOW)
+        if not confirm_dest_writes(RUNNER_SUMMARY_DIR, [Path(r).name for r in runner_rels], "runner summary"):
+            die("runner summary pull cancelled by user")
+        RUNNER_SUMMARY_DIR.mkdir(parents=True, exist_ok=True)
+        pulled_summaries = rsync_pull(runner_rels, RUNNER_SUMMARY_DIR)
+        for p in pulled_summaries:
+            print(c(f"  saved {p}", Col.GREEN))
 
     target = ensure_mmi(REFERENCE_FASTA, REFERENCE_MMI)
 
@@ -667,6 +860,17 @@ def main() -> None:
             fq.unlink(missing_ok=True)
             print(f"  removed {fq}")
 
+    do_stats = (
+        AUTO_NSIGHT_CONVERT
+        and not args.no_nsys
+        and not args.no_nsight_stats
+        and bool(local_nsys)
+    )
+    if do_stats:
+        nsight_convert(NSIGHT_STATS_DIR, reps=local_nsys, require_reps=False)
+    elif local_nsys and (args.no_nsight_stats or not AUTO_NSIGHT_CONVERT):
+        print(c("  (skipped auto nsight stats convert)", Col.DIM))
+
     if local_nsys:
         banner("Nsight Systems (open on this PC)", Col.GREEN)
         print("GUI:")
@@ -682,6 +886,11 @@ def main() -> None:
         else:
             print(c("  (no .sqlite pulled — CLI export/stats may fail)", Col.YELLOW))
         print(c(f"  reports left in {LOCAL_WORK_DIR} (not deleted)", Col.DIM))
+        if do_stats:
+            print(c(f"  stats text: {NSIGHT_STATS_DIR}", Col.DIM))
+
+    if runner_rels:
+        print(c(f"Runner summaries: {RUNNER_SUMMARY_DIR}", Col.GREEN, Col.BOLD))
 
     print()
     print(c(f"Summary CSV: {RESULTS_CSV}", Col.GREEN, Col.BOLD))
