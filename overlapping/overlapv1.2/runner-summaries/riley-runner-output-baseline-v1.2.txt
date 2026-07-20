@@ -1,0 +1,196 @@
+riley's runner — variance + optional nsight + console capture
+timestamp:              2026-07-20 10:27:21 AEST
+repo:                   /home/riley/slorado-riley-v2
+FILENAME_APPEND_FLAG:   '-baseline-v1.2'
+NSIGHT:                 yes
+RECORD_CONSOLE:         yes
+EXTRA_ARGS:             ''
+BASE_ARGS:              '-C 128'
+overlap_mode:           False
+NSYS_TRACE:             'cuda,nvtx,osrt'
+NSYS_OSRT_THRESHOLD:    '1000'
+RUN_STALL_TIMEOUT_S:    600
+WALL_MARGIN:            1.25
+NSYS_WALL_FACTOR:       2.0
+RUN_MAX_ATTEMPTS:       2
+EXPECTED wall budgets (timed / nsys-accuracy):
+  FAST_1K: timed<=75s  nsys-accuracy<=150s
+  HAC_1K: timed<=150s  nsys-accuracy<=300s
+  FAST_20K: timed<=438s  nsys-accuracy<=875s
+  HAC_20K: timed<=1500s  nsys-accuracy<=3000s
+
+NUM_RUNS / WARMUP:
+  FAST_1K: runs=10  warmup=yes
+  HAC_1K: runs=10  warmup=yes
+  FAST_20K: runs=3  warmup=yes
+  HAC_20K: runs=3  warmup=yes
+
+FASTQ / timing rules:
+  - Accuracy pass (NSIGHT or single-run FASTQ) is EXCLUDED from mean/stdev/CV%.
+  - Timed variance runs always use -o /dev/null (NUM_RUNS_* each).
+  - Hang: stall OR per-config wall timeout → killall + nvidia-smi, retry once, then fail.
+  - Lock: riley-runner.lock prevents two suites sharing the GPU.
+  - Resume: python3 rileys-runner.py --resume
+
+=== Artifact names (this invocation) ===
+  report:         riley-runner-output-baseline-v1.2.txt
+  timings csv:    riley-runner-timings-baseline-v1.2.csv
+  state:          riley-runner-state-baseline-v1.2.json
+  lock:           riley-runner.lock
+  console fast:   riley-runner-fast-console-baseline-v1.2.txt
+  console hac:    riley-runner-hac-console-baseline-v1.2.txt
+  [FAST 1k] FASTQ (if saved): output_fast_1k-baseline-v1.2.fastq
+  [FAST 1k] nsys stem:        nsys_fast_1k_base-baseline-v1.2.nsys-rep
+  [HAC 1k] FASTQ (if saved): output_hac_1k-baseline-v1.2.fastq
+  [HAC 1k] nsys stem:        nsys_hac_1k_base-baseline-v1.2.nsys-rep
+  [FAST 20k] FASTQ (if saved): output_fast_20k-baseline-v1.2.fastq
+  [FAST 20k] nsys stem:        nsys_fast_20k_base-baseline-v1.2.nsys-rep
+  [HAC 20k] FASTQ (if saved): output_hac_20k-baseline-v1.2.fastq
+  [HAC 20k] nsys stem:        nsys_hac_20k_base-baseline-v1.2.nsys-rep
+
+=== Commands used ===
+  [FAST 1k] timed/devnull: ./slorado basecaller -C 128 -o /dev/null models/dna_r10.4.1_e8.2_400bps_fast@v5.0.0 test/PGXXXX230339/reads_1k.blow5
+  [FAST 1k] accuracy+nsys: nsys profile --force-overwrite=true --trace=cuda,nvtx,osrt --sample=none --osrt-threshold=1000 --output=nsys_fast_1k_base-baseline-v1.2 ./slorado basecaller -C 128 -o output_fast_1k-baseline-v1.2.fastq models/dna_r10.4.1_e8.2_400bps_fast@v5.0.0 test/PGXXXX230339/reads_1k.blow5
+  [HAC 1k] timed/devnull: ./slorado basecaller -C 128 -o /dev/null models/dna_r10.4.1_e8.2_400bps_hac@v5.0.0 test/PGXXXX230339/reads_1k.blow5
+  [HAC 1k] accuracy+nsys: nsys profile --force-overwrite=true --trace=cuda,nvtx,osrt --sample=none --osrt-threshold=1000 --output=nsys_hac_1k_base-baseline-v1.2 ./slorado basecaller -C 128 -o output_hac_1k-baseline-v1.2.fastq models/dna_r10.4.1_e8.2_400bps_hac@v5.0.0 test/PGXXXX230339/reads_1k.blow5
+  [FAST 20k] timed/devnull: ./slorado basecaller -C 128 -o /dev/null models/dna_r10.4.1_e8.2_400bps_fast@v5.0.0 test/PGXXXX230339/reads_20k.blow5
+  [FAST 20k] accuracy+nsys: nsys profile --force-overwrite=true --trace=cuda,nvtx,osrt --sample=none --osrt-threshold=1000 --output=nsys_fast_20k_base-baseline-v1.2 ./slorado basecaller -C 128 -o output_fast_20k-baseline-v1.2.fastq models/dna_r10.4.1_e8.2_400bps_fast@v5.0.0 test/PGXXXX230339/reads_20k.blow5
+  [HAC 20k] timed/devnull: ./slorado basecaller -C 128 -o /dev/null models/dna_r10.4.1_e8.2_400bps_hac@v5.0.0 test/PGXXXX230339/reads_20k.blow5
+  [HAC 20k] accuracy+nsys: nsys profile --force-overwrite=true --trace=cuda,nvtx,osrt --sample=none --osrt-threshold=1000 --output=nsys_hac_20k_base-baseline-v1.2 ./slorado basecaller -C 128 -o output_hac_20k-baseline-v1.2.fastq models/dna_r10.4.1_e8.2_400bps_hac@v5.0.0 test/PGXXXX230339/reads_20k.blow5
+
+How to read this file:
+  - Per-config tables: timed runs + summary (accuracy/nsys listed but not in stats).
+  - CV% = stdev/mean*100 on real time — headline for run-to-run jitter.
+  - File is rewritten after every run so overnight hangs still leave partial results.
+
+=== FAST 1k ===
+command (typical timed /dev/null run): ./slorado basecaller -C 128 -o /dev/null models/dna_r10.4.1_e8.2_400bps_fast@v5.0.0 test/PGXXXX230339/reads_1k.blow5
+saved FASTQ (accuracy pass, excluded from stats): output_fast_1k-baseline-v1.2.fastq
+nsys report (excluded from stats): nsys_fast_1k_base-baseline-v1.2.nsys-rep
+accuracy pass: real=11.857s cpu=4.771s peak_ram=2.820GB  status=ok
+
+Per-run values (timed /dev/null only — used for stats):
+ run     real(s)      cpu(s)  peak_ram(GB)    status  tries
+-----------------------------------------------------------
+   1      11.461       3.964         2.611        ok      1
+   2      11.413       3.931         2.607        ok      1
+   3      11.433       3.989         2.616        ok      1
+   4      11.376       3.938         2.610        ok      1
+   5      11.424       4.012         2.611        ok      1
+   6      11.371       3.982         2.617        ok      1
+   7      11.380       3.954         2.618        ok      1
+   8      11.407       3.928         2.609        ok      1
+   9      11.368       3.972         2.612        ok      1
+  10      11.405       3.946         2.610        ok      1
+
+Summary (ok timed runs only; n=10/10; accuracy/nsys excluded; sample stdev when n>=2):
+metric           real(s)        cpu(s)  peak_ram(GB)
+----------------------------------------------------
+n                     10            10            10
+mean              11.404         3.962         2.612
+stdev              0.030         0.027         0.004
+variance        0.000925      0.000749      0.000013
+min               11.368         3.928         2.607
+max               11.461         4.012         2.618
+range              0.093         0.084         0.011
+CV%               0.267%        0.691%        0.140%
+
+=== HAC 1k ===
+command (typical timed /dev/null run): ./slorado basecaller -C 128 -o /dev/null models/dna_r10.4.1_e8.2_400bps_hac@v5.0.0 test/PGXXXX230339/reads_1k.blow5
+saved FASTQ (accuracy pass, excluded from stats): output_hac_1k-baseline-v1.2.fastq
+nsys report (excluded from stats): nsys_hac_1k_base-baseline-v1.2.nsys-rep
+accuracy pass: real=48.220s cpu=39.803s peak_ram=4.071GB  status=ok
+
+Per-run values (timed /dev/null only — used for stats):
+ run     real(s)      cpu(s)  peak_ram(GB)    status  tries
+-----------------------------------------------------------
+   1      46.715      31.909         3.766        ok      1
+   2      46.523      31.772         3.761        ok      1
+   3      46.356      31.709         3.760        ok      1
+   4      46.569      31.823         3.766        ok      1
+   5      46.483      31.742         3.762        ok      1
+   6      46.782      31.934         3.766        ok      1
+   7      46.695      31.956         3.770        ok      1
+   8      46.660      31.964         3.762        ok      1
+   9      46.468      31.707         3.771        ok      1
+  10      46.544      31.858         3.775        ok      1
+
+Summary (ok timed runs only; n=10/10; accuracy/nsys excluded; sample stdev when n>=2):
+metric           real(s)        cpu(s)  peak_ram(GB)
+----------------------------------------------------
+n                     10            10            10
+mean              46.580        31.837         3.766
+stdev              0.131         0.101         0.005
+variance        0.017272      0.010228      0.000024
+min               46.356        31.707         3.760
+max               46.782        31.964         3.775
+range              0.426         0.257         0.015
+CV%               0.282%        0.318%        0.130%
+
+=== FAST 20k ===
+command (typical timed /dev/null run): ./slorado basecaller -C 128 -o /dev/null models/dna_r10.4.1_e8.2_400bps_fast@v5.0.0 test/PGXXXX230339/reads_20k.blow5
+saved FASTQ (accuracy pass, excluded from stats): output_fast_20k-baseline-v1.2.fastq
+nsys report (excluded from stats): nsys_fast_20k_base-baseline-v1.2.nsys-rep
+accuracy pass: real=210.795s cpu=48.748s peak_ram=4.701GB  status=ok
+
+Per-run values (timed /dev/null only — used for stats):
+ run     real(s)      cpu(s)  peak_ram(GB)    status  tries
+-----------------------------------------------------------
+   1     203.929      41.403         4.514        ok      1
+   2     203.810      41.333         4.464        ok      1
+   3     204.160      41.392         4.511        ok      1
+
+Summary (ok timed runs only; n=3/3; accuracy/nsys excluded; sample stdev when n>=2):
+metric           real(s)        cpu(s)  peak_ram(GB)
+----------------------------------------------------
+n                      3             3             3
+mean             203.966        41.376         4.496
+stdev              0.178         0.038         0.028
+variance        0.031670      0.001417      0.000786
+min              203.810        41.333         4.464
+max              204.160        41.403         4.514
+range              0.350         0.070         0.050
+CV%               0.087%        0.091%        0.624%
+
+=== HAC 20k ===
+command (typical timed /dev/null run): ./slorado basecaller -C 128 -o /dev/null models/dna_r10.4.1_e8.2_400bps_hac@v5.0.0 test/PGXXXX230339/reads_20k.blow5
+saved FASTQ (accuracy pass, excluded from stats): output_hac_20k-baseline-v1.2.fastq
+nsys report (excluded from stats): nsys_hac_20k_base-baseline-v1.2.nsys-rep
+accuracy pass: real=954.331s cpu=781.186s peak_ram=6.062GB  status=ok
+
+Per-run values (timed /dev/null only — used for stats):
+ run     real(s)      cpu(s)  peak_ram(GB)    status  tries
+-----------------------------------------------------------
+   1     903.026     591.062         5.538        ok      1
+   2     900.976     589.169         5.628        ok      1
+   3     898.913     588.066         5.599        ok      1
+
+Summary (ok timed runs only; n=3/3; accuracy/nsys excluded; sample stdev when n>=2):
+metric           real(s)        cpu(s)  peak_ram(GB)
+----------------------------------------------------
+n                      3             3             3
+mean             900.972       589.432         5.588
+stdev              2.057         1.515         0.046
+variance        4.229206      2.296012      0.002110
+min              898.913       588.066         5.538
+max              903.026       591.062         5.628
+range              4.113         2.996         0.090
+CV%               0.228%        0.257%        0.822%
+
+=== Quick real-time comparison (timed /dev/null ok runs only) ===
+config           mean(s)    stdev(s)      min(s)      max(s)    range(s)       CV%      ok
+------------------------------------------------------------------------------------------
+FAST 1k           11.404       0.030      11.368      11.461       0.093    0.267%   10/10
+HAC 1k            46.580       0.131      46.356      46.782       0.426    0.282%   10/10
+FAST 20k         203.966       0.178     203.810     204.160       0.350    0.087%    3/3
+HAC 20k          900.972       2.057     898.913     903.026       4.113    0.228%    3/3
+
+Notes:
+  - Stats use timed /dev/null runs only (ok status); accuracy/nsys excluded.
+  - stdev/variance are sample statistics (n-1) when n>=2.
+  - CV% = stdev/mean*100; lower = tighter run-to-run timing.
+  - Timings CSV: riley-runner-timings-baseline-v1.2.csv
+  - Console logs: RECORD_CONSOLE=yes → riley-runner-{fast,hac}-console-baseline-v1.2.txt
+  - State file: riley-runner-state-baseline-v1.2.json  (python3 rileys-runner.py --resume)
+  - Change EXTRA_ARGS / FILENAME_APPEND_FLAG to label A/B experiments.
+

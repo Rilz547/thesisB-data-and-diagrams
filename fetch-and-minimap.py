@@ -19,7 +19,7 @@ Default pipeline
 ----------------
   1. List remote FASTQs on the Jetson (SSH), or use -f/--file
   2. Match nearby .nsys-rep (+ .sqlite if present) by mtime window
-  3. Infer riley-runner-output / console files from FASTQ APPEND suffixes
+  3. Infer riley-runner output/timings/state/console files from FASTQ APPEND
   4. rsync FASTQs + nsys + runner summaries (summaries → RUNNER_SUMMARY_DIR)
   5. minimap2 each FASTQ vs hg38 → median identity (PAF col10/col11)
   6. Auto `nsys stats` on pulled reports → NSIGHT_STATS_DIR/<stem>_stats.txt
@@ -53,7 +53,7 @@ Examples
       Skip nsys match/rsync and auto stats convert; accuracy (+ summaries) only.
 
   python3 fetch-and-minimap.py --no-runner-summaries
-      Do not pull riley-runner-output / console .txt files.
+      Do not pull riley-runner output/timings/state/console files.
 
   python3 fetch-and-minimap.py --no-nsight-stats
       Pull nsys reports but skip auto `nsys stats` text export.
@@ -126,8 +126,12 @@ NSYS_MATCH_WINDOW_SEC = 1500  # |mtime(nsys) - mtime(fastq)| must be ≤ this
 NSIGHT_STATS_DIR = Path.cwd() / "overlapping" / "overlapv1.2" / "nsight-stats"
 AUTO_NSIGHT_CONVERT = True
 
-# Pull riley-runner-output{APPEND}.txt + fast/hac console files here (not into
-# LOCAL_WORK_DIR / NSIGHT_STATS_DIR). APPEND is inferred from pulled FASTQ names.
+# Pull riley-runner artifacts here (not into LOCAL_WORK_DIR / NSIGHT_STATS_DIR).
+# APPEND is inferred from pulled FASTQ names:
+#   riley-runner-output{APPEND}.txt
+#   riley-runner-timings{APPEND}.csv
+#   riley-runner-state{APPEND}.json
+#   riley-runner-{fast,hac}-console{APPEND}.txt
 RUNNER_SUMMARY_DIR = Path.cwd() / "overlapping" / "overlapv1.2" / "runner-summaries"
 FETCH_RUNNER_SUMMARIES = True
 
@@ -271,12 +275,14 @@ def append_suffixes_from_fastqs(fastq_rels: list[str]) -> list[str]:
 
 
 def runner_summary_names(suffixes: list[str]) -> list[str]:
-    """riley-runner report + console names for each APPEND (mode is not in these)."""
+    """riley-runner report / timings / state / console names for each APPEND."""
     names: list[str] = []
     for s in suffixes:
         names.extend(
             [
                 f"riley-runner-output{s}.txt",
+                f"riley-runner-timings{s}.csv",
+                f"riley-runner-state{s}.json",
                 f"riley-runner-fast-console{s}.txt",
                 f"riley-runner-hac-console{s}.txt",
             ]
@@ -661,7 +667,7 @@ def main() -> None:
     ap.add_argument(
         "--no-runner-summaries",
         action="store_true",
-        help="do not pull riley-runner-output / console .txt files",
+        help="do not pull riley-runner output/timings/state/console files",
     )
     ap.add_argument(
         "--no-nsight-stats",
@@ -752,7 +758,7 @@ def main() -> None:
             print(c(f"  match {name}", Col.GREEN))
             runner_rels.append(name)
         if not runner_rels:
-            print(c("  (no riley-runner-*.txt files found for inferred APPEND)", Col.DIM))
+            print(c("  (no riley-runner-* files found for inferred APPEND)", Col.DIM))
 
     if args.dry_run:
         return
