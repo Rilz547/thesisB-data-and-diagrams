@@ -22,16 +22,26 @@ Default pipeline
   3. Infer riley-runner output/timings/state/console files from FASTQ APPEND
   4. rsync FASTQs + nsys + runner summaries (summaries → RUNNER_SUMMARY_DIR)
   5. minimap2 each FASTQ vs hg38 → median identity (PAF col10/col11)
-  6. Auto `nsys stats` on pulled reports → NSIGHT_STATS_DIR/<stem>_stats.txt
-  7. Delete local FASTQs; keep nsys reports, sqlite, CSV, and .mmi index
+  6. Write accuracy CSV(s) → ACCURACY_DIR/minimap_accuracy{APPEND}.csv
+  7. Auto `nsys stats` on pulled reports → NSIGHT_STATS_DIR/<stem>_stats.txt
+  8. Delete local FASTQs; keep nsys reports, sqlite, CSV, and .mmi index
 
 Examples
 --------
   python3 fetch-and-minimap.py
       Full pipeline: pull FASTQs + nsys + runner summaries, minimap2, auto stats.
 
-  python3 fetch-and-minimap.py --glob 'output_*-v1.2.fastq'
-      Only one APPEND experiment (e.g. FILENAME_APPEND_FLAG="-v1.2" on Jetson).
+  python3 fetch-and-minimap.py --accuracy-crunch
+      Offline: minimap2 every output_*.fastq already in slorado-accuracy-tmp/,
+      write minimap_accuracy{APPEND}.csv into ACCURACY_DIR. No Jetson/rsync.
+
+  python3 fetch-and-minimap.py --glob 'output_*-baseline-v1.0.fastq'
+      Full pull + minimap + accuracy CSV (default). Writes
+      ACCURACY_DIR/minimap_accuracy-baseline-v1.0.csv automatically.
+
+  python3 fetch-and-minimap.py --fetch-only --glob 'output_*-baseline-v1.0.fastq'
+      Rsync only FASTQs into slorado-accuracy-tmp/. No nsys, no runner
+      summaries, no minimap2, no prompts. Then run --accuracy-crunch.
 
   python3 fetch-and-minimap.py --dry-run
       SSH only: list remote FASTQs, nsys matches, and runner summaries. No rsync,
@@ -114,7 +124,11 @@ EXPECTED_MEDIAN = {
     "hac": 0.976852,  # HAC v5.0.0
 }
 
-RESULTS_CSV = LOCAL_WORK_DIR / "minimap_results.csv"
+RESULTS_CSV = LOCAL_WORK_DIR / "minimap_results.csv"  # scratch running log (append)
+
+# Durable accuracy CSVs (one file per APPEND), sibling to nsight/runner dirs.
+# Example: ACCURACY_DIR/minimap_accuracy-baseline-v1.0.csv
+ACCURACY_DIR = Path.cwd() / "overlapping" / "overlapv1.0" / "accuracy"
 
 # Pull nsys_*.nsys-rep alongside FASTQs when remote mtimes are close enough.
 # rileys-runner.py writes FASTQ + nsys in the same first timed run (shared APPEND).
@@ -498,28 +512,175 @@ def expected_for(fastq_name: str) -> float | None:
     return None
 
 
+ACCURACY_CSV_FIELDS = [
+    "timestamp",
+    "fastq",
+    "n_reads",
+    "n_alignments",
+    "map_rate",
+    "accuracy_median",
+    "expected_median",
+    "delta_vs_expected",
+    "nsys_pulled",
+    "reference",
+]
+
+
 def append_result_row(row: dict) -> None:
+    """Append one row to the scratch running log in LOCAL_WORK_DIR."""
     RESULTS_CSV.parent.mkdir(parents=True, exist_ok=True)
     write_header = not RESULTS_CSV.exists()
     with RESULTS_CSV.open("a", newline="") as f:
-        w = csv.DictWriter(
-            f,
-            fieldnames=[
-                "timestamp",
-                "fastq",
-                "n_reads",
-                "n_alignments",
-                "map_rate",
-                "accuracy_median",
-                "expected_median",
-                "delta_vs_expected",
-                "nsys_pulled",
-                "reference",
-            ],
-        )
+        w = csv.DictWriter(f, fieldnames=ACCURACY_CSV_FIELDS)
         if write_header:
             w.writeheader()
         w.writerow(row)
+
+
+def append_suffix_from_fastq_name(fastq_name: str) -> str | None:
+    m = re.fullmatch(
+        r"output_(fast|hac)_(\d+k)(_overlap)?(.*)\.fastq",
+        Path(fastq_name).name,
+    )
+    if not m:
+        return None
+    return m.group(4) or ""
+
+
+def write_accuracy_dir_csvs(rows: list[dict], out_dir: Path) -> list[Path]:
+    """Write minimap_accuracy{APPEND}.csv into out_dir (one CSV per APPEND)."""
+    if not rows:
+        return []
+    by_suffix: dict[str, list[dict]] = {}
+    for row in rows:
+        s = append_suffix_from_fastq_name(row["fastq"])
+        key = "" if s is None else s
+        by_suffix.setdefault(key, []).append(row)
+
+    out_names = [f"minimap_accuracy{s}.csv" for s in by_suffix]
+    if not confirm_dest_writes(out_dir, out_names, "accuracy"):
+        die("accuracy write cancelled by user")
+
+    out_dir = out_dir.expanduser().resolve()
+    out_dir.mkdir(parents=True, exist_ok=True)
+    written: list[Path] = []
+    for s, group in sorted(by_suffix.items(), key=lambda kv: kv[0]):
+        path = out_dir / f"minimap_accuracy{s}.csv"
+        with path.open("w", newline="") as f:
+            w = csv.DictWriter(f, fieldnames=ACCURACY_CSV_FIELDS)
+            w.writeheader()
+            w.writerows(group)
+        print(c(f"  wrote {path} ({len(group)} row(s))", Col.GREEN))
+        written.append(path)
+    return written
+
+
+def crunch_local_fastqs(
+    fastqs: list[Path],
+    *,
+    nsys_by_fastq: dict[str, str] | None = None,
+    keep_paf: bool = False,
+) -> list[dict]:
+    """Run minimap2 on local FASTQs; return summary rows (also appends RESULTS_CSV)."""
+    if not REFERENCE_FASTA.is_file():
+        die(
+            f"reference not found: {REFERENCE_FASTA}\n"
+            "Set REFERENCE_FASTA to your hg38 (or other) FASTA."
+        )
+    nsys_by_fastq = nsys_by_fastq or {}
+    LOCAL_WORK_DIR.mkdir(parents=True, exist_ok=True)
+    target = ensure_mmi(REFERENCE_FASTA, REFERENCE_MMI)
+    summary_rows: list[dict] = []
+
+    banner(f"minimap2  (target: {target.name}, -t {MINIMAP2_THREADS})", Col.MAGENTA)
+    for i, fq in enumerate(fastqs, 1):
+        print(c(f"[{i}/{len(fastqs)}] aligning {fq.name} …", Col.CYAN, Col.BOLD))
+        n_reads = count_fastq_reads(fq)
+        paf = fq.with_suffix(".paf")
+        med, n_aln = run_minimap2(fq, target, paf)
+        med_s = f"{med:.6f}" if med is not None else "NA"
+        map_rate = (100.0 * n_aln / n_reads) if n_reads else 0.0
+        map_s = f"{map_rate:.1f}%"
+        if med is None:
+            print(
+                c(
+                    f"  → {fq.name}: median identity = NA  "
+                    f"({n_aln}/{n_reads} mapped = {map_s})",
+                    Col.YELLOW,
+                    Col.BOLD,
+                )
+            )
+        else:
+            style = Col.GREEN if map_rate >= 50 else Col.YELLOW
+            print(
+                c(
+                    f"  → {fq.name}: median identity = {med_s}  "
+                    f"({n_aln}/{n_reads} mapped = {map_s})",
+                    style,
+                    Col.BOLD,
+                )
+            )
+        print()
+        exp = expected_for(fq.name)
+        if exp is not None:
+            exp_s = f"{exp:.6f}"
+            delta_s = f"{med - exp:+.6f}" if med is not None else "NA"
+        else:
+            exp_s = "-"
+            delta_s = "-"
+        nsys_name = nsys_by_fastq.get(fq.name, "")
+        if not nsys_name:
+            guessed = nsys_name_for_fastq(fq.name)
+            if guessed and (LOCAL_WORK_DIR / guessed).is_file():
+                nsys_name = guessed
+        row = {
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "fastq": fq.name,
+            "n_reads": str(n_reads),
+            "n_alignments": str(n_aln),
+            "map_rate": map_s,
+            "accuracy_median": med_s,
+            "expected_median": exp_s,
+            "delta_vs_expected": delta_s,
+            "nsys_pulled": nsys_name or "",
+            "reference": str(REFERENCE_FASTA),
+        }
+        append_result_row(row)
+        summary_rows.append(row)
+        if not keep_paf:
+            paf.unlink(missing_ok=True)
+
+    return summary_rows
+
+
+def accuracy_crunch(*, keep_paf: bool = False) -> None:
+    """Offline: crunch output_*.fastq already in LOCAL_WORK_DIR → ACCURACY_DIR."""
+    mm2 = Path(MINIMAP2)
+    if not (mm2.is_file() or shutil.which(MINIMAP2)):
+        die(f"minimap2 not found ({MINIMAP2!r}); install it or set MINIMAP2 in the script")
+
+    fastqs = sorted(LOCAL_WORK_DIR.glob("output_*.fastq"))
+    if not fastqs:
+        die(f"no output_*.fastq in {LOCAL_WORK_DIR} (pull first or use --keep-fastq)")
+
+    banner("accuracy crunch (local temp FASTQs)", Col.MAGENTA)
+    print(c(f"Work:     {LOCAL_WORK_DIR}", Col.DIM))
+    print(c(f"Accuracy: {ACCURACY_DIR}", Col.DIM))
+    print(c(f"Ref:      {REFERENCE_FASTA}", Col.DIM))
+    print(f"Found {len(fastqs)} local FASTQ(s):")
+    for fq in fastqs:
+        print(f"  {fq.name}")
+
+    summary_rows = crunch_local_fastqs(fastqs, keep_paf=keep_paf)
+    print_summary(summary_rows)
+
+    banner(f"write accuracy CSVs → {ACCURACY_DIR}", Col.GREEN)
+    written = write_accuracy_dir_csvs(summary_rows, ACCURACY_DIR)
+    print()
+    for p in written:
+        print(c(f"Accuracy CSV: {p}", Col.GREEN, Col.BOLD))
+    print(c(f"Scratch log:  {RESULTS_CSV}", Col.DIM))
+    print(c("done.", Col.GREEN, Col.BOLD))
 
 
 def find_nsys() -> str:
@@ -650,6 +811,11 @@ def main() -> None:
         help="list remote FASTQs, nsys matches, and runner summaries only",
     )
     ap.add_argument(
+        "--fetch-only",
+        action="store_true",
+        help="rsync matched FASTQs into the work dir only (no nsys/runner/minimap/prompts)",
+    )
+    ap.add_argument(
         "--keep-fastq",
         action="store_true",
         help="keep pulled FASTQs in the work dir after analysis (default: delete)",
@@ -673,6 +839,15 @@ def main() -> None:
         "--no-nsight-stats",
         action="store_true",
         help="pull nsys reports but skip auto `nsys stats` text export",
+    )
+    ap.add_argument(
+        "--accuracy-crunch",
+        action="store_true",
+        help=(
+            "skip Jetson/rsync; minimap2 every output_*.fastq in "
+            f"{LOCAL_WORK_DIR.name}/ and write minimap_accuracy{{APPEND}}.csv "
+            f"into ACCURACY_DIR ({ACCURACY_DIR.name}/)"
+        ),
     )
     ap.add_argument(
         "--nsight-convert",
@@ -711,8 +886,13 @@ def main() -> None:
         nsight_convert(Path(args.nsight_convert))
         return
 
+    if args.accuracy_crunch:
+        accuracy_crunch(keep_paf=args.keep_paf)
+        return
+
     mm2 = Path(MINIMAP2)
-    if not args.dry_run and not (mm2.is_file() or shutil.which(MINIMAP2)):
+    need_minimap = not args.dry_run and not args.fetch_only
+    if need_minimap and not (mm2.is_file() or shutil.which(MINIMAP2)):
         die(f"minimap2 not found ({MINIMAP2!r}); install it or set MINIMAP2 in the script")
 
     atexit.register(close_ssh_master)
@@ -722,6 +902,7 @@ def main() -> None:
     print(c(f"Ref:    {REFERENCE_FASTA}", Col.DIM))
     print(c(f"Stats:  {NSIGHT_STATS_DIR}", Col.DIM))
     print(c(f"Runner: {RUNNER_SUMMARY_DIR}", Col.DIM))
+    print(c(f"Acc:    {ACCURACY_DIR}", Col.DIM))
     if args.files:
         remotes = args.files
         print(f"Files:  {', '.join(remotes)}")
@@ -734,6 +915,22 @@ def main() -> None:
     print(f"Found {len(remotes)} remote FASTQ(s):")
     for r in remotes:
         print(f"  {r}")
+
+    # --fetch-only: pull FASTQs into work dir and stop (no nsys / runner / prompts).
+    if args.fetch_only:
+        if args.dry_run:
+            print(c("(dry-run: would rsync the FASTQs above into work dir)", Col.DIM))
+            return
+        banner("rsync FASTQs only (--fetch-only)", Col.YELLOW)
+        LOCAL_WORK_DIR.mkdir(parents=True, exist_ok=True)
+        local_fastqs = rsync_pull(remotes, LOCAL_WORK_DIR)
+        banner("fetch-only complete", Col.GREEN)
+        print(c(f"FASTQs in {LOCAL_WORK_DIR}:", Col.BOLD))
+        for fq in local_fastqs:
+            print(f"  {fq.name}")
+        print(c("Next: python3 fetch-and-minimap.py --accuracy-crunch", Col.DIM))
+        print(c("done.", Col.GREEN, Col.BOLD))
+        return
 
     fetch_nsys = FETCH_NSYS and not args.no_nsys
     nsys_matches: list[tuple[str, str, int]] = []
@@ -801,64 +998,15 @@ def main() -> None:
         for p in pulled_summaries:
             print(c(f"  saved {p}", Col.GREEN))
 
-    target = ensure_mmi(REFERENCE_FASTA, REFERENCE_MMI)
-
-    summary_rows: list[dict] = []
-    banner(f"minimap2  (target: {target.name}, -t {MINIMAP2_THREADS})", Col.MAGENTA)
-    for i, fq in enumerate(local_fastqs, 1):
-        print(c(f"[{i}/{len(local_fastqs)}] aligning {fq.name} …", Col.CYAN, Col.BOLD))
-        n_reads = count_fastq_reads(fq)
-        paf = fq.with_suffix(".paf")
-        med, n_aln = run_minimap2(fq, target, paf)
-        med_s = f"{med:.6f}" if med is not None else "NA"
-        map_rate = (100.0 * n_aln / n_reads) if n_reads else 0.0
-        map_s = f"{map_rate:.1f}%"
-        if med is None:
-            print(
-                c(
-                    f"  → {fq.name}: median identity = NA  "
-                    f"({n_aln}/{n_reads} mapped = {map_s})",
-                    Col.YELLOW,
-                    Col.BOLD,
-                )
-            )
-        else:
-            style = Col.GREEN if map_rate >= 50 else Col.YELLOW
-            print(
-                c(
-                    f"  → {fq.name}: median identity = {med_s}  "
-                    f"({n_aln}/{n_reads} mapped = {map_s})",
-                    style,
-                    Col.BOLD,
-                )
-            )
-        print()
-        exp = expected_for(fq.name)
-        if exp is not None:
-            exp_s = f"{exp:.6f}"
-            delta_s = f"{med - exp:+.6f}" if med is not None else "NA"
-        else:
-            exp_s = "-"
-            delta_s = "-"
-        nsys_name = nsys_by_fastq.get(fq.name, "")
-        row = {
-            "timestamp": datetime.now(timezone.utc).isoformat(),
-            "fastq": fq.name,
-            "n_reads": str(n_reads),
-            "n_alignments": str(n_aln),
-            "map_rate": map_s,
-            "accuracy_median": med_s,
-            "expected_median": exp_s,
-            "delta_vs_expected": delta_s,
-            "nsys_pulled": nsys_name or "",
-            "reference": str(REFERENCE_FASTA),
-        }
-        append_result_row(row)
-        summary_rows.append(row)
-        if not args.keep_paf:
-            paf.unlink(missing_ok=True)
-
+    summary_rows = crunch_local_fastqs(
+        local_fastqs,
+        nsys_by_fastq=nsys_by_fastq,
+        keep_paf=args.keep_paf,
+    )
     print_summary(summary_rows)
+
+    banner(f"write accuracy CSVs → {ACCURACY_DIR}", Col.GREEN)
+    written_acc = write_accuracy_dir_csvs(summary_rows, ACCURACY_DIR)
 
     if not args.keep_fastq:
         banner("deleting local FASTQs (nsys + sqlite kept)", Col.YELLOW)
@@ -899,7 +1047,9 @@ def main() -> None:
         print(c(f"Runner summaries: {RUNNER_SUMMARY_DIR}", Col.GREEN, Col.BOLD))
 
     print()
-    print(c(f"Summary CSV: {RESULTS_CSV}", Col.GREEN, Col.BOLD))
+    for p in written_acc:
+        print(c(f"Accuracy CSV: {p}", Col.GREEN, Col.BOLD))
+    print(c(f"Scratch log:  {RESULTS_CSV}", Col.DIM))
     print(c("done.", Col.GREEN, Col.BOLD))
 
 

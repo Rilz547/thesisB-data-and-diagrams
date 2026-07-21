@@ -1,0 +1,5 @@
+timestamp,fastq,n_reads,n_alignments,map_rate,accuracy_median,expected_median,delta_vs_expected,nsys_pulled,reference
+2026-07-21T14:51:52.506010+00:00,output_fast_1k-baseline-v1.0.fastq,1000,1031,103.1%,0.940763,0.940696,+0.000067,nsys_fast_1k_base-baseline-v1.0.nsys-rep,/home/riley/Desktop/slorado_analysis/ref/hg38noAlt.fa
+2026-07-21T14:52:08.535695+00:00,output_fast_20k-baseline-v1.0.fastq,20000,20727,103.6%,0.939375,-,-,nsys_fast_20k_base-baseline-v1.0.nsys-rep,/home/riley/Desktop/slorado_analysis/ref/hg38noAlt.fa
+2026-07-21T14:52:24.638929+00:00,output_hac_1k-baseline-v1.0.fastq,1000,1105,110.5%,0.976852,0.976852,-0.000000,nsys_hac_1k_base-baseline-v1.0.nsys-rep,/home/riley/Desktop/slorado_analysis/ref/hg38noAlt.fa
+2026-07-21T14:52:42.324654+00:00,output_hac_20k-baseline-v1.0.fastq,20000,22274,111.4%,0.977333,-,-,nsys_hac_20k_base-baseline-v1.0.nsys-rep,/home/riley/Desktop/slorado_analysis/ref/hg38noAlt.fa

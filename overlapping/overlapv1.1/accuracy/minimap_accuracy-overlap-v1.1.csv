@@ -1,0 +1,5 @@
+timestamp,fastq,n_reads,n_alignments,map_rate,accuracy_median,expected_median,delta_vs_expected,nsys_pulled,reference
+2026-07-21T15:15:21.754173+00:00,output_fast_1k_overlap-overlap-v1.1.fastq,1000,1031,103.1%,0.940763,0.940696,+0.000067,,/home/riley/Desktop/slorado_analysis/ref/hg38noAlt.fa
+2026-07-21T15:15:59.323518+00:00,output_fast_20k_overlap-overlap-v1.1.fastq,20000,20727,103.6%,0.939375,-,-,,/home/riley/Desktop/slorado_analysis/ref/hg38noAlt.fa
+2026-07-21T15:16:26.217010+00:00,output_hac_1k_overlap-overlap-v1.1.fastq,1000,1105,110.5%,0.976852,0.976852,-0.000000,,/home/riley/Desktop/slorado_analysis/ref/hg38noAlt.fa
+2026-07-21T15:17:08.519385+00:00,output_hac_20k_overlap-overlap-v1.1.fastq,20000,22274,111.4%,0.977333,-,-,,/home/riley/Desktop/slorado_analysis/ref/hg38noAlt.fa
