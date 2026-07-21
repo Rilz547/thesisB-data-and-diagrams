@@ -123,7 +123,7 @@ NSYS_MATCH_WINDOW_SEC = 1500  # |mtime(nsys) - mtime(fastq)| must be ≤ this
 
 # After pulling .nsys-rep files, run `nsys stats` → <stem>_stats.txt here.
 # Keep this separate from RUNNER_SUMMARY_DIR.
-NSIGHT_STATS_DIR = Path.cwd() / "overlapping" / "overlapv1.1" / "nsight-stats"
+NSIGHT_STATS_DIR = Path.cwd() / "overlapping" / "overlapv1.0" / "nsight-stats"
 AUTO_NSIGHT_CONVERT = True
 
 # Pull riley-runner artifacts here (not into LOCAL_WORK_DIR / NSIGHT_STATS_DIR).
@@ -132,7 +132,7 @@ AUTO_NSIGHT_CONVERT = True
 #   riley-runner-timings{APPEND}.csv
 #   riley-runner-state{APPEND}.json
 #   riley-runner-{fast,hac}-console{APPEND}.txt
-RUNNER_SUMMARY_DIR = Path.cwd() / "overlapping" / "overlapv1.1" / "runner-summaries"
+RUNNER_SUMMARY_DIR = Path.cwd() / "overlapping" / "overlapv1.0" / "runner-summaries"
 FETCH_RUNNER_SUMMARIES = True
 
 _SSH_CONTROL = f"/tmp/ssh-slorado-{JETSON_USER}@{JETSON_HOST}-%p"
