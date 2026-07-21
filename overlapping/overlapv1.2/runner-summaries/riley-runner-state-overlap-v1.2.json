@@ -1,0 +1,414 @@
+{
+  "version": 2,
+  "append": "-overlap-v1.2",
+  "extra_args": "--overlap-decode=yes",
+  "base_args": "-C 128",
+  "nsight": "yes",
+  "started": "2026-07-20 12:55:45 AEST",
+  "configs": {
+    "FAST_1K": {
+      "warmup_done": true,
+      "accuracy_done": true,
+      "accuracy": {
+        "real_s": 10.614,
+        "cpu_s": 4.988,
+        "peak_ram_gb": 3.87,
+        "saved_fastq": "output_fast_1k_overlap-overlap-v1.2.fastq",
+        "nsys_rep": "nsys_fast_1k_overlap-overlap-v1.2.nsys-rep",
+        "used_nsight": true,
+        "status": "ok",
+        "attempts": 1,
+        "note": "",
+        "in_stats": false
+      },
+      "timed": [
+        {
+          "real_s": 10.144,
+          "cpu_s": 4.188,
+          "peak_ram_gb": 3.676,
+          "saved_fastq": null,
+          "nsys_rep": null,
+          "used_nsight": false,
+          "status": "ok",
+          "attempts": 1,
+          "note": "",
+          "in_stats": true
+        },
+        {
+          "real_s": 10.067,
+          "cpu_s": 4.214,
+          "peak_ram_gb": 3.677,
+          "saved_fastq": null,
+          "nsys_rep": null,
+          "used_nsight": false,
+          "status": "ok",
+          "attempts": 1,
+          "note": "",
+          "in_stats": true
+        },
+        {
+          "real_s": 10.069,
+          "cpu_s": 4.176,
+          "peak_ram_gb": 3.672,
+          "saved_fastq": null,
+          "nsys_rep": null,
+          "used_nsight": false,
+          "status": "ok",
+          "attempts": 1,
+          "note": "",
+          "in_stats": true
+        },
+        {
+          "real_s": 10.126,
+          "cpu_s": 4.182,
+          "peak_ram_gb": 3.672,
+          "saved_fastq": null,
+          "nsys_rep": null,
+          "used_nsight": false,
+          "status": "ok",
+          "attempts": 1,
+          "note": "",
+          "in_stats": true
+        },
+        {
+          "real_s": 10.064,
+          "cpu_s": 4.18,
+          "peak_ram_gb": 3.678,
+          "saved_fastq": null,
+          "nsys_rep": null,
+          "used_nsight": false,
+          "status": "ok",
+          "attempts": 1,
+          "note": "",
+          "in_stats": true
+        },
+        {
+          "real_s": 10.079,
+          "cpu_s": 4.157,
+          "peak_ram_gb": 3.679,
+          "saved_fastq": null,
+          "nsys_rep": null,
+          "used_nsight": false,
+          "status": "ok",
+          "attempts": 1,
+          "note": "",
+          "in_stats": true
+        },
+        {
+          "real_s": 10.074,
+          "cpu_s": 4.073,
+          "peak_ram_gb": 3.674,
+          "saved_fastq": null,
+          "nsys_rep": null,
+          "used_nsight": false,
+          "status": "ok",
+          "attempts": 1,
+          "note": "",
+          "in_stats": true
+        },
+        {
+          "real_s": 10.116,
+          "cpu_s": 4.181,
+          "peak_ram_gb": 3.673,
+          "saved_fastq": null,
+          "nsys_rep": null,
+          "used_nsight": false,
+          "status": "ok",
+          "attempts": 1,
+          "note": "",
+          "in_stats": true
+        },
+        {
+          "real_s": 10.065,
+          "cpu_s": 4.172,
+          "peak_ram_gb": 3.681,
+          "saved_fastq": null,
+          "nsys_rep": null,
+          "used_nsight": false,
+          "status": "ok",
+          "attempts": 1,
+          "note": "",
+          "in_stats": true
+        },
+        {
+          "real_s": 10.107,
+          "cpu_s": 4.169,
+          "peak_ram_gb": 3.673,
+          "saved_fastq": null,
+          "nsys_rep": null,
+          "used_nsight": false,
+          "status": "ok",
+          "attempts": 1,
+          "note": "",
+          "in_stats": true
+        }
+      ],
+      "complete": true
+    },
+    "HAC_1K": {
+      "warmup_done": true,
+      "accuracy_done": true,
+      "accuracy": {
+        "real_s": 46.662,
+        "cpu_s": 51.635,
+        "peak_ram_gb": 4.593,
+        "saved_fastq": "output_hac_1k_overlap-overlap-v1.2.fastq",
+        "nsys_rep": "nsys_hac_1k_overlap-overlap-v1.2.nsys-rep",
+        "used_nsight": true,
+        "status": "ok",
+        "attempts": 1,
+        "note": "",
+        "in_stats": false
+      },
+      "timed": [
+        {
+          "real_s": 45.216,
+          "cpu_s": 43.494,
+          "peak_ram_gb": 4.284,
+          "saved_fastq": null,
+          "nsys_rep": null,
+          "used_nsight": false,
+          "status": "ok",
+          "attempts": 1,
+          "note": "",
+          "in_stats": true
+        },
+        {
+          "real_s": 45.184,
+          "cpu_s": 43.533,
+          "peak_ram_gb": 4.281,
+          "saved_fastq": null,
+          "nsys_rep": null,
+          "used_nsight": false,
+          "status": "ok",
+          "attempts": 1,
+          "note": "",
+          "in_stats": true
+        },
+        {
+          "real_s": 45.071,
+          "cpu_s": 43.449,
+          "peak_ram_gb": 4.285,
+          "saved_fastq": null,
+          "nsys_rep": null,
+          "used_nsight": false,
+          "status": "ok",
+          "attempts": 1,
+          "note": "",
+          "in_stats": true
+        },
+        {
+          "real_s": 45.151,
+          "cpu_s": 43.484,
+          "peak_ram_gb": 4.28,
+          "saved_fastq": null,
+          "nsys_rep": null,
+          "used_nsight": false,
+          "status": "ok",
+          "attempts": 1,
+          "note": "",
+          "in_stats": true
+        },
+        {
+          "real_s": 45.109,
+          "cpu_s": 43.497,
+          "peak_ram_gb": 4.286,
+          "saved_fastq": null,
+          "nsys_rep": null,
+          "used_nsight": false,
+          "status": "ok",
+          "attempts": 1,
+          "note": "",
+          "in_stats": true
+        },
+        {
+          "real_s": 45.196,
+          "cpu_s": 43.575,
+          "peak_ram_gb": 4.287,
+          "saved_fastq": null,
+          "nsys_rep": null,
+          "used_nsight": false,
+          "status": "ok",
+          "attempts": 1,
+          "note": "",
+          "in_stats": true
+        },
+        {
+          "real_s": 45.133,
+          "cpu_s": 43.484,
+          "peak_ram_gb": 4.28,
+          "saved_fastq": null,
+          "nsys_rep": null,
+          "used_nsight": false,
+          "status": "ok",
+          "attempts": 1,
+          "note": "",
+          "in_stats": true
+        },
+        {
+          "real_s": 45.285,
+          "cpu_s": 43.634,
+          "peak_ram_gb": 4.281,
+          "saved_fastq": null,
+          "nsys_rep": null,
+          "used_nsight": false,
+          "status": "ok",
+          "attempts": 1,
+          "note": "",
+          "in_stats": true
+        },
+        {
+          "real_s": 45.302,
+          "cpu_s": 43.686,
+          "peak_ram_gb": 4.285,
+          "saved_fastq": null,
+          "nsys_rep": null,
+          "used_nsight": false,
+          "status": "ok",
+          "attempts": 1,
+          "note": "",
+          "in_stats": true
+        },
+        {
+          "real_s": 45.23,
+          "cpu_s": 43.537,
+          "peak_ram_gb": 4.279,
+          "saved_fastq": null,
+          "nsys_rep": null,
+          "used_nsight": false,
+          "status": "ok",
+          "attempts": 1,
+          "note": "",
+          "in_stats": true
+        }
+      ],
+      "complete": true
+    },
+    "FAST_20K": {
+      "warmup_done": true,
+      "accuracy_done": true,
+      "accuracy": {
+        "real_s": 178.3,
+        "cpu_s": 45.174,
+        "peak_ram_gb": 5.72,
+        "saved_fastq": "output_fast_20k_overlap-overlap-v1.2.fastq",
+        "nsys_rep": "nsys_fast_20k_overlap-overlap-v1.2.nsys-rep",
+        "used_nsight": true,
+        "status": "ok",
+        "attempts": 1,
+        "note": "",
+        "in_stats": false
+      },
+      "timed": [
+        {
+          "real_s": 175.746,
+          "cpu_s": 39.464,
+          "peak_ram_gb": 5.559,
+          "saved_fastq": null,
+          "nsys_rep": null,
+          "used_nsight": false,
+          "status": "ok",
+          "attempts": 1,
+          "note": "",
+          "in_stats": true
+        },
+        {
+          "real_s": 175.497,
+          "cpu_s": 39.944,
+          "peak_ram_gb": 5.498,
+          "saved_fastq": null,
+          "nsys_rep": null,
+          "used_nsight": false,
+          "status": "ok",
+          "attempts": 1,
+          "note": "",
+          "in_stats": true
+        },
+        {
+          "real_s": 175.358,
+          "cpu_s": 39.657,
+          "peak_ram_gb": 5.542,
+          "saved_fastq": null,
+          "nsys_rep": null,
+          "used_nsight": false,
+          "status": "ok",
+          "attempts": 1,
+          "note": "",
+          "in_stats": true
+        }
+      ],
+      "complete": true
+    },
+    "HAC_20K": {
+      "warmup_done": true,
+      "accuracy_done": true,
+      "accuracy": {
+        "real_s": 929.57,
+        "cpu_s": 1002.086,
+        "peak_ram_gb": 6.267,
+        "saved_fastq": "output_hac_20k_overlap-overlap-v1.2.fastq",
+        "nsys_rep": "nsys_hac_20k_overlap-overlap-v1.2.nsys-rep",
+        "used_nsight": true,
+        "status": "ok",
+        "attempts": 1,
+        "note": "",
+        "in_stats": false
+      },
+      "timed": [
+        {
+          "real_s": 871.883,
+          "cpu_s": 822.494,
+          "peak_ram_gb": 6.05,
+          "saved_fastq": null,
+          "nsys_rep": null,
+          "used_nsight": false,
+          "status": "ok",
+          "attempts": 1,
+          "note": "",
+          "in_stats": true
+        },
+        {
+          "real_s": 873.285,
+          "cpu_s": 824.405,
+          "peak_ram_gb": 6.067,
+          "saved_fastq": null,
+          "nsys_rep": null,
+          "used_nsight": false,
+          "status": "ok",
+          "attempts": 1,
+          "note": "",
+          "in_stats": true
+        },
+        {
+          "real_s": 876.746,
+          "cpu_s": 827.281,
+          "peak_ram_gb": 5.983,
+          "saved_fastq": null,
+          "nsys_rep": null,
+          "used_nsight": false,
+          "status": "ok",
+          "attempts": 1,
+          "note": "",
+          "in_stats": true
+        }
+      ],
+      "complete": true
+    }
+  },
+  "knobs": {
+    "NUM_RUNS_FAST_1K": 10,
+    "NUM_RUNS_HAC_1K": 10,
+    "NUM_RUNS_FAST_20K": 3,
+    "NUM_RUNS_HAC_20K": 3,
+    "RUN_STALL_TIMEOUT_S": 600,
+    "WALL_MARGIN": 1.25,
+    "NSYS_WALL_FACTOR": 2.0,
+    "EXPECTED_TIMED_WALL_S": {
+      "fast_1k": 60,
+      "hac_1k": 120,
+      "fast_20k": 350,
+      "hac_20k": 1200
+    },
+    "RUN_MAX_ATTEMPTS": 2
+  }
+}
