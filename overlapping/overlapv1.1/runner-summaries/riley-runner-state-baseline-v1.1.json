@@ -1,0 +1,414 @@
+{
+  "version": 2,
+  "append": "-baseline-v1.1",
+  "extra_args": "",
+  "base_args": "-C 128",
+  "nsight": "yes",
+  "started": "2026-07-21 17:42:51 AEST",
+  "configs": {
+    "FAST_1K": {
+      "warmup_done": true,
+      "accuracy_done": true,
+      "accuracy": {
+        "real_s": 11.789,
+        "cpu_s": 4.788,
+        "peak_ram_gb": 2.819,
+        "saved_fastq": "output_fast_1k-baseline-v1.1.fastq",
+        "nsys_rep": "nsys_fast_1k_base-baseline-v1.1.nsys-rep",
+        "used_nsight": true,
+        "status": "ok",
+        "attempts": 1,
+        "note": "",
+        "in_stats": false
+      },
+      "timed": [
+        {
+          "real_s": 11.438,
+          "cpu_s": 3.941,
+          "peak_ram_gb": 2.613,
+          "saved_fastq": null,
+          "nsys_rep": null,
+          "used_nsight": false,
+          "status": "ok",
+          "attempts": 1,
+          "note": "",
+          "in_stats": true
+        },
+        {
+          "real_s": 11.403,
+          "cpu_s": 3.91,
+          "peak_ram_gb": 2.615,
+          "saved_fastq": null,
+          "nsys_rep": null,
+          "used_nsight": false,
+          "status": "ok",
+          "attempts": 1,
+          "note": "",
+          "in_stats": true
+        },
+        {
+          "real_s": 11.376,
+          "cpu_s": 3.991,
+          "peak_ram_gb": 2.611,
+          "saved_fastq": null,
+          "nsys_rep": null,
+          "used_nsight": false,
+          "status": "ok",
+          "attempts": 1,
+          "note": "",
+          "in_stats": true
+        },
+        {
+          "real_s": 11.362,
+          "cpu_s": 3.945,
+          "peak_ram_gb": 2.609,
+          "saved_fastq": null,
+          "nsys_rep": null,
+          "used_nsight": false,
+          "status": "ok",
+          "attempts": 1,
+          "note": "",
+          "in_stats": true
+        },
+        {
+          "real_s": 11.4,
+          "cpu_s": 3.977,
+          "peak_ram_gb": 2.615,
+          "saved_fastq": null,
+          "nsys_rep": null,
+          "used_nsight": false,
+          "status": "ok",
+          "attempts": 1,
+          "note": "",
+          "in_stats": true
+        },
+        {
+          "real_s": 11.413,
+          "cpu_s": 3.969,
+          "peak_ram_gb": 2.616,
+          "saved_fastq": null,
+          "nsys_rep": null,
+          "used_nsight": false,
+          "status": "ok",
+          "attempts": 1,
+          "note": "",
+          "in_stats": true
+        },
+        {
+          "real_s": 11.391,
+          "cpu_s": 3.989,
+          "peak_ram_gb": 2.611,
+          "saved_fastq": null,
+          "nsys_rep": null,
+          "used_nsight": false,
+          "status": "ok",
+          "attempts": 1,
+          "note": "",
+          "in_stats": true
+        },
+        {
+          "real_s": 11.41,
+          "cpu_s": 3.963,
+          "peak_ram_gb": 2.613,
+          "saved_fastq": null,
+          "nsys_rep": null,
+          "used_nsight": false,
+          "status": "ok",
+          "attempts": 1,
+          "note": "",
+          "in_stats": true
+        },
+        {
+          "real_s": 11.416,
+          "cpu_s": 4.005,
+          "peak_ram_gb": 2.612,
+          "saved_fastq": null,
+          "nsys_rep": null,
+          "used_nsight": false,
+          "status": "ok",
+          "attempts": 1,
+          "note": "",
+          "in_stats": true
+        },
+        {
+          "real_s": 11.399,
+          "cpu_s": 3.997,
+          "peak_ram_gb": 2.611,
+          "saved_fastq": null,
+          "nsys_rep": null,
+          "used_nsight": false,
+          "status": "ok",
+          "attempts": 1,
+          "note": "",
+          "in_stats": true
+        }
+      ],
+      "complete": true
+    },
+    "HAC_1K": {
+      "warmup_done": true,
+      "accuracy_done": true,
+      "accuracy": {
+        "real_s": 48.113,
+        "cpu_s": 40.15,
+        "peak_ram_gb": 4.045,
+        "saved_fastq": "output_hac_1k-baseline-v1.1.fastq",
+        "nsys_rep": "nsys_hac_1k_base-baseline-v1.1.nsys-rep",
+        "used_nsight": true,
+        "status": "ok",
+        "attempts": 1,
+        "note": "",
+        "in_stats": false
+      },
+      "timed": [
+        {
+          "real_s": 46.505,
+          "cpu_s": 31.793,
+          "peak_ram_gb": 3.735,
+          "saved_fastq": null,
+          "nsys_rep": null,
+          "used_nsight": false,
+          "status": "ok",
+          "attempts": 1,
+          "note": "",
+          "in_stats": true
+        },
+        {
+          "real_s": 46.634,
+          "cpu_s": 31.89,
+          "peak_ram_gb": 3.74,
+          "saved_fastq": null,
+          "nsys_rep": null,
+          "used_nsight": false,
+          "status": "ok",
+          "attempts": 1,
+          "note": "",
+          "in_stats": true
+        },
+        {
+          "real_s": 46.451,
+          "cpu_s": 31.799,
+          "peak_ram_gb": 3.745,
+          "saved_fastq": null,
+          "nsys_rep": null,
+          "used_nsight": false,
+          "status": "ok",
+          "attempts": 1,
+          "note": "",
+          "in_stats": true
+        },
+        {
+          "real_s": 46.72,
+          "cpu_s": 31.953,
+          "peak_ram_gb": 3.748,
+          "saved_fastq": null,
+          "nsys_rep": null,
+          "used_nsight": false,
+          "status": "ok",
+          "attempts": 1,
+          "note": "",
+          "in_stats": true
+        },
+        {
+          "real_s": 46.456,
+          "cpu_s": 31.796,
+          "peak_ram_gb": 3.738,
+          "saved_fastq": null,
+          "nsys_rep": null,
+          "used_nsight": false,
+          "status": "ok",
+          "attempts": 1,
+          "note": "",
+          "in_stats": true
+        },
+        {
+          "real_s": 46.577,
+          "cpu_s": 31.899,
+          "peak_ram_gb": 3.742,
+          "saved_fastq": null,
+          "nsys_rep": null,
+          "used_nsight": false,
+          "status": "ok",
+          "attempts": 1,
+          "note": "",
+          "in_stats": true
+        },
+        {
+          "real_s": 46.342,
+          "cpu_s": 31.68,
+          "peak_ram_gb": 3.745,
+          "saved_fastq": null,
+          "nsys_rep": null,
+          "used_nsight": false,
+          "status": "ok",
+          "attempts": 1,
+          "note": "",
+          "in_stats": true
+        },
+        {
+          "real_s": 46.594,
+          "cpu_s": 31.878,
+          "peak_ram_gb": 3.74,
+          "saved_fastq": null,
+          "nsys_rep": null,
+          "used_nsight": false,
+          "status": "ok",
+          "attempts": 1,
+          "note": "",
+          "in_stats": true
+        },
+        {
+          "real_s": 46.475,
+          "cpu_s": 31.713,
+          "peak_ram_gb": 3.745,
+          "saved_fastq": null,
+          "nsys_rep": null,
+          "used_nsight": false,
+          "status": "ok",
+          "attempts": 1,
+          "note": "",
+          "in_stats": true
+        },
+        {
+          "real_s": 46.793,
+          "cpu_s": 32.024,
+          "peak_ram_gb": 3.741,
+          "saved_fastq": null,
+          "nsys_rep": null,
+          "used_nsight": false,
+          "status": "ok",
+          "attempts": 1,
+          "note": "",
+          "in_stats": true
+        }
+      ],
+      "complete": true
+    },
+    "FAST_20K": {
+      "warmup_done": true,
+      "accuracy_done": true,
+      "accuracy": {
+        "real_s": 209.695,
+        "cpu_s": 48.076,
+        "peak_ram_gb": 4.682,
+        "saved_fastq": "output_fast_20k-baseline-v1.1.fastq",
+        "nsys_rep": "nsys_fast_20k_base-baseline-v1.1.nsys-rep",
+        "used_nsight": true,
+        "status": "ok",
+        "attempts": 1,
+        "note": "",
+        "in_stats": false
+      },
+      "timed": [
+        {
+          "real_s": 204.08,
+          "cpu_s": 41.685,
+          "peak_ram_gb": 4.448,
+          "saved_fastq": null,
+          "nsys_rep": null,
+          "used_nsight": false,
+          "status": "ok",
+          "attempts": 2,
+          "note": "",
+          "in_stats": true
+        },
+        {
+          "real_s": 203.647,
+          "cpu_s": 41.479,
+          "peak_ram_gb": 4.462,
+          "saved_fastq": null,
+          "nsys_rep": null,
+          "used_nsight": false,
+          "status": "ok",
+          "attempts": 1,
+          "note": "",
+          "in_stats": true
+        },
+        {
+          "real_s": 203.406,
+          "cpu_s": 41.372,
+          "peak_ram_gb": 4.481,
+          "saved_fastq": null,
+          "nsys_rep": null,
+          "used_nsight": false,
+          "status": "ok",
+          "attempts": 1,
+          "note": "",
+          "in_stats": true
+        }
+      ],
+      "complete": true
+    },
+    "HAC_20K": {
+      "warmup_done": true,
+      "accuracy_done": true,
+      "accuracy": {
+        "real_s": 947.356,
+        "cpu_s": 774.919,
+        "peak_ram_gb": 6.069,
+        "saved_fastq": "output_hac_20k-baseline-v1.1.fastq",
+        "nsys_rep": "nsys_hac_20k_base-baseline-v1.1.nsys-rep",
+        "used_nsight": true,
+        "status": "ok",
+        "attempts": 1,
+        "note": "",
+        "in_stats": false
+      },
+      "timed": [
+        {
+          "real_s": 898.258,
+          "cpu_s": 586.917,
+          "peak_ram_gb": 5.62,
+          "saved_fastq": null,
+          "nsys_rep": null,
+          "used_nsight": false,
+          "status": "ok",
+          "attempts": 1,
+          "note": "",
+          "in_stats": true
+        },
+        {
+          "real_s": 899.09,
+          "cpu_s": 587.639,
+          "peak_ram_gb": 5.566,
+          "saved_fastq": null,
+          "nsys_rep": null,
+          "used_nsight": false,
+          "status": "ok",
+          "attempts": 1,
+          "note": "",
+          "in_stats": true
+        },
+        {
+          "real_s": 902.285,
+          "cpu_s": 590.446,
+          "peak_ram_gb": 5.583,
+          "saved_fastq": null,
+          "nsys_rep": null,
+          "used_nsight": false,
+          "status": "ok",
+          "attempts": 1,
+          "note": "",
+          "in_stats": true
+        }
+      ],
+      "complete": true
+    }
+  },
+  "knobs": {
+    "NUM_RUNS_FAST_1K": 10,
+    "NUM_RUNS_HAC_1K": 10,
+    "NUM_RUNS_FAST_20K": 3,
+    "NUM_RUNS_HAC_20K": 3,
+    "RUN_STALL_TIMEOUT_S": 600,
+    "WALL_MARGIN": 1.25,
+    "NSYS_WALL_FACTOR": 2.0,
+    "EXPECTED_TIMED_WALL_S": {
+      "fast_1k": 60,
+      "hac_1k": 120,
+      "fast_20k": 350,
+      "hac_20k": 1200
+    },
+    "RUN_MAX_ATTEMPTS": 2
+  }
+}

@@ -1,0 +1,160 @@
+Generating SQLite file /home/riley/Desktop/thesisB-data-and-diagrams/slorado-accuracy-tmp/nsys_fast_1k_base-baseline-v1.1.sqlite from /home/riley/Desktop/thesisB-data-and-diagrams/slorado-accuracy-tmp/nsys_fast_1k_base-baseline-v1.1.nsys-rep
+Processing [/home/riley/Desktop/thesisB-data-and-diagrams/slorado-accuracy-tmp/nsys_fast_1k_base-baseline-v1.1.sqlite] with [/opt/nvidia/nsight-systems/2026.3.1/target-linux-x64/reports/nvtx_sum.py]... 
+SKIPPED: /home/riley/Desktop/thesisB-data-and-diagrams/slorado-accuracy-tmp/nsys_fast_1k_base-baseline-v1.1.sqlite does not contain NV Tools Extension (NVTX) data.
+
+Processing [/home/riley/Desktop/thesisB-data-and-diagrams/slorado-accuracy-tmp/nsys_fast_1k_base-baseline-v1.1.sqlite] with [/opt/nvidia/nsight-systems/2026.3.1/target-linux-x64/reports/osrt_sum.py]... 
+
+ ** OS Runtime Summary (osrt_sum):
+
+ Time (%)  Total Time (ns)  Num Calls    Avg (ns)      Med (ns)    Min (ns)     Max (ns)       StdDev (ns)            Name         
+ --------  ---------------  ---------  -------------  -----------  --------  --------------  ---------------  ---------------------
+     52.9   11,389,315,520         24  474,554,813.3     47,344.0    35,456  10,991,650,368  2,241,293,464.1  pthread_join         
+     44.4    9,560,091,648      2,770    3,451,296.6     11,568.0     1,088     181,391,616      9,160,172.6  ioctl                
+      1.6      336,997,056        152    2,217,085.9    267,296.0     1,632      58,038,176     10,215,552.2  futex                
+      0.9      203,207,584         10   20,320,758.4  4,158,832.0    21,856     148,394,912     45,896,503.0  poll                 
+      0.2       40,433,728        861       46,961.4     13,536.0     1,152         632,000         67,507.3  fread                
+      0.1       11,848,576         31      382,212.1    312,800.0    65,376       1,614,464        328,560.2  pthread_create       
+      0.0        1,495,872         53       28,224.0      9,056.0     3,936         271,552         61,520.1  open                 
+      0.0        1,336,128         69       19,364.2     11,264.0     4,640          67,968         16,586.7  mmap                 
+      0.0        1,240,992         10      124,099.2     44,736.0    15,104         801,376        240,237.6  sem_wait             
+      0.0        1,053,792         54       19,514.7      8,848.0     2,912         164,288         25,101.7  fopen                
+      0.0          686,688         54       12,716.4     11,920.0     6,592          37,760          5,594.2  fopen64              
+      0.0          630,560         84        7,506.7      3,664.0     1,056         210,624         22,987.3  read                 
+      0.0          549,184         70        7,845.5      5,952.0     2,688         112,416         13,083.2  fclose               
+      0.0          209,696         94        2,230.8      1,408.0       992          18,496          2,551.9  fcntl                
+      0.0          110,752          4       27,688.0     21,872.0     1,216          65,792         31,562.9  fgets                
+      0.0           69,344          8        8,668.0      6,016.0     3,968          25,184          6,985.9  munmap               
+      0.0           68,928         12        5,744.0      5,248.0     2,560          12,640          2,935.6  write                
+      0.0           67,872          2       33,936.0     33,936.0    20,192          47,680         19,437.0  open64               
+      0.0           34,656          1       34,656.0     34,656.0    34,656          34,656              0.0  connect              
+      0.0           28,928          1       28,928.0     28,928.0    28,928          28,928              0.0  socket               
+      0.0           27,168          5        5,433.6      4,704.0     3,680           8,160          1,974.5  pthread_cond_signal  
+      0.0           18,592          1       18,592.0     18,592.0    18,592          18,592              0.0  pipe2                
+      0.0           16,800          2        8,400.0      8,400.0     7,392           9,408          1,425.5  mmap64               
+      0.0            8,864          1        8,864.0      8,864.0     8,864           8,864              0.0  fwrite               
+      0.0            5,920          4        1,480.0      1,520.0     1,056           1,824            317.2  pthread_mutex_trylock
+      0.0            5,376          1        5,376.0      5,376.0     5,376           5,376              0.0  prctl                
+      0.0            2,624          1        2,624.0      2,624.0     2,624           2,624              0.0  getc                 
+      0.0            1,600          1        1,600.0      1,600.0     1,600           1,600              0.0  fputs                
+      0.0            1,504          1        1,504.0      1,504.0     1,504           1,504              0.0  fflush               
+      0.0            1,344          1        1,344.0      1,344.0     1,344           1,344              0.0  getline              
+
+Processing [/home/riley/Desktop/thesisB-data-and-diagrams/slorado-accuracy-tmp/nsys_fast_1k_base-baseline-v1.1.sqlite] with [/opt/nvidia/nsight-systems/2026.3.1/target-linux-x64/reports/cuda_api_sum.py]... 
+
+ ** CUDA API Summary (cuda_api_sum):
+
+ Time (%)  Total Time (ns)  Num Calls    Avg (ns)     Med (ns)    Min (ns)    Max (ns)    StdDev (ns)             Name           
+ --------  ---------------  ---------  ------------  -----------  ---------  -----------  ------------  -------------------------
+     59.7    5,983,687,776        907   6,597,230.2  2,774,176.0      6,336   27,150,592   6,849,704.7  cudaStreamSynchronize    
+     33.0    3,309,686,624        280  11,820,309.4  2,973,856.0      3,232   89,651,680  19,810,060.5  cudaDeviceSynchronize    
+      3.4      336,815,648         21  16,038,840.4    330,656.0      5,472  234,833,312  52,982,493.6  cudaMalloc               
+      2.7      266,489,440      2,085     127,812.7     43,232.0     17,184   31,447,840   1,243,902.0  cudaLaunchKernel         
+      0.3       29,272,704        207     141,414.0     31,584.0     11,520      748,352     225,288.0  cudaMemcpyAsync          
+      0.3       28,373,632          8   3,546,704.0  3,820,016.0  1,780,832    4,240,128     846,652.4  cuLibraryLoadData        
+      0.2       16,775,328         13   1,290,409.8     34,400.0      2,432    6,762,112   2,107,956.2  cudaFree                 
+      0.1       11,848,928      1,925       6,155.3      3,808.0      1,184      161,632       5,696.3  cudaEventRecord          
+      0.1       11,152,128         18     619,562.7     88,480.0     33,504    4,140,640   1,128,596.6  cuLibraryUnload          
+      0.1       10,589,888         80     132,373.6     34,320.0     24,800    7,660,128     852,399.5  cudaLaunchKernelExC      
+      0.1        6,707,296      1,600       4,192.1      3,616.0      1,184       96,192       3,485.6  cudaStreamWaitEvent      
+      0.0        4,283,680        162      26,442.5     24,208.0      1,120       99,136      20,799.7  cudaMemsetAsync          
+      0.0        2,739,520        998       2,745.0      2,176.0        992       32,960       2,276.9  cudaStreamIsCapturing    
+      0.0        1,244,256      2,478         502.1        320.0        160       67,808       1,629.8  cuGetProcAddress_v2      
+      0.0          936,288         32      29,259.0      3,472.0      2,848      397,216      85,713.4  cudaStreamCreateWithFlags
+      0.0          318,208          5      63,641.6     20,256.0      4,384      253,120     106,237.3  cudaHostAlloc            
+      0.0          150,624         20       7,531.2      3,136.0      1,472       52,768      12,217.0  cudaEventCreateWithFlags 
+      0.0           50,976          7       7,282.3      7,040.0      4,928        9,952       1,936.2  cuInit                   
+      0.0           45,792          3      15,264.0      9,632.0      8,736       27,424      10,540.4  cudaFreeHost             
+      0.0           23,360          8       2,920.0      2,992.0      2,176        3,488         376.2  cuLibraryGetKernel       
+      0.0            5,888          7         841.1        736.0        320        2,208         636.7  cuModuleGetLoadingMode   
+      0.0            3,840          2       1,920.0      1,920.0      1,216        2,624         995.6  cudaGetDriverEntryPoint  
+
+Processing [/home/riley/Desktop/thesisB-data-and-diagrams/slorado-accuracy-tmp/nsys_fast_1k_base-baseline-v1.1.sqlite] with [/opt/nvidia/nsight-systems/2026.3.1/target-linux-x64/reports/cuda_gpu_kern_sum.py]... 
+
+ ** CUDA GPU Kernel Summary (cuda_gpu_kern_sum):
+
+ Time (%)  Total Time (ns)  Instances    Avg (ns)      Med (ns)     Min (ns)    Max (ns)   StdDev (ns)                                                  Name                                                
+ --------  ---------------  ---------  ------------  ------------  ----------  ----------  -----------  ----------------------------------------------------------------------------------------------------
+     26.2    2,469,862,880        200  12,349,314.4  11,922,512.0  11,734,784  24,922,784  1,604,299.3  void RNN_blockPersist_fp_LSTM_HMMA<__half, __half, float, (int)1, (int)96>(const T1 *, T2 *, const …
+     24.9    2,345,950,144         40  58,648,753.6  57,548,704.0  54,161,632  89,491,392  5,499,635.3  void beam_search<__half>(beam_params, const void *, const float *, int *, unsigned char *, beam_ele…
+     11.9    1,125,292,256        240   4,688,717.7   4,738,384.0   3,643,744  13,530,112    793,523.1  ampere_fp16_s1688gemm_fp16_128x128_ldg8_f2f_stages_32x1_tn                                          
+      6.3      590,491,744        240   2,460,382.3   2,355,456.0   2,344,576   6,264,192    368,553.4  void at::native::index_elementwise_kernel<(int)128, (int)4, void at::native::flip_kernel_impl<at::n…
+      6.0      563,292,000         40  14,082,300.0  13,975,440.0  13,968,160  15,904,480    361,698.0  void fwd_post_scan<__half>(scan_params, const void *, const float *, float *)                       
+      4.2      394,945,568         80   4,936,819.6   5,314,448.0   2,472,544  20,802,208  2,873,255.2  void at::native::elementwise_kernel<(int)128, (int)4, void at::native::gpu_kernel_impl_nocast<at::n…
+      3.8      363,235,712        120   3,026,964.3   2,837,344.0   2,821,568   6,955,488    550,315.9  void at::native::elementwise_kernel<(int)128, (int)4, void at::native::gpu_kernel_impl_nocast<at::n…
+      2.8      261,649,312        160   1,635,308.2   1,074,448.0   1,029,664   4,870,720    800,854.1  void at::native::vectorized_elementwise_kernel<(int)4, at::native::<unnamed>::launch_clamp_scalar(a…
+      2.3      219,138,816        160   1,369,617.6   1,252,128.0       6,016   6,867,584  1,412,213.3  void cudnn::engines_precompiled::nchwToNhwcKernel<__half, __half, float, (bool)0, (bool)1, (cudnnKe…
+      1.9      175,876,064         80   2,198,450.8   2,277,616.0   1,362,720   7,193,024    902,996.7  void cudnn::engines_precompiled::nhwcToNchwKernel<__half, __half, float, (bool)1, (bool)0, (cudnnKe…
+      1.8      173,209,728         40   4,330,243.2   4,264,928.0   4,242,944   5,586,240    211,408.2  sm80_xmma_fprop_implicit_gemm_indexed_wo_smem_f16f16_f16f32_f32_nhwckrsc_nhwc_tilesize128x32x64_sta…
+      1.7      163,299,840         40   4,082,496.0   4,020,256.0   4,010,368   4,648,096    189,640.3  compute_qual_data(beam_params, const float *, int *, float *, float)                                
+      1.6      147,702,528        120   1,230,854.4   1,043,168.0   1,033,344   3,009,824    334,028.2  void at::native::vectorized_elementwise_kernel<(int)4, at::native::<unnamed>::silu_kernel(at::Tenso…
+      1.4      130,542,144         40   3,263,553.6   3,106,192.0   3,103,488   9,148,512    954,458.5  _5x_cudnn_ampere_fp16_scudnn_fp16_128x32_relu_small_nn_v1                                           
+      1.3      119,932,928         40   2,998,323.2   2,914,448.0   2,908,576   4,854,048    339,657.8  void bwd_scan<__half>(scan_params, const void *, float *)                                           
+      1.1      101,306,016         40   2,532,650.4   2,506,944.0   2,419,264   2,910,528     99,999.4  generate_sequence(beam_params, const unsigned char *, const int *, const float *, float *, float *,…
+      0.9       89,160,192         40   2,229,004.8   2,106,384.0   2,094,784   5,980,928    610,188.0  sm80_xmma_fprop_implicit_gemm_indexed_wo_smem_f16f16_f16f32_f32_nhwckrsc_nhwc_tilesize128x16x64_sta…
+      0.0        1,607,104        405       3,968.2       3,840.0       3,424      16,064      1,082.1  void at::native::vectorized_elementwise_kernel<(int)4, at::native::FillFunctor<c10::Half>, std::arr…
+      0.0          255,040         40       6,376.0       5,888.0       5,664      15,584      1,589.5  void cask__5x_cudnn::computeOffsetsKernel<(bool)0, (bool)0>(cask__5x_cudnn::ComputeOffsetsParams)   
+
+Processing [/home/riley/Desktop/thesisB-data-and-diagrams/slorado-accuracy-tmp/nsys_fast_1k_base-baseline-v1.1.sqlite] with [/opt/nvidia/nsight-systems/2026.3.1/target-linux-x64/reports/cuda_gpu_mem_time_sum.py]... 
+
+ ** CUDA GPU MemOps Summary (by Time) (cuda_gpu_mem_time_sum):
+
+ Time (%)  Total Time (ns)  Count  Avg (ns)   Med (ns)   Min (ns)  Max (ns)  StdDev (ns)            Operation           
+ --------  ---------------  -----  ---------  ---------  --------  --------  -----------  ------------------------------
+     86.7       16,776,480     67  250,395.2  406,208.0     1,440   548,992    204,285.0  [CUDA memcpy Host-to-Device]  
+      7.6        1,475,744    120   12,297.9   11,456.0    11,328    15,552      1,171.5  [CUDA memcpy Device-to-Host]  
+      4.7          910,688    122    7,464.7    7,168.0     3,776    13,888      1,432.8  [CUDA memset]                 
+      1.0          186,912     20    9,345.6    9,120.0     6,496    18,688      3,222.3  [CUDA memcpy Device-to-Device]
+
+Processing [/home/riley/Desktop/thesisB-data-and-diagrams/slorado-accuracy-tmp/nsys_fast_1k_base-baseline-v1.1.sqlite] with [/opt/nvidia/nsight-systems/2026.3.1/target-linux-x64/reports/cuda_gpu_mem_size_sum.py]... 
+
+ ** CUDA GPU MemOps Summary (by Size) (cuda_gpu_mem_size_sum):
+
+ Total (MB)  Count  Avg (MB)  Med (MB)  Min (MB)  Max (MB)  StdDev (MB)            Operation           
+ ----------  -----  --------  --------  --------  --------  -----------  ------------------------------
+    126.685     67     1.891     3.146     0.000     3.146        1.539  [CUDA memcpy Host-to-Device]  
+     31.460    122     0.258     0.262     0.002     0.262        0.033  [CUDA memset]                 
+     31.457    120     0.262     0.262     0.262     0.262        0.000  [CUDA memcpy Device-to-Host]  
+      0.745     20     0.037     0.037     0.001     0.074        0.037  [CUDA memcpy Device-to-Device]
+
+Processing [/home/riley/Desktop/thesisB-data-and-diagrams/slorado-accuracy-tmp/nsys_fast_1k_base-baseline-v1.1.sqlite] with [/opt/nvidia/nsight-systems/2026.3.1/target-linux-x64/reports/openmp_sum.py]... 
+SKIPPED: /home/riley/Desktop/thesisB-data-and-diagrams/slorado-accuracy-tmp/nsys_fast_1k_base-baseline-v1.1.sqlite does not contain OpenMP event data.
+
+Processing [/home/riley/Desktop/thesisB-data-and-diagrams/slorado-accuracy-tmp/nsys_fast_1k_base-baseline-v1.1.sqlite] with [/opt/nvidia/nsight-systems/2026.3.1/target-linux-x64/reports/opengl_khr_range_sum.py]... 
+SKIPPED: /home/riley/Desktop/thesisB-data-and-diagrams/slorado-accuracy-tmp/nsys_fast_1k_base-baseline-v1.1.sqlite does not contain KHR Extension (KHR_DEBUG) data.
+
+Processing [/home/riley/Desktop/thesisB-data-and-diagrams/slorado-accuracy-tmp/nsys_fast_1k_base-baseline-v1.1.sqlite] with [/opt/nvidia/nsight-systems/2026.3.1/target-linux-x64/reports/opengl_khr_gpu_range_sum.py]... 
+SKIPPED: /home/riley/Desktop/thesisB-data-and-diagrams/slorado-accuracy-tmp/nsys_fast_1k_base-baseline-v1.1.sqlite does not contain GPU KHR Extension (KHR_DEBUG) data.
+
+Processing [/home/riley/Desktop/thesisB-data-and-diagrams/slorado-accuracy-tmp/nsys_fast_1k_base-baseline-v1.1.sqlite] with [/opt/nvidia/nsight-systems/2026.3.1/target-linux-x64/reports/vulkan_marker_sum.py]... 
+SKIPPED: /home/riley/Desktop/thesisB-data-and-diagrams/slorado-accuracy-tmp/nsys_fast_1k_base-baseline-v1.1.sqlite does not contain Vulkan Debug Extension (Vulkan Debug Util) data.
+
+Processing [/home/riley/Desktop/thesisB-data-and-diagrams/slorado-accuracy-tmp/nsys_fast_1k_base-baseline-v1.1.sqlite] with [/opt/nvidia/nsight-systems/2026.3.1/target-linux-x64/reports/vulkan_gpu_marker_sum.py]... 
+SKIPPED: /home/riley/Desktop/thesisB-data-and-diagrams/slorado-accuracy-tmp/nsys_fast_1k_base-baseline-v1.1.sqlite does not contain GPU Vulkan Debug Extension (GPU Vulkan Debug markers) data.
+
+Processing [/home/riley/Desktop/thesisB-data-and-diagrams/slorado-accuracy-tmp/nsys_fast_1k_base-baseline-v1.1.sqlite] with [/opt/nvidia/nsight-systems/2026.3.1/target-linux-x64/reports/dx11_pix_sum.py]... 
+SKIPPED: /home/riley/Desktop/thesisB-data-and-diagrams/slorado-accuracy-tmp/nsys_fast_1k_base-baseline-v1.1.sqlite does not contain DX11 CPU debug markers.
+
+Processing [/home/riley/Desktop/thesisB-data-and-diagrams/slorado-accuracy-tmp/nsys_fast_1k_base-baseline-v1.1.sqlite] with [/opt/nvidia/nsight-systems/2026.3.1/target-linux-x64/reports/dx12_gpu_marker_sum.py]... 
+SKIPPED: /home/riley/Desktop/thesisB-data-and-diagrams/slorado-accuracy-tmp/nsys_fast_1k_base-baseline-v1.1.sqlite does not contain DX12 GPU debug markers.
+
+Processing [/home/riley/Desktop/thesisB-data-and-diagrams/slorado-accuracy-tmp/nsys_fast_1k_base-baseline-v1.1.sqlite] with [/opt/nvidia/nsight-systems/2026.3.1/target-linux-x64/reports/dx12_pix_sum.py]... 
+SKIPPED: /home/riley/Desktop/thesisB-data-and-diagrams/slorado-accuracy-tmp/nsys_fast_1k_base-baseline-v1.1.sqlite does not contain DX12 CPU debug markers.
+
+Processing [/home/riley/Desktop/thesisB-data-and-diagrams/slorado-accuracy-tmp/nsys_fast_1k_base-baseline-v1.1.sqlite] with [/opt/nvidia/nsight-systems/2026.3.1/target-linux-x64/reports/wddm_queue_sum.py]... 
+SKIPPED: /home/riley/Desktop/thesisB-data-and-diagrams/slorado-accuracy-tmp/nsys_fast_1k_base-baseline-v1.1.sqlite does not contain WDDM context data.
+
+Processing [/home/riley/Desktop/thesisB-data-and-diagrams/slorado-accuracy-tmp/nsys_fast_1k_base-baseline-v1.1.sqlite] with [/opt/nvidia/nsight-systems/2026.3.1/target-linux-x64/reports/um_sum.py]... 
+SKIPPED: /home/riley/Desktop/thesisB-data-and-diagrams/slorado-accuracy-tmp/nsys_fast_1k_base-baseline-v1.1.sqlite does not contain CUDA Unified Memory CPU page faults data.
+
+Processing [/home/riley/Desktop/thesisB-data-and-diagrams/slorado-accuracy-tmp/nsys_fast_1k_base-baseline-v1.1.sqlite] with [/opt/nvidia/nsight-systems/2026.3.1/target-linux-x64/reports/um_total_sum.py]... 
+SKIPPED: /home/riley/Desktop/thesisB-data-and-diagrams/slorado-accuracy-tmp/nsys_fast_1k_base-baseline-v1.1.sqlite does not contain CUDA Unified Memory CPU page faults data.
+
+Processing [/home/riley/Desktop/thesisB-data-and-diagrams/slorado-accuracy-tmp/nsys_fast_1k_base-baseline-v1.1.sqlite] with [/opt/nvidia/nsight-systems/2026.3.1/target-linux-x64/reports/um_cpu_page_faults_sum.py]... 
+SKIPPED: /home/riley/Desktop/thesisB-data-and-diagrams/slorado-accuracy-tmp/nsys_fast_1k_base-baseline-v1.1.sqlite does not contain CUDA Unified Memory CPU page faults data.
+
+Processing [/home/riley/Desktop/thesisB-data-and-diagrams/slorado-accuracy-tmp/nsys_fast_1k_base-baseline-v1.1.sqlite] with [/opt/nvidia/nsight-systems/2026.3.1/target-linux-x64/reports/openacc_sum.py]... 
+SKIPPED: /home/riley/Desktop/thesisB-data-and-diagrams/slorado-accuracy-tmp/nsys_fast_1k_base-baseline-v1.1.sqlite does not contain OpenACC event data.
+
+Processing [/home/riley/Desktop/thesisB-data-and-diagrams/slorado-accuracy-tmp/nsys_fast_1k_base-baseline-v1.1.sqlite] with [/opt/nvidia/nsight-systems/2026.3.1/target-linux-x64/reports/syscall_sum.py]... 
+SKIPPED: /home/riley/Desktop/thesisB-data-and-diagrams/slorado-accuracy-tmp/nsys_fast_1k_base-baseline-v1.1.sqlite does not contain syscall data.
+
