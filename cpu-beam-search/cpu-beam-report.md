@@ -48,6 +48,8 @@ This was a throwaway experiment to quantify whether offloading beam to the Jetso
 1k means are over n=5 (CV% ~0.3–1.6% baseline, ~1.3–1.5% cpu_beam — stable).  
 20k figures are single runs (directional only, but consistent with 1k ratios).
 
+![Alt text](real_time.svg)
+
 ### 2.2 CPU time and memory (supporting)
 
 CPU-beam runs use far more host CPU time (beam + conversion on 6 cores), e.g.:
@@ -60,6 +62,10 @@ CPU-beam runs use far more host CPU time (beam + conversion on 6 cores), e.g.:
 | HAC 20k | 589 s | 2436 s | 5.54 → 6.18 GB |
 
 Host CPU time exceeding wall time on cpu_beam is expected with multi-threaded beam work.
+
+![Alt text](cpu_time.svg)
+
+![Alt text](peak_ram.svg)
 
 ---
 
