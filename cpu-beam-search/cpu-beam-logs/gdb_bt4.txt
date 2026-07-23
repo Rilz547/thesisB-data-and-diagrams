@@ -1,0 +1,284 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/aarch64-linux-gnu/libthread_db.so.1".
+[New Thread 0xffffa1321840 (LWP 36136)]
+[New Thread 0xffffa0b11840 (LWP 36137)]
+[New Thread 0xffff9e301840 (LWP 36138)]
+[New Thread 0xffff99af1840 (LWP 36139)]
+[New Thread 0xffff972e1840 (LWP 36140)]
+[New Thread 0xffff8bdf1840 (LWP 36145)]
+[New Thread 0xffff8b48b840 (LWP 36146)]
+[New Thread 0xffff8ac7b840 (LWP 36147)]
+[New Thread 0xffff8a46b840 (LWP 36148)]
+[New Thread 0xffff89c5b840 (LWP 36149)]
+[New Thread 0xffff8944b840 (LWP 36150)]
+
+slorado base-caller version 0.5.0-beta
+model path:         models/dna_r10.4.1_e8.2_400bps_fast@v5.0.0
+input path:         test/PGXXXX230339/reads_1k.blow5
+output path:        /dev/null
+device:             cuda:all
+chunk size:         9996
+read batch size:    11654
+gpu batch size:     128
+no. threads:        8
+overlap:            498
+
+[run_pipeline] streaming pipeline: 5 preprocess, 1 runner, 1 decode (GPU scan + CPU beam), 3 stitch threads
+[New Thread 0xffff6af22840 (LWP 36151)]
+[New Thread 0xffff6a712840 (LWP 36152)]
+[New Thread 0xffff69f02840 (LWP 36153)]
+[New Thread 0xffff696f2840 (LWP 36154)]
+[New Thread 0xffff68ee2840 (LWP 36155)]
+[New Thread 0xffff686d2840 (LWP 36156)]
+[New Thread 0xffff67ec2840 (LWP 36157)]
+[New Thread 0xffff676b2840 (LWP 36158)]
+[New Thread 0xffff66ea2840 (LWP 36159)]
+[New Thread 0xffff66692840 (LWP 36160)]
+[New Thread 0xffff65e82840 (LWP 36161)]
+[New Thread 0xffff65672840 (LWP 36162)]
+
+Thread 17 "slorado" received signal SIGSEGV, Segmentation fault.
+[Switching to Thread 0xffff68ee2840 (LWP 36155)]
+__memcpy_generic () at ../sysdeps/aarch64/multiarch/../memcpy.S:186
+186	../sysdeps/aarch64/multiarch/../memcpy.S: No such file or directory.
+
+Thread 24 (Thread 0xffff65672840 (LWP 36162) "slorado"):
+#0  __futex_abstimed_wait_common64 (private=0, cancel=true, abstime=0x0, op=393, expected=0, futex_word=0xffffffffdaa4) at ./nptl/futex-internal.c:57
+#1  __futex_abstimed_wait_common (cancel=true, private=0, abstime=0x0, clockid=0, expected=0, futex_word=0xffffffffdaa4) at ./nptl/futex-internal.c:87
+#2  __GI___futex_abstimed_wait_cancelable64 (futex_word=futex_word@entry=0xffffffffdaa4, expected=expected@entry=0, clockid=clockid@entry=0, abstime=abstime@entry=0x0, private=private@entry=0) at ./nptl/futex-internal.c:139
+#3  0x0000ffffe474f694 in __pthread_cond_wait_common (abstime=0x0, clockid=0, mutex=0xffffffffda48, cond=0xffffffffda78) at ./nptl/pthread_cond_wait.c:503
+#4  ___pthread_cond_wait (cond=0xffffffffda78, mutex=0xffffffffda48) at ./nptl/pthread_cond_wait.c:627
+#5  0x0000aaaaaaac168c in std::condition_variable::wait<BoundedQueue<std::shared_ptr<read_state_t> >::push(std::shared_ptr<read_state_t>)::{lambda()#1}>(std::unique_lock<std::mutex>&, BoundedQueue<std::shared_ptr<read_state_t> >::push(std::shared_ptr<read_state_t>)::{lambda()#1}) (__p=..., __lock=..., this=0xffffffffda78) at /usr/include/c++/11/condition_variable:103
+#6  BoundedQueue<std::shared_ptr<read_state_t> >::push (this=0xffffffffda48, item=std::shared_ptr<read_state_t> (use count 1, weak count 0) = {...}) at src/pipeline.h:70
+#7  0x0000aaaaaaabb7bc in loader_stage (ctx=0xffffffffd9a8) at src/pipeline.cpp:136
+#8  0x0000ffffe4a229cc in ?? () from /lib/aarch64-linux-gnu/libstdc++.so.6
+#9  0x0000ffffe4750398 in start_thread (arg=0x7d2080) at ./nptl/pthread_create.c:442
+#10 0x0000ffffe47b9e9c in thread_start () at ../sysdeps/unix/sysv/linux/aarch64/clone.S:79
+
+Thread 23 (Thread 0xffff65e82840 (LWP 36161) "slorado"):
+#0  __futex_abstimed_wait_common64 (private=0, cancel=true, abstime=0x0, op=393, expected=0, futex_word=0xffffffffdb94) at ./nptl/futex-internal.c:57
+#1  __futex_abstimed_wait_common (cancel=true, private=0, abstime=0x0, clockid=0, expected=0, futex_word=0xffffffffdb94) at ./nptl/futex-internal.c:87
+#2  __GI___futex_abstimed_wait_cancelable64 (futex_word=futex_word@entry=0xffffffffdb94, expected=expected@entry=0, clockid=clockid@entry=0, abstime=abstime@entry=0x0, private=private@entry=0) at ./nptl/futex-internal.c:139
+#3  0x0000ffffe474f694 in __pthread_cond_wait_common (abstime=0x0, clockid=0, mutex=0xffffffffdb38, cond=0xffffffffdb68) at ./nptl/pthread_cond_wait.c:503
+#4  ___pthread_cond_wait (cond=0xffffffffdb68, mutex=0xffffffffdb38) at ./nptl/pthread_cond_wait.c:627
+#5  0x0000aaaaaaabc1fc in std::condition_variable::wait<BoundedQueue<chunk_item_t>::push(chunk_item_t)::{lambda()#1}>(std::unique_lock<std::mutex>&, BoundedQueue<chunk_item_t>::push(chunk_item_t)::{lambda()#1}) (__p=..., __lock=..., this=0xffffffffdb68) at /usr/include/c++/11/condition_variable:103
+#6  BoundedQueue<chunk_item_t>::push (item=..., this=0xffffffffdb38) at src/pipeline.h:70
+#7  preprocess_stage (ctx=0xffffffffd9a8) at src/pipeline.cpp:165
+#8  0x0000ffffe4a229cc in ?? () from /lib/aarch64-linux-gnu/libstdc++.so.6
+#9  0x0000ffffe4750398 in start_thread (arg=0x7d2080) at ./nptl/pthread_create.c:442
+#10 0x0000ffffe47b9e9c in thread_start () at ../sysdeps/unix/sysv/linux/aarch64/clone.S:79
+
+Thread 22 (Thread 0xffff66692840 (LWP 36160) "slorado"):
+#0  __futex_abstimed_wait_common64 (private=0, cancel=true, abstime=0x0, op=393, expected=0, futex_word=0xffffffffdb94) at ./nptl/futex-internal.c:57
+#1  __futex_abstimed_wait_common (cancel=true, private=0, abstime=0x0, clockid=0, expected=0, futex_word=0xffffffffdb94) at ./nptl/futex-internal.c:87
+#2  __GI___futex_abstimed_wait_cancelable64 (futex_word=futex_word@entry=0xffffffffdb94, expected=expected@entry=0, clockid=clockid@entry=0, abstime=abstime@entry=0x0, private=private@entry=0) at ./nptl/futex-internal.c:139
+#3  0x0000ffffe474f694 in __pthread_cond_wait_common (abstime=0x0, clockid=0, mutex=0xffffffffdb38, cond=0xffffffffdb68) at ./nptl/pthread_cond_wait.c:503
+#4  ___pthread_cond_wait (cond=0xffffffffdb68, mutex=0xffffffffdb38) at ./nptl/pthread_cond_wait.c:627
+#5  0x0000aaaaaaabc1fc in std::condition_variable::wait<BoundedQueue<chunk_item_t>::push(chunk_item_t)::{lambda()#1}>(std::unique_lock<std::mutex>&, BoundedQueue<chunk_item_t>::push(chunk_item_t)::{lambda()#1}) (__p=..., __lock=..., this=0xffffffffdb68) at /usr/include/c++/11/condition_variable:103
+#6  BoundedQueue<chunk_item_t>::push (item=..., this=0xffffffffdb38) at src/pipeline.h:70
+#7  preprocess_stage (ctx=0xffffffffd9a8) at src/pipeline.cpp:165
+#8  0x0000ffffe4a229cc in ?? () from /lib/aarch64-linux-gnu/libstdc++.so.6
+#9  0x0000ffffe4750398 in start_thread (arg=0x7d2080) at ./nptl/pthread_create.c:442
+#10 0x0000ffffe47b9e9c in thread_start () at ../sysdeps/unix/sysv/linux/aarch64/clone.S:79
+
+Thread 21 (Thread 0xffff66ea2840 (LWP 36159) "slorado"):
+#0  __futex_abstimed_wait_common64 (private=0, cancel=true, abstime=0x0, op=393, expected=0, futex_word=0xffffffffdb94) at ./nptl/futex-internal.c:57
+#1  __futex_abstimed_wait_common (cancel=true, private=0, abstime=0x0, clockid=0, expected=0, futex_word=0xffffffffdb94) at ./nptl/futex-internal.c:87
+#2  __GI___futex_abstimed_wait_cancelable64 (futex_word=futex_word@entry=0xffffffffdb94, expected=expected@entry=0, clockid=clockid@entry=0, abstime=abstime@entry=0x0, private=private@entry=0) at ./nptl/futex-internal.c:139
+#3  0x0000ffffe474f694 in __pthread_cond_wait_common (abstime=0x0, clockid=0, mutex=0xffffffffdb38, cond=0xffffffffdb68) at ./nptl/pthread_cond_wait.c:503
+#4  ___pthread_cond_wait (cond=0xffffffffdb68, mutex=0xffffffffdb38) at ./nptl/pthread_cond_wait.c:627
+#5  0x0000aaaaaaabc1fc in std::condition_variable::wait<BoundedQueue<chunk_item_t>::push(chunk_item_t)::{lambda()#1}>(std::unique_lock<std::mutex>&, BoundedQueue<chunk_item_t>::push(chunk_item_t)::{lambda()#1}) (__p=..., __lock=..., this=0xffffffffdb68) at /usr/include/c++/11/condition_variable:103
+#6  BoundedQueue<chunk_item_t>::push (item=..., this=0xffffffffdb38) at src/pipeline.h:70
+#7  preprocess_stage (ctx=0xffffffffd9a8) at src/pipeline.cpp:165
+#8  0x0000ffffe4a229cc in ?? () from /lib/aarch64-linux-gnu/libstdc++.so.6
+#9  0x0000ffffe4750398 in start_thread (arg=0x7d2080) at ./nptl/pthread_create.c:442
+#10 0x0000ffffe47b9e9c in thread_start () at ../sysdeps/unix/sysv/linux/aarch64/clone.S:79
+
+Thread 20 (Thread 0xffff676b2840 (LWP 36158) "slorado"):
+#0  __futex_abstimed_wait_common64 (private=0, cancel=true, abstime=0x0, op=393, expected=0, futex_word=0xffffffffdb94) at ./nptl/futex-internal.c:57
+#1  __futex_abstimed_wait_common (cancel=true, private=0, abstime=0x0, clockid=0, expected=0, futex_word=0xffffffffdb94) at ./nptl/futex-internal.c:87
+#2  __GI___futex_abstimed_wait_cancelable64 (futex_word=futex_word@entry=0xffffffffdb94, expected=expected@entry=0, clockid=clockid@entry=0, abstime=abstime@entry=0x0, private=private@entry=0) at ./nptl/futex-internal.c:139
+#3  0x0000ffffe474f694 in __pthread_cond_wait_common (abstime=0x0, clockid=0, mutex=0xffffffffdb38, cond=0xffffffffdb68) at ./nptl/pthread_cond_wait.c:503
+#4  ___pthread_cond_wait (cond=0xffffffffdb68, mutex=0xffffffffdb38) at ./nptl/pthread_cond_wait.c:627
+#5  0x0000aaaaaaabc1fc in std::condition_variable::wait<BoundedQueue<chunk_item_t>::push(chunk_item_t)::{lambda()#1}>(std::unique_lock<std::mutex>&, BoundedQueue<chunk_item_t>::push(chunk_item_t)::{lambda()#1}) (__p=..., __lock=..., this=0xffffffffdb68) at /usr/include/c++/11/condition_variable:103
+#6  BoundedQueue<chunk_item_t>::push (item=..., this=0xffffffffdb38) at src/pipeline.h:70
+#7  preprocess_stage (ctx=0xffffffffd9a8) at src/pipeline.cpp:165
+#8  0x0000ffffe4a229cc in ?? () from /lib/aarch64-linux-gnu/libstdc++.so.6
+#9  0x0000ffffe4750398 in start_thread (arg=0x7d2080) at ./nptl/pthread_create.c:442
+#10 0x0000ffffe47b9e9c in thread_start () at ../sysdeps/unix/sysv/linux/aarch64/clone.S:79
+
+Thread 19 (Thread 0xffff67ec2840 (LWP 36157) "slorado"):
+#0  __futex_abstimed_wait_common64 (private=0, cancel=true, abstime=0x0, op=393, expected=0, futex_word=0xffffffffdb94) at ./nptl/futex-internal.c:57
+#1  __futex_abstimed_wait_common (cancel=true, private=0, abstime=0x0, clockid=0, expected=0, futex_word=0xffffffffdb94) at ./nptl/futex-internal.c:87
+#2  __GI___futex_abstimed_wait_cancelable64 (futex_word=futex_word@entry=0xffffffffdb94, expected=expected@entry=0, clockid=clockid@entry=0, abstime=abstime@entry=0x0, private=private@entry=0) at ./nptl/futex-internal.c:139
+#3  0x0000ffffe474f694 in __pthread_cond_wait_common (abstime=0x0, clockid=0, mutex=0xffffffffdb38, cond=0xffffffffdb68) at ./nptl/pthread_cond_wait.c:503
+#4  ___pthread_cond_wait (cond=0xffffffffdb68, mutex=0xffffffffdb38) at ./nptl/pthread_cond_wait.c:627
+#5  0x0000aaaaaaabc1fc in std::condition_variable::wait<BoundedQueue<chunk_item_t>::push(chunk_item_t)::{lambda()#1}>(std::unique_lock<std::mutex>&, BoundedQueue<chunk_item_t>::push(chunk_item_t)::{lambda()#1}) (__p=..., __lock=..., this=0xffffffffdb68) at /usr/include/c++/11/condition_variable:103
+#6  BoundedQueue<chunk_item_t>::push (item=..., this=0xffffffffdb38) at src/pipeline.h:70
+#7  preprocess_stage (ctx=0xffffffffd9a8) at src/pipeline.cpp:165
+#8  0x0000ffffe4a229cc in ?? () from /lib/aarch64-linux-gnu/libstdc++.so.6
+#9  0x0000ffffe4750398 in start_thread (arg=0x7d2080) at ./nptl/pthread_create.c:442
+#10 0x0000ffffe47b9e9c in thread_start () at ../sysdeps/unix/sysv/linux/aarch64/clone.S:79
+
+Thread 18 (Thread 0xffff686d2840 (LWP 36156) "slorado"):
+#0  ioctl () at ../sysdeps/unix/sysv/linux/aarch64/ioctl.S:25
+#1  0x0000ffff91f2b264 in ?? () from /usr/lib/aarch64-linux-gnu/nvidia/libnvrm_host1x.so
+#2  0x0000ffff91ef6fd0 [PAC] in ?? () from /lib/aarch64-linux-gnu/libnvcucompat.so
+#3  0x0000ffff9239eed4 in ?? () from /usr/lib/aarch64-linux-gnu/nvidia/libcuda.so.1
+#4  0x0000ffff9239f1bc in ?? () from /usr/lib/aarch64-linux-gnu/nvidia/libcuda.so.1
+#5  0x0000ffff921ec6e0 in ?? () from /usr/lib/aarch64-linux-gnu/nvidia/libcuda.so.1
+#6  0x0000ffff92220218 in ?? () from /usr/lib/aarch64-linux-gnu/nvidia/libcuda.so.1
+#7  0x0000ffff922206bc in ?? () from /usr/lib/aarch64-linux-gnu/nvidia/libcuda.so.1
+#8  0x0000ffff9249f4ac in ?? () from /usr/lib/aarch64-linux-gnu/nvidia/libcuda.so.1
+#9  0x0000ffff9218dc34 in ?? () from /usr/lib/aarch64-linux-gnu/nvidia/libcuda.so.1
+#10 0x0000ffff9218e2e8 in ?? () from /usr/lib/aarch64-linux-gnu/nvidia/libcuda.so.1
+#11 0x0000ffff9218f61c in ?? () from /usr/lib/aarch64-linux-gnu/nvidia/libcuda.so.1
+#12 0x0000ffff92314120 in ?? () from /usr/lib/aarch64-linux-gnu/nvidia/libcuda.so.1
+#13 0x0000ffff22d9df20 in ?? () from /lib/aarch64-linux-gnu/libcudnn_engines_precompiled.so.9.3.0
+#14 0x0000ffff22e070c0 [PAC] in ?? () from /lib/aarch64-linux-gnu/libcudnn_engines_precompiled.so.9.3.0
+#15 0x0000ffff22907420 [PAC] in ?? () from /lib/aarch64-linux-gnu/libcudnn_engines_precompiled.so.9.3.0
+#16 0x0000ffff229080a0 in ?? () from /lib/aarch64-linux-gnu/libcudnn_engines_precompiled.so.9.3.0
+#17 0x0000ffff2290c100 in ?? () from /lib/aarch64-linux-gnu/libcudnn_engines_precompiled.so.9.3.0
+#18 0x0000ffff22311da0 in ?? () from /lib/aarch64-linux-gnu/libcudnn_engines_precompiled.so.9.3.0
+#19 0x0000ffff2231260c [PAC] in ?? () from /lib/aarch64-linux-gnu/libcudnn_engines_precompiled.so.9.3.0
+#20 0x0000ffff21bdb92c [PAC] in ?? () from /lib/aarch64-linux-gnu/libcudnn_engines_precompiled.so.9.3.0
+#21 0x0000ffff21c007d0 [PAC] in ?? () from /lib/aarch64-linux-gnu/libcudnn_engines_precompiled.so.9.3.0
+#22 0x0000ffff88aade54 [PAC] in cudnn::backend::execute(cudnnContext*, cudnn::backend::ExecutionPlan const&, cudnn::backend::VariantPack&) () from /lib/aarch64-linux-gnu/libcudnn_graph.so.9.3.0
+#23 0x0000ffff88aadf88 [PAC] in cudnnBackendExecute () from /lib/aarch64-linux-gnu/libcudnn_graph.so.9.3.0
+#24 0x0000ffffa45082e8 [PAC] in cudnnBackendExecute () from /lib/aarch64-linux-gnu/libcudnn.so.9
+#25 0x0000ffffe5f4e2b4 [PAC] in at::native::run_conv_plan(cudnnContext*, at::Tensor const&, at::Tensor const&, at::Tensor const&, cudnn_frontend::ExecutionPlan_v8 const&, cudnnBackendDescriptorType_t) () from /home/riley/slorado_venv/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so
+#26 0x0000ffffe5c8ce40 in at::native::run_single_conv(cudnnBackendDescriptorType_t, at::Tensor const&, at::Tensor const&, at::Tensor const&, c10::ArrayRef<long>, c10::ArrayRef<long>, c10::ArrayRef<long>, long, bool, bool, bool) () from /home/riley/slorado_venv/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so
+#27 0x0000ffffe5c8b7a4 in at::native::cudnn_convolution_forward_out(at::TensorArg&, char const*, at::TensorArg const&, at::TensorArg const&, c10::ArrayRef<long>, c10::ArrayRef<long>, c10::ArrayRef<long>, long, bool, bool, bool) () from /home/riley/slorado_venv/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so
+#28 0x0000ffffe5c8bfcc in at::native::cudnn_convolution(at::Tensor const&, at::Tensor const&, c10::ArrayRef<long>, c10::ArrayRef<long>, c10::ArrayRef<long>, long, bool, bool, bool) () from /home/riley/slorado_venv/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so
+#29 0x0000ffffe8421e50 in at::(anonymous namespace)::(anonymous namespace)::wrapper_CUDA__cudnn_convolution(at::Tensor const&, at::Tensor const&, c10::ArrayRef<c10::SymInt>, c10::ArrayRef<c10::SymInt>, c10::ArrayRef<c10::SymInt>, c10::SymInt, bool, bool, bool) () from /home/riley/slorado_venv/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so
+#30 0x0000ffffe5ca2f30 in c10::impl::wrap_kernel_functor_unboxed_<c10::impl::detail::WrapFunctionIntoFunctor_<c10::CompileTimeFunctionPointer<at::Tensor (at::Tensor const&, at::Tensor const&, c10::ArrayRef<c10::SymInt>, c10::ArrayRef<c10::SymInt>, c10::ArrayRef<c10::SymInt>, c10::SymInt, bool, bool, bool), &at::(anonymous namespace)::(anonymous namespace)::wrapper_CUDA__cudnn_convolution>, at::Tensor, c10::guts::typelist::typelist<at::Tensor const&, at::Tensor const&, c10::ArrayRef<c10::SymInt>, c10::ArrayRef<c10::SymInt>, c10::ArrayRef<c10::SymInt>, c10::SymInt, bool, bool, bool> >, at::Tensor (at::Tensor const&, at::Tensor const&, c10::ArrayRef<c10::SymInt>, c10::ArrayRef<c10::SymInt>, c10::ArrayRef<c10::SymInt>, c10::SymInt, bool, bool, bool)>::call(c10::OperatorKernel*, c10::DispatchKeySet, at::Tensor const&, at::Tensor const&, c10::ArrayRef<c10::SymInt>, c10::ArrayRef<c10::SymInt>, c10::ArrayRef<c10::SymInt>, c10::SymInt, bool, bool, bool) () from /home/riley/slorado_venv/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so
+#31 0x0000ffffeffef03c in at::_ops::cudnn_convolution::call(at::Tensor const&, at::Tensor const&, c10::ArrayRef<c10::SymInt>, c10::ArrayRef<c10::SymInt>, c10::ArrayRef<c10::SymInt>, c10::SymInt, bool, bool, bool) () from /home/riley/slorado_venv/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so
+#32 0x0000ffffeffb4248 in at::native::_convolution(at::Tensor const&, at::Tensor const&, std::optional<at::Tensor> const&, c10::ArrayRef<long>, c10::ArrayRef<long>, c10::ArrayRef<long>, bool, c10::ArrayRef<long>, long, bool, bool, bool, bool) () from /home/riley/slorado_venv/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so
+#33 0x0000ffffefff97c8 in c10::impl::wrap_kernel_functor_unboxed_<c10::impl::detail::WrapFunctionIntoFunctor_<c10::CompileTimeFunctionPointer<at::Tensor (at::Tensor const&, at::Tensor const&, std::optional<at::Tensor> const&, c10::ArrayRef<c10::SymInt>, c10::ArrayRef<c10::SymInt>, c10::ArrayRef<c10::SymInt>, bool, c10::ArrayRef<c10::SymInt>, c10::SymInt, bool, bool, bool, bool), &at::(anonymous namespace)::(anonymous namespace)::wrapper_CompositeExplicitAutograd___convolution>, at::Tensor, c10::guts::typelist::typelist<at::Tensor const&, at::Tensor const&, std::optional<at::Tensor> const&, c10::ArrayRef<c10::SymInt>, c10::ArrayRef<c10::SymInt>, c10::ArrayRef<c10::SymInt>, bool, c10::ArrayRef<c10::SymInt>, c10::SymInt, bool, bool, bool, bool> >, at::Tensor (at::Tensor const&, at::Tensor const&, std::optional<at::Tensor> const&, c10::ArrayRef<c10::SymInt>, c10::ArrayRef<c10::SymInt>, c10::ArrayRef<c10::SymInt>, bool, c10::ArrayRef<c10::SymInt>, c10::SymInt, bool, bool, bool, bool)>::call(c10::OperatorKernel*, c10::DispatchKeySet, at::Tensor const&, at::Tensor const&, std::optional<at::Tensor> const&, c10::ArrayRef<c10::SymInt>, c10::ArrayRef<c10::SymInt>, c10::ArrayRef<c10::SymInt>, bool, c10::ArrayRef<c10::SymInt>, c10::SymInt, bool, bool, bool, bool) () from /home/riley/slorado_venv/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so
+#34 0x0000ffffeffe4da0 in at::_ops::_convolution::call(at::Tensor const&, at::Tensor const&, std::optional<at::Tensor> const&, c10::ArrayRef<c10::SymInt>, c10::ArrayRef<c10::SymInt>, c10::ArrayRef<c10::SymInt>, bool, c10::ArrayRef<c10::SymInt>, c10::SymInt, bool, bool, bool, bool) () from /home/riley/slorado_venv/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so
+#35 0x0000ffffeffb2c6c in at::native::convolution(at::Tensor const&, at::Tensor const&, std::optional<at::Tensor> const&, c10::ArrayRef<long>, c10::ArrayRef<long>, c10::ArrayRef<long>, bool, c10::ArrayRef<long>, long) () from /home/riley/slorado_venv/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so
+#36 0x0000ffffefff9600 in c10::impl::wrap_kernel_functor_unboxed_<c10::impl::detail::WrapFunctionIntoFunctor_<c10::CompileTimeFunctionPointer<at::Tensor (at::Tensor const&, at::Tensor const&, std::optional<at::Tensor> const&, c10::ArrayRef<c10::SymInt>, c10::ArrayRef<c10::SymInt>, c10::ArrayRef<c10::SymInt>, bool, c10::ArrayRef<c10::SymInt>, c10::SymInt), &at::(anonymous namespace)::(anonymous namespace)::wrapper_CompositeExplicitAutograd__convolution>, at::Tensor, c10::guts::typelist::typelist<at::Tensor const&, at::Tensor const&, std::optional<at::Tensor> const&, c10::ArrayRef<c10::SymInt>, c10::ArrayRef<c10::SymInt>, c10::ArrayRef<c10::SymInt>, bool, c10::ArrayRef<c10::SymInt>, c10::SymInt> >, at::Tensor (at::Tensor const&, at::Tensor const&, std::optional<at::Tensor> const&, c10::ArrayRef<c10::SymInt>, c10::ArrayRef<c10::SymInt>, c10::ArrayRef<c10::SymInt>, bool, c10::ArrayRef<c10::SymInt>, c10::SymInt)>::call(c10::OperatorKernel*, c10::DispatchKeySet, at::Tensor const&, at::Tensor const&, std::optional<at::Tensor> const&, c10::ArrayRef<c10::SymInt>, c10::ArrayRef<c10::SymInt>, c10::ArrayRef<c10::SymInt>, bool, c10::ArrayRef<c10::SymInt>, c10::SymInt) () from /home/riley/slorado_venv/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so
+#37 0x0000ffffeffe472c in at::_ops::convolution::call(at::Tensor const&, at::Tensor const&, std::optional<at::Tensor> const&, c10::ArrayRef<c10::SymInt>, c10::ArrayRef<c10::SymInt>, c10::ArrayRef<c10::SymInt>, bool, c10::ArrayRef<c10::SymInt>, c10::SymInt) () from /home/riley/slorado_venv/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so
+#38 0x0000fffff0551330 in at::native::conv1d_symint(at::Tensor const&, at::Tensor const&, std::optional<at::Tensor> const&, c10::ArrayRef<c10::SymInt>, c10::ArrayRef<c10::SymInt>, c10::ArrayRef<c10::SymInt>, c10::SymInt) () from /home/riley/slorado_venv/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so
+#39 0x0000fffff1a24b34 in c10::impl::wrap_kernel_functor_unboxed_<c10::impl::detail::WrapFunctionIntoFunctor_<c10::CompileTimeFunctionPointer<at::Tensor (at::Tensor const&, at::Tensor const&, std::optional<at::Tensor> const&, c10::ArrayRef<c10::SymInt>, c10::ArrayRef<c10::SymInt>, c10::ArrayRef<c10::SymInt>, c10::SymInt), &at::(anonymous namespace)::(anonymous namespace)::wrapper_CompositeImplicitAutograd__conv1d>, at::Tensor, c10::guts::typelist::typelist<at::Tensor const&, at::Tensor const&, std::optional<at::Tensor> const&, c10::ArrayRef<c10::SymInt>, c10::ArrayRef<c10::SymInt>, c10::ArrayRef<c10::SymInt>, c10::SymInt> >, at::Tensor (at::Tensor const&, at::Tensor const&, std::optional<at::Tensor> const&, c10::ArrayRef<c10::SymInt>, c10::ArrayRef<c10::SymInt>, c10::ArrayRef<c10::SymInt>, c10::SymInt)>::call(c10::OperatorKernel*, c10::DispatchKeySet, at::Tensor const&, at::Tensor const&, std::optional<at::Tensor> const&, c10::ArrayRef<c10::SymInt>, c10::ArrayRef<c10::SymInt>, c10::ArrayRef<c10::SymInt>, c10::SymInt) () from /home/riley/slorado_venv/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so
+#40 0x0000fffff13d6f04 in at::_ops::conv1d::call(at::Tensor const&, at::Tensor const&, std::optional<at::Tensor> const&, c10::ArrayRef<c10::SymInt>, c10::ArrayRef<c10::SymInt>, c10::ArrayRef<c10::SymInt>, c10::SymInt) () from /home/riley/slorado_venv/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so
+#41 0x0000aaaaaaae5290 in at::conv1d (groups=1, dilation=..., padding=..., stride=..., bias=std::optional<at::Tensor> = {...}, weight=..., input=...) at /home/riley/slorado_venv/lib/python3.10/site-packages/torch/include/c10/core/SymInt.h:170
+#42 conv_stack_forward (convs=std::vector of length 3, capacity 4 = {...}, x=...) at thirdparty/dorado/lstm_model.cpp:43
+#43 0x0000aaaaaaae83ec in lstm_model_forward (m=m@entry=0xaaaaae94c590, x=...) at thirdparty/dorado/lstm_model.cpp:146
+#44 0x0000aaaaaaac6880 in model_forward (runner=runner@entry=0xaaaaae9a9810, x=...) at src/torchbox.cpp:73
+#45 0x0000aaaaaaacf430 in infer_chunks (runner_idx=<optimised out>, chunks=std::vector of length 128, capacity 128 = {...}, core=<optimised out>, core=<optimised out>) at src/basecall.cpp:145
+#46 0x0000aaaaaaad0514 in basecall_infer_scores (core=0xaaaaae9291b0, runner_idx=<optimised out>, chunks=std::vector of length 128, capacity 128 = {...}, pool=0xaaaaaeb8cc80) at src/basecall.cpp:332
+#47 0x0000aaaaaaabf780 in operator() (__closure=__closure@entry=0xffff686d1eb8) at src/pipeline.cpp:193
+#48 0x0000aaaaaaabff40 in runner_stage (ctx=<optimised out>, runner_idx=<optimised out>) at src/pipeline.cpp:241
+#49 0x0000ffffe4a229cc in ?? () from /lib/aarch64-linux-gnu/libstdc++.so.6
+#50 0x0000ffffe4750398 in start_thread (arg=0x7d2080) at ./nptl/pthread_create.c:442
+#51 0x0000ffffe47b9e9c in thread_start () at ../sysdeps/unix/sysv/linux/aarch64/clone.S:79
+
+Thread 17 (Thread 0xffff68ee2840 (LWP 36155) "slorado"):
+#0  __memcpy_generic () at ../sysdeps/aarch64/multiarch/../memcpy.S:186
+#1  0x0000aaaaaaabee04 in memcpy (__len=54624256, __src=<optimised out>, __dest=0xffff05f6a010) at /usr/include/aarch64-linux-gnu/bits/string_fortified.h:29
+#2  decode_stage (ctx=0xffffffffd9a8) at src/pipeline.cpp:292
+#3  0x0000ffffe4a229cc in ?? () from /lib/aarch64-linux-gnu/libstdc++.so.6
+#4  0x0000ffffe4750398 in start_thread (arg=0x7d2080) at ./nptl/pthread_create.c:442
+#5  0x0000ffffe47b9e9c in thread_start () at ../sysdeps/unix/sysv/linux/aarch64/clone.S:79
+
+Thread 16 (Thread 0xffff696f2840 (LWP 36154) "slorado"):
+#0  __futex_abstimed_wait_common64 (private=0, cancel=true, abstime=0x0, op=393, expected=0, futex_word=0xffffffffdda0) at ./nptl/futex-internal.c:57
+#1  __futex_abstimed_wait_common (cancel=true, private=0, abstime=0x0, clockid=0, expected=0, futex_word=0xffffffffdda0) at ./nptl/futex-internal.c:87
+#2  __GI___futex_abstimed_wait_cancelable64 (futex_word=futex_word@entry=0xffffffffdda0, expected=expected@entry=0, clockid=clockid@entry=0, abstime=abstime@entry=0x0, private=private@entry=0) at ./nptl/futex-internal.c:139
+#3  0x0000ffffe474f694 in __pthread_cond_wait_common (abstime=0x0, clockid=0, mutex=0xffffffffdd18, cond=0xffffffffdd78) at ./nptl/pthread_cond_wait.c:503
+#4  ___pthread_cond_wait (cond=0xffffffffdd78, mutex=0xffffffffdd18) at ./nptl/pthread_cond_wait.c:627
+#5  0x0000aaaaaaac24f0 in std::condition_variable::wait<BoundedQueue<std::shared_ptr<read_state_t> >::pop(std::shared_ptr<read_state_t>&)::{lambda()#1}>(std::unique_lock<std::mutex>&, BoundedQueue<std::shared_ptr<read_state_t> >::pop(std::shared_ptr<read_state_t>&)::{lambda()#1}) (__p=..., __lock=..., this=0xffffffffdd78) at /usr/include/c++/11/condition_variable:103
+#6  BoundedQueue<std::shared_ptr<read_state_t> >::pop (this=0xffffffffdd18, out=std::shared_ptr<read_state_t> (empty) = {...}) at src/pipeline.h:80
+#7  0x0000aaaaaaabbb7c in stitch_stage (ctx=0xffffffffd9a8) at src/pipeline.cpp:334
+#8  0x0000ffffe4a229cc in ?? () from /lib/aarch64-linux-gnu/libstdc++.so.6
+#9  0x0000ffffe4750398 in start_thread (arg=0x7d2080) at ./nptl/pthread_create.c:442
+#10 0x0000ffffe47b9e9c in thread_start () at ../sysdeps/unix/sysv/linux/aarch64/clone.S:79
+
+Thread 15 (Thread 0xffff69f02840 (LWP 36153) "slorado"):
+#0  __futex_abstimed_wait_common64 (private=0, cancel=true, abstime=0x0, op=393, expected=0, futex_word=0xffffffffdda0) at ./nptl/futex-internal.c:57
+#1  __futex_abstimed_wait_common (cancel=true, private=0, abstime=0x0, clockid=0, expected=0, futex_word=0xffffffffdda0) at ./nptl/futex-internal.c:87
+#2  __GI___futex_abstimed_wait_cancelable64 (futex_word=futex_word@entry=0xffffffffdda0, expected=expected@entry=0, clockid=clockid@entry=0, abstime=abstime@entry=0x0, private=private@entry=0) at ./nptl/futex-internal.c:139
+#3  0x0000ffffe474f694 in __pthread_cond_wait_common (abstime=0x0, clockid=0, mutex=0xffffffffdd18, cond=0xffffffffdd78) at ./nptl/pthread_cond_wait.c:503
+#4  ___pthread_cond_wait (cond=0xffffffffdd78, mutex=0xffffffffdd18) at ./nptl/pthread_cond_wait.c:627
+#5  0x0000aaaaaaac24f0 in std::condition_variable::wait<BoundedQueue<std::shared_ptr<read_state_t> >::pop(std::shared_ptr<read_state_t>&)::{lambda()#1}>(std::unique_lock<std::mutex>&, BoundedQueue<std::shared_ptr<read_state_t> >::pop(std::shared_ptr<read_state_t>&)::{lambda()#1}) (__p=..., __lock=..., this=0xffffffffdd78) at /usr/include/c++/11/condition_variable:103
+#6  BoundedQueue<std::shared_ptr<read_state_t> >::pop (this=0xffffffffdd18, out=std::shared_ptr<read_state_t> (empty) = {...}) at src/pipeline.h:80
+#7  0x0000aaaaaaabbb7c in stitch_stage (ctx=0xffffffffd9a8) at src/pipeline.cpp:334
+#8  0x0000ffffe4a229cc in ?? () from /lib/aarch64-linux-gnu/libstdc++.so.6
+#9  0x0000ffffe4750398 in start_thread (arg=0x7d2080) at ./nptl/pthread_create.c:442
+#10 0x0000ffffe47b9e9c in thread_start () at ../sysdeps/unix/sysv/linux/aarch64/clone.S:79
+
+Thread 14 (Thread 0xffff6a712840 (LWP 36152) "slorado"):
+#0  __futex_abstimed_wait_common64 (private=0, cancel=true, abstime=0x0, op=393, expected=0, futex_word=0xffffffffdda0) at ./nptl/futex-internal.c:57
+#1  __futex_abstimed_wait_common (cancel=true, private=0, abstime=0x0, clockid=0, expected=0, futex_word=0xffffffffdda0) at ./nptl/futex-internal.c:87
+#2  __GI___futex_abstimed_wait_cancelable64 (futex_word=futex_word@entry=0xffffffffdda0, expected=expected@entry=0, clockid=clockid@entry=0, abstime=abstime@entry=0x0, private=private@entry=0) at ./nptl/futex-internal.c:139
+#3  0x0000ffffe474f694 in __pthread_cond_wait_common (abstime=0x0, clockid=0, mutex=0xffffffffdd18, cond=0xffffffffdd78) at ./nptl/pthread_cond_wait.c:503
+#4  ___pthread_cond_wait (cond=0xffffffffdd78, mutex=0xffffffffdd18) at ./nptl/pthread_cond_wait.c:627
+#5  0x0000aaaaaaac24f0 in std::condition_variable::wait<BoundedQueue<std::shared_ptr<read_state_t> >::pop(std::shared_ptr<read_state_t>&)::{lambda()#1}>(std::unique_lock<std::mutex>&, BoundedQueue<std::shared_ptr<read_state_t> >::pop(std::shared_ptr<read_state_t>&)::{lambda()#1}) (__p=..., __lock=..., this=0xffffffffdd78) at /usr/include/c++/11/condition_variable:103
+#6  BoundedQueue<std::shared_ptr<read_state_t> >::pop (this=0xffffffffdd18, out=std::shared_ptr<read_state_t> (empty) = {...}) at src/pipeline.h:80
+#7  0x0000aaaaaaabbb7c in stitch_stage (ctx=0xffffffffd9a8) at src/pipeline.cpp:334
+#8  0x0000ffffe4a229cc in ?? () from /lib/aarch64-linux-gnu/libstdc++.so.6
+#9  0x0000ffffe4750398 in start_thread (arg=0x7d2080) at ./nptl/pthread_create.c:442
+#10 0x0000ffffe47b9e9c in thread_start () at ../sysdeps/unix/sysv/linux/aarch64/clone.S:79
+
+Thread 13 (Thread 0xffff6af22840 (LWP 36151) "slorado"):
+#0  __futex_abstimed_wait_common64 (private=0, cancel=true, abstime=0x0, op=393, expected=0, futex_word=0xffffffffe160) at ./nptl/futex-internal.c:57
+#1  __futex_abstimed_wait_common (cancel=true, private=0, abstime=0x0, clockid=0, expected=0, futex_word=0xffffffffe160) at ./nptl/futex-internal.c:87
+#2  __GI___futex_abstimed_wait_cancelable64 (futex_word=futex_word@entry=0xffffffffe160, expected=expected@entry=0, clockid=clockid@entry=0, abstime=abstime@entry=0x0, private=private@entry=0) at ./nptl/futex-internal.c:139
+#3  0x0000ffffe474f694 in __pthread_cond_wait_common (abstime=0x0, clockid=0, mutex=0xffffffffe0d8, cond=0xffffffffe138) at ./nptl/pthread_cond_wait.c:503
+#4  ___pthread_cond_wait (cond=0xffffffffe138, mutex=0xffffffffe0d8) at ./nptl/pthread_cond_wait.c:627
+#5  0x0000aaaaaaac24f0 in std::condition_variable::wait<BoundedQueue<std::shared_ptr<read_state_t> >::pop(std::shared_ptr<read_state_t>&)::{lambda()#1}>(std::unique_lock<std::mutex>&, BoundedQueue<std::shared_ptr<read_state_t> >::pop(std::shared_ptr<read_state_t>&)::{lambda()#1}) (__p=..., __lock=..., this=0xffffffffe138) at /usr/include/c++/11/condition_variable:103
+#6  BoundedQueue<std::shared_ptr<read_state_t> >::pop (this=0xffffffffe0d8, out=std::shared_ptr<read_state_t> (empty) = {...}) at src/pipeline.h:80
+#7  0x0000aaaaaaabba3c in writer_stage (ctx=0xffffffffd9a8) at src/pipeline.cpp:429
+#8  0x0000ffffe4a229cc in ?? () from /lib/aarch64-linux-gnu/libstdc++.so.6
+#9  0x0000ffffe4750398 in start_thread (arg=0x7d2080) at ./nptl/pthread_create.c:442
+#10 0x0000ffffe47b9e9c in thread_start () at ../sysdeps/unix/sysv/linux/aarch64/clone.S:79
+
+Thread 12 (Thread 0xffff8944b840 (LWP 36150) "slorado"):
+#0  syscall () at ../sysdeps/unix/sysv/linux/aarch64/syscall.S:38
+#1  0x0000ffffe32ae4c0 in ?? () from /lib/aarch64-linux-gnu/libgomp.so.1
+#2  0x0000ffffe32aba10 in ?? () from /lib/aarch64-linux-gnu/libgomp.so.1
+#3  0x0000ffffe4750398 in start_thread (arg=0x7d2080) at ./nptl/pthread_create.c:442
+#4  0x0000ffffe47b9e9c in thread_start () at ../sysdeps/unix/sysv/linux/aarch64/clone.S:79
+
+Thread 11 (Thread 0xffff89c5b840 (LWP 36149) "slorado"):
+#0  syscall () at ../sysdeps/unix/sysv/linux/aarch64/syscall.S:38
+#1  0x0000ffffe32ae4c0 in ?? () from /lib/aarch64-linux-gnu/libgomp.so.1
+#2  0x0000ffffe32aba10 in ?? () from /lib/aarch64-linux-gnu/libgomp.so.1
+#3  0x0000ffffe4750398 in start_thread (arg=0x7d2080) at ./nptl/pthread_create.c:442
+#4  0x0000ffffe47b9e9c in thread_start () at ../sysdeps/unix/sysv/linux/aarch64/clone.S:79
+
+Thread 10 (Thread 0xffff8a46b840 (LWP 36148) "slorado"):
+#0  syscall () at ../sysdeps/unix/sysv/linux/aarch64/syscall.S:38
+#1  0x0000ffffe32ae4c0 in ?? () from /lib/aarch64-linux-gnu/libgomp.so.1
+#2  0x0000ffffe32aba10 in ?? () from /lib/aarch64-linux-gnu/libgomp.so.1
+#3  0x0000ffffe4750398 in start_thread (arg=0x7d2080) at ./nptl/pthread_create.c:442
+#4  0x0000ffffe47b9e9c in thread_start () at ../sysdeps/unix/sysv/linux/aarch64/clone.S:79
+
+Thread 9 (Thread 0xffff8ac7b840 (LWP 36147) "slorado"):
+#0  syscall () at ../sysdeps/unix/sysv/linux/aarch64/syscall.S:38
+#1  0x0000ffffe32ae4c0 in ?? () from /lib/aarch64-linux-gnu/libgomp.so.1
+#2  0x0000ffffe32aba10 in ?? () from /lib/aarch64-linux-gnu/libgomp.so.1
+#3  0x0000ffffe4750398 in start_thread (arg=0x7d2080) at ./nptl/pthread_create.c:442
+#4  0x0000ffffe47b9e9c in thread_start () at ../sysdeps/unix/sysv/linux/aarch64/clone.S:79
+
+Thread 8 (Thread 0xffff8b48b840 (LWP 36146) "slorado"):
+#0  syscall () at ../sysdeps/unix/sysv/linux/aarch64/syscall.S:38
+#1  0x0000ffffe32ae4c0 in ?? () from /lib/aarch64-linux-gnu/libgomp.so.1
+#2  0x0000ffffe32aba10 in ?? () from /lib/aarch64-linux-gnu/libgomp.so.1
+#3  0x0000ffffe4750398 in start_thread (arg=0x7d2080) at ./nptl/pthread_create.c:442
+#4  0x0000ffffe47b9e9c in thread_start () at ../sysdeps/unix/sysv/linux/aarch64/clone.S:79
+
+Thread 7 (Thread 0xffff8bdf1840 (LWP 36145) "cuda-EvtHandlr"):
+#0  0x0000ffffe47afb60 in __GI___poll (fds=0xffff84000c20, nfds=10, timeout=<optimised out>) at ../sysdeps/unix/sysv/linux/poll.c:41
+#1  0x0000ffff922af290 in ?? () from /usr/lib/aarch64-linux-gnu/nvidia/libcuda.so.1
+#2  0x0000ffff9234c620 in ?? () from /usr/lib/aarch64-linux-gnu/nvidia/libcuda.so.1
+#3  0x0000ffff922ac0c4 in ?? () from /usr/lib/aarch64-linux-gnu/nvidia/libcuda.so.1
+#4  0x0000ffffe4750398 in start_thread (arg=0x7d2080) at ./nptl/pthread_create.c:442
+#5  0x0000ffffe47b9e9c in thread_start () at ../sysdeps/unix/sysv/linux/aarch64/clone.S:79
+
+Thread 6 (Thread 0xffff972e1840 (LWP 36140) "slorado"):
+#0  __futex_abstimed_wait_common64 (private=0, cancel=true, abstime=0x0, op=393, expected=0, futex_word=0xffffe46c3b68) at ./nptl/futex-internal.c:57
+#1  __futex_abstimed_wait_common (cancel=true, private=0, abstime=0x0, clockid=0, expected=0, futex_word=0xffffe46c3b68) at ./nptl/futex-internal.c:87
+#2  __GI___futex_abstimed_wait_cancelable64 (futex_word=futex_word@entry=0xffffe46c3b68, expected=expected@entry=0, clockid=clockid@entry=0, abstime=abstime@entry=0x0, private=private@entry=0) at ./nptl/futex-internal.c:139
+#3  0x00

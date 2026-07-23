@@ -1,0 +1,119 @@
+
+slorado base-caller version 0.5.0-beta
+model path:         models/dna_r10.4.1_e8.2_400bps_fast@v5.0.0
+input path:         test/PGXXXX230339/reads_1k.blow5
+output path:        /dev/null
+device:             cuda:all
+chunk size:         9996
+read batch size:    11654
+gpu batch size:     128
+no. threads:        8
+overlap:            498
+
+[run_pipeline] streaming pipeline: 5 preprocess, 1 runner, 1 decode (GPU scan + CPU beam), 3 stitch threads
+[decode_stage] post-scan n0=0 nt=128 bwd[0]=4794.417480 post[0]=0.008631
+[decode_stage] post-beam n0=0 nt=128 ok
+[decode_stage] post-scan n0=0 nt=128 bwd[0]=5160.541016 post[0]=0.000209
+[decode_stage] post-beam n0=0 nt=128 ok
+[decode_stage] post-scan n0=0 nt=128 bwd[0]=4535.508789 post[0]=0.001067
+[decode_stage] post-beam n0=0 nt=128 ok
+[decode_stage] post-scan n0=0 nt=128 bwd[0]=4930.956055 post[0]=0.000925
+[decode_stage] post-beam n0=0 nt=128 ok
+[decode_stage] post-scan n0=0 nt=128 bwd[0]=5108.061035 post[0]=0.000029
+[decode_stage] post-beam n0=0 nt=128 ok
+[decode_stage] post-scan n0=0 nt=128 bwd[0]=4925.762207 post[0]=0.002744
+[decode_stage] post-beam n0=0 nt=128 ok
+[decode_stage] post-scan n0=0 nt=128 bwd[0]=5120.137695 post[0]=0.000914
+[decode_stage] post-beam n0=0 nt=128 ok
+[decode_stage] post-scan n0=0 nt=128 bwd[0]=5464.738281 post[0]=0.101873
+[decode_stage] post-beam n0=0 nt=128 ok
+[decode_stage] post-scan n0=0 nt=128 bwd[0]=5252.875977 post[0]=0.002780
+[decode_stage] post-beam n0=0 nt=128 ok
+[decode_stage] post-scan n0=0 nt=128 bwd[0]=4307.679688 post[0]=0.000897
+[decode_stage] post-beam n0=0 nt=128 ok
+[decode_stage] post-scan n0=0 nt=128 bwd[0]=4970.353027 post[0]=0.013583
+[decode_stage] post-beam n0=0 nt=128 ok
+[decode_stage] post-scan n0=0 nt=128 bwd[0]=4747.946289 post[0]=0.007169
+[decode_stage] post-beam n0=0 nt=128 ok
+[decode_stage] post-scan n0=0 nt=128 bwd[0]=5083.613770 post[0]=0.007469
+[decode_stage] post-beam n0=0 nt=128 ok
+[decode_stage] post-scan n0=0 nt=128 bwd[0]=4327.371094 post[0]=0.008709
+[decode_stage] post-beam n0=0 nt=128 ok
+[decode_stage] post-scan n0=0 nt=128 bwd[0]=5434.782715 post[0]=0.000304
+[decode_stage] post-beam n0=0 nt=128 ok
+[decode_stage] post-scan n0=0 nt=128 bwd[0]=5100.486816 post[0]=0.000058
+[decode_stage] post-beam n0=0 nt=128 ok
+[decode_stage] post-scan n0=0 nt=128 bwd[0]=4639.844238 post[0]=0.000283
+[decode_stage] post-beam n0=0 nt=128 ok
+[decode_stage] post-scan n0=0 nt=128 bwd[0]=5167.275879 post[0]=0.003988
+[decode_stage] post-beam n0=0 nt=128 ok
+[decode_stage] post-scan n0=0 nt=128 bwd[0]=5174.172363 post[0]=0.020274
+[decode_stage] post-beam n0=0 nt=128 ok
+[decode_stage] post-scan n0=0 nt=128 bwd[0]=5209.744141 post[0]=0.010364
+[decode_stage] post-beam n0=0 nt=128 ok
+[decode_stage] post-scan n0=0 nt=128 bwd[0]=4701.666504 post[0]=0.001367
+[decode_stage] post-beam n0=0 nt=128 ok
+[decode_stage] post-scan n0=0 nt=128 bwd[0]=5197.209961 post[0]=0.000502
+[decode_stage] post-beam n0=0 nt=128 ok
+[decode_stage] post-scan n0=0 nt=128 bwd[0]=5042.228027 post[0]=0.010139
+[decode_stage] post-beam n0=0 nt=128 ok
+[decode_stage] post-scan n0=0 nt=128 bwd[0]=5120.614258 post[0]=0.003216
+[decode_stage] post-beam n0=0 nt=128 ok
+[decode_stage] post-scan n0=0 nt=128 bwd[0]=5166.669922 post[0]=0.000427
+[decode_stage] post-beam n0=0 nt=128 ok
+[decode_stage] post-scan n0=0 nt=128 bwd[0]=5183.987305 post[0]=0.007001
+[decode_stage] post-beam n0=0 nt=128 ok
+[decode_stage] post-scan n0=0 nt=128 bwd[0]=4905.155273 post[0]=0.000888
+[decode_stage] post-beam n0=0 nt=128 ok
+[decode_stage] post-scan n0=0 nt=128 bwd[0]=4662.114746 post[0]=0.007369
+[decode_stage] post-beam n0=0 nt=128 ok
+[decode_stage] post-scan n0=0 nt=128 bwd[0]=4816.543457 post[0]=0.000410
+[decode_stage] post-beam n0=0 nt=128 ok
+[decode_stage] post-scan n0=0 nt=128 bwd[0]=4929.827148 post[0]=0.005860
+[decode_stage] post-beam n0=0 nt=128 ok
+[decode_stage] post-scan n0=0 nt=128 bwd[0]=5248.013184 post[0]=0.008179
+[decode_stage] post-beam n0=0 nt=128 ok
+[decode_stage] post-scan n0=0 nt=128 bwd[0]=5202.152344 post[0]=0.034766
+[decode_stage] post-beam n0=0 nt=128 ok
+[decode_stage] post-scan n0=0 nt=128 bwd[0]=5059.767090 post[0]=0.000009
+[decode_stage] post-beam n0=0 nt=128 ok
+[decode_stage] post-scan n0=0 nt=128 bwd[0]=5195.626953 post[0]=0.000017
+[decode_stage] post-beam n0=0 nt=128 ok
+[decode_stage] post-scan n0=0 nt=128 bwd[0]=4754.719727 post[0]=0.000508
+[decode_stage] post-beam n0=0 nt=128 ok
+[decode_stage] post-scan n0=0 nt=128 bwd[0]=4787.590332 post[0]=0.004590
+[decode_stage] post-beam n0=0 nt=128 ok
+[decode_stage] post-scan n0=0 nt=128 bwd[0]=4916.706543 post[0]=0.002487
+[decode_stage] post-beam n0=0 nt=128 ok
+[decode_stage] post-scan n0=0 nt=128 bwd[0]=5094.128906 post[0]=0.005562
+[decode_stage] post-beam n0=0 nt=128 ok
+[decode_stage] post-scan n0=0 nt=128 bwd[0]=4566.840332 post[0]=0.005637
+[decode_stage] post-beam n0=0 nt=128 ok
+[decode_stage] post-scan n0=0 nt=128 bwd[0]=4850.031250 post[0]=0.001668
+[decode_stage] post-beam n0=0 nt=128 ok
+[decode_stage] post-scan n0=0 nt=128 bwd[0]=4948.365723 post[0]=0.012875
+[decode_stage] post-beam n0=0 nt=128 ok
+[decode_stage] post-scan n0=0 nt=128 bwd[0]=4893.828125 post[0]=0.003498
+[decode_stage] post-beam n0=0 nt=128 ok
+[decode_stage] post-scan n0=0 nt=128 bwd[0]=4406.610840 post[0]=0.001646
+[decode_stage] post-beam n0=0 nt=128 ok
+[decode_stage] post-scan n0=0 nt=128 bwd[0]=5543.204590 post[0]=0.001601
+[decode_stage] post-beam n0=0 nt=128 ok
+[decode_stage] post-scan n0=0 nt=128 bwd[0]=5099.950684 post[0]=0.001757
+[decode_stage] post-beam n0=0 nt=128 ok
+[decode_stage] post-scan n0=0 nt=128 bwd[0]=4967.991211 post[0]=0.184125
+[decode_stage] post-beam n0=0 nt=128 ok
+[decode_stage] post-scan n0=0 nt=128 bwd[0]=4694.304688 post[0]=0.002683
+[decode_stage] post-beam n0=0 nt=128 ok
+[decode_stage] post-scan n0=0 nt=128 bwd[0]=4955.639160 post[0]=0.000070
+[decode_stage] post-beam n0=0 nt=128 ok
+[decode_stage] post-scan n0=0 nt=128 bwd[0]=5166.713867 post[0]=0.000059
+[decode_stage] post-beam n0=0 nt=128 ok
+[decode_stage] post-scan n0=0 nt=34 bwd[0]=4455.589355 post[0]=0.000553
+[decode_stage] post-beam n0=0 nt=34 ok
+[basecaller_main] total entries: 1000
+[basecaller_main] total bytes: 70.8 M
+[main] Version: 0.5.0-beta
+[main] CMD: ./slorado basecaller -C 128 -o /dev/null --cpu-beam=yes models/dna_r10.4.1_e8.2_400bps_fast@v5.0.0 test/PGXXXX230339/reads_1k.blow5
+[main] Real time: 12.147 sec; CPU time: 41.784 sec; Peak RAM: 2.420 GB
+

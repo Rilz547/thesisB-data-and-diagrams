@@ -1,0 +1,51 @@
+
+slorado base-caller version 0.5.0-beta
+model path:         models/dna_r10.4.1_e8.2_400bps_hac@v5.0.0
+input path:         test/PGXXXX230339/reads_20k.blow5
+output path:        /dev/null
+device:             cuda:all
+chunk size:         12288
+read batch size:    4096
+gpu batch size:     128
+no. threads:        8
+overlap:            150
+
+[basecaller_main::1.012*1.57] 4096 Entries (201.7M bytes) loaded
+[basecaller_main::182.136*0.80] 4096 Entries (201.7M bytes) processed
+[basecaller_main::182.702*0.80] 4096 Entries (212.8M bytes) loaded
+[basecaller_main::370.544*0.80] 4096 Entries (212.8M bytes) processed
+[basecaller_main::371.126*0.80] 4096 Entries (198.2M bytes) loaded
+[basecaller_main::546.966*0.79] 4096 Entries (198.2M bytes) processed
+[basecaller_main::547.545*0.79] 4096 Entries (203.8M bytes) loaded
+[basecaller_main::727.791*0.79] 4096 Entries (203.8M bytes) processed
+[basecaller_main::728.278*0.79] 3616 Entries (181.5M bytes) loaded
+[basecaller_main::889.597*0.79] 3616 Entries (181.5M bytes) processed
+[basecaller_main] total entries: 20000
+[basecaller_main] total bytes: 998.1 M
+[basecaller_main] model initialization: 0.455 sec (0.1%)
+[basecaller_main] data loading: 2.665 sec (0.3%)
+[basecaller_main] data processing: 886.370 sec (99.6%)
+[basecaller_main]     - parse: 4.196 sec (0.5%)
+[basecaller_main]     - preprocess: 0.360 sec (0.0%)
+[basecaller_main]     - runners: 881.524 sec (99.1%)
+[basecaller_main]          - synchronisation: 0.000 sec (0.0%)
+[basecaller_main]          - model runner [0]: 881.518 sec (99.1% util)
+[basecaller_main]             - accept: 5.264 sec (0.6% util)
+[basecaller_main]             - basecall: 876.254 sec (98.5% util)
+[basecaller_main]                 - inference: 792.174 sec (89.0% util)
+[basecaller_main]                     - conv_stack: 56.172 sec (6.3% util)
+[basecaller_main]                     - rnns: 701.997 sec (78.9% util)
+[basecaller_main]                     - crf_1: 24.879 sec (2.8% util)
+[basecaller_main]                     - crf_2: 0.000 sec (0.0% util)
+[basecaller_main]                     - clamp: 9.111 sec (1.0% util)
+[basecaller_main]                 - decode: 83.460 sec (9.4% util)
+[basecaller_main]             - modcall: 0.000 sec (0.0% util)
+[basecaller_main]     - postprocess: 0.289 sec (0.0%)
+[basecaller_main]     - mod_preprocess: 0.000 sec (0.0%)
+[basecaller_main]     - mod_postprocess: 0.000 sec (0.0%)
+[basecaller_main] data output: 0.115 sec (0.0%)
+[basecaller_main] data free: 0.082 sec (0.0%)
+[main] Version: 0.5.0-beta
+[main] CMD: ./slorado basecaller -C 128 -c 12288 -K 4096 -p 150 -o /dev/null --cpu-beam=no models/dna_r10.4.1_e8.2_400bps_hac@v5.0.0 test/PGXXXX230339/reads_20k.blow5
+[main] Real time: 889.712 sec; CPU time: 705.897 sec; Peak RAM: 5.633 GB
+

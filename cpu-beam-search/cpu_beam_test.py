@@ -1,16 +1,18 @@
 #!/usr/bin/env python3
 """
-Throwaway CPU-beam hybrid vs GPU-beam baseline timing suite.
+Throwaway: Bonson openfish GPU-scan + CPU-beam vs full GPU decode baseline.
 
-For each config, runs the same number of timed /dev/null runs for:
+For each config×mode:
+  1) one cache-warming run (logged, not timed in comparison)
+  2) one timed /dev/null run
+
   A) baseline  — GPU beam (--cpu-beam=no --overlap-decode=no)
-  B) cpu-beam  — hybrid CPU beam (--cpu-beam=yes --overlap-decode=no)
+  B) cpu_beam  — managed-memory scan + CPU beam (--cpu-beam=yes)
 
-  FAST/HAC 1k  → 5 timed runs each mode
-  FAST/HAC 20k → 1 timed run each mode
-No warmup. Ends with a direct comparison table for the writeup.
+  FAST/HAC × 1k and 20k
+Full console saved per run. Comparison table at end.
 
-Usage (from repo root, after rebuild):
+Usage (from repo root, after rebuild against Bonson openfish/dev):
   python3 cpu_beam_test.py
 """
 
@@ -19,7 +21,6 @@ from __future__ import annotations
 import os
 import re
 import shlex
-import statistics
 import subprocess
 import sys
 from datetime import datetime, timezone
@@ -30,6 +31,7 @@ SLORADO = "./slorado"
 BASE_ARGS = "-C 128"
 OUT_REPORT = REPO / "cpu-beam-results.txt"
 OUT_CSV = REPO / "cpu-beam-timings.csv"
+OUT_LOG_DIR = REPO / "cpu-beam-logs"
 
 TIMING_RE = re.compile(
     r"\[main\]\s+Real time:\s*([0-9.]+)\s*sec;\s*"
@@ -40,15 +42,14 @@ TIMING_RE = re.compile(
 
 THREADS_RE = re.compile(r"cpu beam threads:\s*(\d+)", re.IGNORECASE)
 
-# (label, n_runs, model, data)
+# (label, n_timed_runs, model, data)
 CONFIGS = [
-    ("FAST 1k", 5, "models/dna_r10.4.1_e8.2_400bps_fast@v5.0.0", "test/PGXXXX230339/reads_1k.blow5"),
-    ("HAC 1k", 5, "models/dna_r10.4.1_e8.2_400bps_hac@v5.0.0", "test/PGXXXX230339/reads_1k.blow5"),
+    ("FAST 1k", 1, "models/dna_r10.4.1_e8.2_400bps_fast@v5.0.0", "test/PGXXXX230339/reads_1k.blow5"),
+    ("HAC 1k", 1, "models/dna_r10.4.1_e8.2_400bps_hac@v5.0.0", "test/PGXXXX230339/reads_1k.blow5"),
     ("FAST 20k", 1, "models/dna_r10.4.1_e8.2_400bps_fast@v5.0.0", "test/PGXXXX230339/reads_20k.blow5"),
     ("HAC 20k", 1, "models/dna_r10.4.1_e8.2_400bps_hac@v5.0.0", "test/PGXXXX230339/reads_20k.blow5"),
 ]
 
-# mode_key, extra CLI
 MODES = [
     ("baseline", "--cpu-beam=no --overlap-decode=no"),
     ("cpu_beam", "--cpu-beam=yes --overlap-decode=no"),
@@ -64,39 +65,44 @@ def build_cmd(model: str, data: str, extra: str) -> list[str]:
     return parts
 
 
-def run_one(cmd: list[str]) -> tuple[float, float, float, int | None]:
-    proc = subprocess.run(
-        cmd,
+def slug(label: str, mode: str, kind: str = "") -> str:
+    base = f"{label.replace(' ', '_')}_{mode}"
+    return f"{base}_{kind}" if kind else base
+
+
+def run_one(cmd: list[str], log_path: Path) -> tuple[float, float, float, int | None]:
+    """Run cmd, stream stdout/stderr live, and also save the full console to log_path."""
+    # stdbuf keeps C/C++ stderr line-buffered when piped (otherwise it looks "stuck").
+    run_cmd = cmd
+    if Path("/usr/bin/stdbuf").is_file() or Path("/bin/stdbuf").is_file():
+        run_cmd = ["stdbuf", "-oL", "-eL", *cmd]
+
+    proc = subprocess.Popen(
+        run_cmd,
         cwd=REPO,
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
         text=True,
-        check=False,
+        bufsize=1,  # line-buffered
     )
-    text = proc.stdout
-    if proc.returncode != 0:
-        raise RuntimeError(f"exit {proc.returncode}\n{text[-4000:]}")
+    chunks: list[str] = []
+    assert proc.stdout is not None
+    for line in proc.stdout:
+        chunks.append(line)
+        sys.stdout.write(line)
+        sys.stdout.flush()
+    rc = proc.wait()
+    text = "".join(chunks)
+    log_path.write_text(text, encoding="utf-8")
+    if rc != 0:
+        raise RuntimeError(f"exit {rc}\n{text[-4000:]}")
     m = TIMING_RE.findall(text)
     if not m:
-        raise RuntimeError("could not parse [main] Real time line")
+        raise RuntimeError(f"could not parse [main] Real time line (see {log_path})")
     real_s, cpu_s, ram = map(float, m[-1])
     tm = THREADS_RE.search(text)
     threads = int(tm.group(1)) if tm else None
     return real_s, cpu_s, ram, threads
-
-
-def summarise(reals: list[float]) -> dict[str, float]:
-    n = len(reals)
-    mean = statistics.fmean(reals)
-    stdev = statistics.stdev(reals) if n >= 2 else 0.0
-    return {
-        "n": float(n),
-        "mean": mean,
-        "stdev": stdev,
-        "min": min(reals),
-        "max": max(reals),
-        "cv_pct": (stdev / mean * 100.0) if mean else 0.0,
-    }
 
 
 def main() -> int:
@@ -104,29 +110,35 @@ def main() -> int:
         print("ERROR: ./slorado missing — rebuild first", file=sys.stderr)
         return 2
 
+    OUT_LOG_DIR.mkdir(exist_ok=True)
+
     ts = datetime.now(timezone.utc).astimezone().strftime("%Y-%m-%d %H:%M:%S %Z")
     nproc = os.cpu_count() or 1
 
     lines: list[str] = []
-    csv_rows: list[str] = ["config,mode,run,real_s,cpu_s,peak_ram_gb,cpu_beam_threads"]
+    csv_rows: list[str] = [
+        "config,mode,phase,run,real_s,cpu_s,peak_ram_gb,cpu_beam_threads,console_log"
+    ]
 
-    # label -> mode -> list of real times
-    results: dict[str, dict[str, list[float]]] = {}
+    # label -> mode -> real time (timed runs only)
+    results: dict[str, dict[str, float]] = {}
 
-    lines.append("CPU-beam hybrid vs GPU-beam baseline (paired timing suite)")
+    lines.append("CPU-beam (Bonson managed hostvis) vs GPU-beam baseline")
     lines.append(f"timestamp:     {ts}")
     lines.append(f"repo:          {REPO}")
     lines.append(f"host nproc:    {nproc}")
     lines.append(f"BASE_ARGS:     {BASE_ARGS!r}")
+    lines.append(f"console logs:  {OUT_LOG_DIR}/")
     lines.append("modes:")
     for mode, extra in MODES:
         lines.append(f"  {mode}: {extra!r}")
     lines.append("")
     lines.append("Notes:")
-    lines.append("  - Same run counts for baseline and cpu_beam (5× 1k, 1× 20k). No warmup.")
-    lines.append("  - cpu_beam: beam on CPU (nproc threads); bwd/fwd-post/qual/gen stay on GPU.")
-    lines.append("  - Extra D2H (scores+bwd) + H2D (states+moves) + sync at the beam boundary.")
-    lines.append("  - Comparison table at end uses mean real time (or the single run for n=1).")
+    lines.append("  - Per config×mode: 1 cache-warm run, then 1 timed run (FAST/HAC × 1k/20k).")
+    lines.append("  - Warmup is logged/CSV'd but excluded from the comparison table.")
+    lines.append("  - cpu_beam: openfish_gpubuf_init_hostvis + gpu_scan + decode_cpu_beam.")
+    lines.append("  - Scan tensors use cudaMallocManaged; scores D2H as fp32 for CPU beam.")
+    lines.append("  - Full stdout/stderr for each run is under cpu-beam-logs/.")
     lines.append("")
 
     print(f"CPU-beam vs baseline  nproc={nproc}  → {OUT_REPORT}", flush=True)
@@ -140,46 +152,56 @@ def main() -> int:
             cmd_s = " ".join(shlex.quote(x) for x in cmd)
             lines.append(f"=== {label} | {mode} ===")
             lines.append(f"command: {cmd_s}")
-            print(f"\n>> {label} / {mode}  ({n_runs} run(s))", flush=True)
+            print(f"\n>> {label} / {mode}  (1 warmup + {n_runs} timed)", flush=True)
             print(f"   $ {cmd_s}", flush=True)
 
-            reals: list[float] = []
+            # --- cache warm (not used in comparison) ---
+            warm_log = OUT_LOG_DIR / f"{slug(label, mode, 'warmup')}.log"
+            print(f"   warmup → {warm_log.name} ...", flush=True)
+            w_real, w_cpu, w_ram, w_threads = run_one(cmd, warm_log)
+            if w_threads is not None:
+                reported_threads = w_threads
+            lines.append(
+                f"  warmup: real={w_real:.3f}s  cpu={w_cpu:.3f}s  peak_ram={w_ram:.3f}GB"
+                + (f"  cpu_beam_threads={w_threads}" if w_threads is not None else "")
+                + f"  log={warm_log.name}"
+            )
+            csv_rows.append(
+                f"{label},{mode},warmup,0,{w_real:.6f},{w_cpu:.6f},{w_ram:.6f},"
+                f"{w_threads if w_threads is not None else ''},{warm_log.name}"
+            )
+            print(
+                f"   warmup: real={w_real:.3f}s  cpu={w_cpu:.3f}s  ram={w_ram:.3f}GB",
+                flush=True,
+            )
+
+            # --- timed runs ---
             for i in range(1, n_runs + 1):
-                print(f"   run {i}/{n_runs}...", flush=True)
-                real_s, cpu_s, ram, threads = run_one(cmd)
+                log_path = OUT_LOG_DIR / f"{slug(label, mode)}.log"
+                print(f"   timed {i}/{n_runs} → {log_path.name} ...", flush=True)
+                real_s, cpu_s, ram, threads = run_one(cmd, log_path)
                 if threads is not None:
                     reported_threads = threads
-                reals.append(real_s)
+                results[label][mode] = real_s
                 lines.append(
-                    f"  run {i}: real={real_s:.3f}s  cpu={cpu_s:.3f}s  peak_ram={ram:.3f}GB"
+                    f"  timed {i}: real={real_s:.3f}s  cpu={cpu_s:.3f}s  peak_ram={ram:.3f}GB"
                     + (f"  cpu_beam_threads={threads}" if threads is not None else "")
+                    + f"  log={log_path.name}"
                 )
                 csv_rows.append(
-                    f"{label},{mode},{i},{real_s:.6f},{cpu_s:.6f},{ram:.6f},"
-                    f"{threads if threads is not None else ''}"
+                    f"{label},{mode},timed,{i},{real_s:.6f},{cpu_s:.6f},{ram:.6f},"
+                    f"{threads if threads is not None else ''},{log_path.name}"
                 )
                 print(
-                    f"   run {i}: real={real_s:.3f}s  cpu={cpu_s:.3f}s  ram={ram:.3f}GB",
+                    f"   timed {i}: real={real_s:.3f}s  cpu={cpu_s:.3f}s  ram={ram:.3f}GB",
                     flush=True,
                 )
 
-            s = summarise(reals)
-            results[label][mode] = reals
-            if s["n"] >= 2:
-                lines.append(
-                    f"  summary: n={int(s['n'])} mean={s['mean']:.3f}s stdev={s['stdev']:.3f}s "
-                    f"min={s['min']:.3f}s max={s['max']:.3f}s CV%={s['cv_pct']:.3f}%"
-                )
-            else:
-                lines.append(f"  summary: n=1 real={reals[0]:.3f}s")
             lines.append("")
-
-            # Flush after each mode so Ctrl+C still leaves partial data
             OUT_REPORT.write_text("\n".join(lines) + "\n", encoding="utf-8")
             OUT_CSV.write_text("\n".join(csv_rows) + "\n", encoding="utf-8")
 
-    # --- comparison ---
-    lines.append("=== Comparison (mean real time; baseline = GPU beam) ===")
+    lines.append("=== Comparison (timed real time; baseline = GPU beam) ===")
     hdr = (
         f"{'config':<12}  {'baseline(s)':>12}  {'cpu_beam(s)':>12}  "
         f"{'delta(s)':>10}  {'slowdown':>9}  {'% slower':>9}"
@@ -190,8 +212,8 @@ def main() -> int:
     print("-" * len(hdr), flush=True)
 
     for label, _n, _m, _d in CONFIGS:
-        base = summarise(results[label]["baseline"])["mean"]
-        cpu = summarise(results[label]["cpu_beam"])["mean"]
+        base = results[label]["baseline"]
+        cpu = results[label]["cpu_beam"]
         delta = cpu - base
         slowdown = (cpu / base) if base else 0.0
         pct = ((cpu - base) / base * 100.0) if base else 0.0
@@ -208,15 +230,15 @@ def main() -> int:
     lines.append(f"os.cpu_count():            {nproc}")
     lines.append("")
     lines.append("Interpretation hooks:")
-    lines.append("  - slowdown > 1 means CPU-beam hybrid is slower than GPU beam (expected).")
-    lines.append("  - Extra PCIe traffic + host sync at the beam boundary usually dominates.")
-    lines.append("  - Could still matter for heavier models on hosts with stronger CPUs.")
+    lines.append("  - slowdown > 1 means CPU-beam path is slower than fused GPU decode.")
+    lines.append("  - Scores still need a host fp32 copy; bwd/post should not (cudaMallocManaged).")
     lines.append("")
 
     OUT_REPORT.write_text("\n".join(lines) + "\n", encoding="utf-8")
     OUT_CSV.write_text("\n".join(csv_rows) + "\n", encoding="utf-8")
     print(f"\nWrote {OUT_REPORT}")
     print(f"Wrote {OUT_CSV}")
+    print(f"Wrote consoles under {OUT_LOG_DIR}/")
     return 0
 
 

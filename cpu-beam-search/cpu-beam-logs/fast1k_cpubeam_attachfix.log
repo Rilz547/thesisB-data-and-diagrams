@@ -1,0 +1,14 @@
+
+slorado base-caller version 0.5.0-beta
+model path:         models/dna_r10.4.1_e8.2_400bps_fast@v5.0.0
+input path:         test/PGXXXX230339/reads_1k.blow5
+output path:        /dev/null
+device:             cuda:all
+chunk size:         9996
+read batch size:    11654
+gpu batch size:     128
+no. threads:        8
+overlap:            498
+
+[run_pipeline] streaming pipeline: 5 preprocess, 1 runner, 1 decode (GPU scan + CPU beam), 3 stitch threads
+[decode_stage] post-scan n0=0 nt=128 bwd[0]=4694.109863 post[0]=0.006186

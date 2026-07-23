@@ -1,88 +1,77 @@
-CPU-beam hybrid vs GPU-beam baseline (paired timing suite)
-timestamp:     2026-07-22 01:16:11 AEST
+CPU-beam (Bonson managed hostvis) vs GPU-beam baseline
+timestamp:     2026-07-23 17:39:13 AEST
 repo:          /home/riley/slorado-riley-v2
 host nproc:    6
-BASE_ARGS:     '-C 128'
+BASE_ARGS:     '-C 128 -c 12288 -K 4096 -p 150'
+console logs:  /home/riley/slorado-riley-v2/cpu-beam-logs/
 modes:
-  baseline: '--cpu-beam=no --overlap-decode=no'
-  cpu_beam: '--cpu-beam=yes --overlap-decode=no'
+  baseline: '--cpu-beam=no'
+  cpu_beam: '--cpu-beam=yes'
 
 Notes:
-  - Same run counts for baseline and cpu_beam (5× 1k, 1× 20k). No warmup.
-  - cpu_beam: beam on CPU (nproc threads); bwd/fwd-post/qual/gen stay on GPU.
-  - Extra D2H (scores+bwd) + H2D (states+moves) + sync at the beam boundary.
-  - Comparison table at end uses mean real time (or the single run for n=1).
+  - Per config×mode: 1 cache-warm run, then 1 timed run (FAST/HAC × 1k/20k).
+  - Warmup is logged/CSV'd but excluded from the comparison table.
+  - cpu_beam: streaming pipeline; GPU scan (openfish_decode_gpu_scan) + CPU beam.
+  - Jetson (ConcurrentManagedAccess=0): CPU can't deref managed pages while the GPU is
+    busy, so bwd/post AND int8 scores are D2H-copied to plain host buffers on the scan
+    stream before the CPU beam reads them (driver reads managed; no CPU deref).
+  - Decode (scan+beam) runs on a decode thread, overlapping next-batch inference.
+  - Full stdout/stderr for each run is under cpu-beam-logs/.
 
 === FAST 1k | baseline ===
-command: ./slorado basecaller -C 128 -o /dev/null --cpu-beam=no --overlap-decode=no models/dna_r10.4.1_e8.2_400bps_fast@v5.0.0 test/PGXXXX230339/reads_1k.blow5
-  run 1: real=11.901s  cpu=4.372s  peak_ram=2.615GB
-  run 2: real=11.514s  cpu=4.065s  peak_ram=2.612GB
-  run 3: real=11.544s  cpu=4.098s  peak_ram=2.609GB
-  run 4: real=11.462s  cpu=4.033s  peak_ram=2.609GB
-  run 5: real=11.447s  cpu=4.011s  peak_ram=2.610GB
-  summary: n=5 mean=11.574s stdev=0.187s min=11.447s max=11.901s CV%=1.617%
+command: ./slorado basecaller -C 128 -c 12288 -K 4096 -p 150 -o /dev/null --cpu-beam=no models/dna_r10.4.1_e8.2_400bps_fast@v5.0.0 test/PGXXXX230339/reads_1k.blow5
+  warmup: real=11.042s  cpu=3.828s  peak_ram=2.606GB  log=FAST_1k_baseline_warmup.log
+  timed 1: real=11.006s  cpu=3.897s  peak_ram=2.600GB  log=FAST_1k_baseline.log
 
 === FAST 1k | cpu_beam ===
-command: ./slorado basecaller -C 128 -o /dev/null --cpu-beam=yes --overlap-decode=no models/dna_r10.4.1_e8.2_400bps_fast@v5.0.0 test/PGXXXX230339/reads_1k.blow5
-  run 1: real=38.113s  cpu=60.517s  peak_ram=3.085GB  cpu_beam_threads=6
-  run 2: real=39.134s  cpu=61.170s  peak_ram=3.081GB  cpu_beam_threads=6
-  run 3: real=39.261s  cpu=61.569s  peak_ram=3.086GB  cpu_beam_threads=6
-  run 4: real=38.988s  cpu=61.167s  peak_ram=3.090GB  cpu_beam_threads=6
-  run 5: real=38.061s  cpu=60.499s  peak_ram=3.090GB  cpu_beam_threads=6
-  summary: n=5 mean=38.711s stdev=0.578s min=38.061s max=39.261s CV%=1.494%
+command: ./slorado basecaller -C 128 -c 12288 -K 4096 -p 150 -o /dev/null --cpu-beam=yes models/dna_r10.4.1_e8.2_400bps_fast@v5.0.0 test/PGXXXX230339/reads_1k.blow5
+  warmup: real=12.147s  cpu=41.632s  peak_ram=2.766GB  log=FAST_1k_cpu_beam_warmup.log
+  timed 1: real=12.022s  cpu=41.587s  peak_ram=2.765GB  log=FAST_1k_cpu_beam.log
 
 === HAC 1k | baseline ===
-command: ./slorado basecaller -C 128 -o /dev/null --cpu-beam=no --overlap-decode=no models/dna_r10.4.1_e8.2_400bps_hac@v5.0.0 test/PGXXXX230339/reads_1k.blow5
-  run 1: real=46.734s  cpu=31.915s  peak_ram=3.728GB
-  run 2: real=46.679s  cpu=31.866s  peak_ram=3.730GB
-  run 3: real=46.459s  cpu=31.789s  peak_ram=3.726GB
-  run 4: real=46.492s  cpu=31.776s  peak_ram=3.730GB
-  run 5: real=46.393s  cpu=31.729s  peak_ram=3.721GB
-  summary: n=5 mean=46.551s stdev=0.147s min=46.393s max=46.734s CV%=0.316%
+command: ./slorado basecaller -C 128 -c 12288 -K 4096 -p 150 -o /dev/null --cpu-beam=no models/dna_r10.4.1_e8.2_400bps_hac@v5.0.0 test/PGXXXX230339/reads_1k.blow5
+  warmup: real=45.935s  cpu=37.578s  peak_ram=3.749GB  log=HAC_1k_baseline_warmup.log
+  timed 1: real=45.722s  cpu=37.406s  peak_ram=3.744GB  log=HAC_1k_baseline.log
 
 === HAC 1k | cpu_beam ===
-command: ./slorado basecaller -C 128 -o /dev/null --cpu-beam=yes --overlap-decode=no models/dna_r10.4.1_e8.2_400bps_hac@v5.0.0 test/PGXXXX230339/reads_1k.blow5
-  run 1: real=119.890s  cpu=127.246s  peak_ram=5.512GB  cpu_beam_threads=6
-  run 2: real=117.547s  cpu=125.052s  peak_ram=5.522GB  cpu_beam_threads=6
-  run 3: real=116.627s  cpu=124.364s  peak_ram=5.518GB  cpu_beam_threads=6
-  run 4: real=116.528s  cpu=124.357s  peak_ram=5.524GB  cpu_beam_threads=6
-  run 5: real=116.190s  cpu=123.945s  peak_ram=5.521GB  cpu_beam_threads=6
-  summary: n=5 mean=117.356s stdev=1.503s min=116.190s max=119.890s CV%=1.281%
+command: ./slorado basecaller -C 128 -c 12288 -K 4096 -p 150 -o /dev/null --cpu-beam=yes models/dna_r10.4.1_e8.2_400bps_hac@v5.0.0 test/PGXXXX230339/reads_1k.blow5
+  warmup: real=52.795s  cpu=79.947s  peak_ram=5.467GB  log=HAC_1k_cpu_beam_warmup.log
+  timed 1: real=52.387s  cpu=80.200s  peak_ram=5.457GB  log=HAC_1k_cpu_beam.log
 
 === FAST 20k | baseline ===
-command: ./slorado basecaller -C 128 -o /dev/null --cpu-beam=no --overlap-decode=no models/dna_r10.4.1_e8.2_400bps_fast@v5.0.0 test/PGXXXX230339/reads_20k.blow5
-  run 1: real=205.401s  cpu=41.703s  peak_ram=4.567GB
-  summary: n=1 real=205.401s
+command: ./slorado basecaller -C 128 -c 12288 -K 4096 -p 150 -o /dev/null --cpu-beam=no models/dna_r10.4.1_e8.2_400bps_fast@v5.0.0 test/PGXXXX230339/reads_20k.blow5
+  warmup: real=198.260s  cpu=40.148s  peak_ram=4.505GB  log=FAST_20k_baseline_warmup.log
+  timed 1: real=197.159s  cpu=39.852s  peak_ram=4.486GB  log=FAST_20k_baseline.log
 
 === FAST 20k | cpu_beam ===
-command: ./slorado basecaller -C 128 -o /dev/null --cpu-beam=yes --overlap-decode=no models/dna_r10.4.1_e8.2_400bps_fast@v5.0.0 test/PGXXXX230339/reads_20k.blow5
-  run 1: real=608.181s  cpu=1029.557s  peak_ram=4.950GB  cpu_beam_threads=6
-  summary: n=1 real=608.181s
+command: ./slorado basecaller -C 128 -c 12288 -K 4096 -p 150 -o /dev/null --cpu-beam=yes models/dna_r10.4.1_e8.2_400bps_fast@v5.0.0 test/PGXXXX230339/reads_20k.blow5
+  warmup: real=221.918s  cpu=809.763s  peak_ram=2.774GB  log=FAST_20k_cpu_beam_warmup.log
+  timed 1: real=218.971s  cpu=806.598s  peak_ram=2.777GB  log=FAST_20k_cpu_beam.log
 
 === HAC 20k | baseline ===
-command: ./slorado basecaller -C 128 -o /dev/null --cpu-beam=no --overlap-decode=no models/dna_r10.4.1_e8.2_400bps_hac@v5.0.0 test/PGXXXX230339/reads_20k.blow5
-  run 1: real=900.072s  cpu=589.147s  peak_ram=5.540GB
-  summary: n=1 real=900.072s
+command: ./slorado basecaller -C 128 -c 12288 -K 4096 -p 150 -o /dev/null --cpu-beam=no models/dna_r10.4.1_e8.2_400bps_hac@v5.0.0 test/PGXXXX230339/reads_20k.blow5
+  warmup: real=894.890s  cpu=711.597s  peak_ram=5.613GB  log=HAC_20k_baseline_warmup.log
+  timed 1: real=889.712s  cpu=705.897s  peak_ram=5.633GB  log=HAC_20k_baseline.log
 
 === HAC 20k | cpu_beam ===
-command: ./slorado basecaller -C 128 -o /dev/null --cpu-beam=yes --overlap-decode=no models/dna_r10.4.1_e8.2_400bps_hac@v5.0.0 test/PGXXXX230339/reads_20k.blow5
-  run 1: real=2322.105s  cpu=2436.373s  peak_ram=6.184GB  cpu_beam_threads=6
-  summary: n=1 real=2322.105s
+command: ./slorado basecaller -C 128 -c 12288 -K 4096 -p 150 -o /dev/null --cpu-beam=yes models/dna_r10.4.1_e8.2_400bps_hac@v5.0.0 test/PGXXXX230339/reads_20k.blow5
+  warmup: real=1053.017s  cpu=1625.831s  peak_ram=5.429GB  log=HAC_20k_cpu_beam_warmup.log
+  timed 1: real=1020.086s  cpu=1588.081s  peak_ram=5.455GB  log=HAC_20k_cpu_beam.log
 
-=== Comparison (mean real time; baseline = GPU beam) ===
+=== Comparison (timed real time; baseline = GPU beam) ===
 config         baseline(s)   cpu_beam(s)    delta(s)   slowdown   % slower
 --------------------------------------------------------------------------
-FAST 1k             11.574        38.711     +27.138      3.34x    +234.5%
-HAC 1k              46.551       117.356     +70.805      2.52x    +152.1%
-FAST 20k           205.401       608.181    +402.780      2.96x    +196.1%
-HAC 20k            900.072      2322.105   +1422.033      2.58x    +158.0%
+FAST 1k             11.006        12.022      +1.016      1.09x      +9.2%
+HAC 1k              45.722        52.387      +6.665      1.15x     +14.6%
+FAST 20k           197.159       218.971     +21.812      1.11x     +11.1%
+HAC 20k            889.712      1020.086    +130.374      1.15x     +14.7%
 
 === Environment ===
-reported cpu_beam_threads: 6
+reported cpu_beam_threads: None
 os.cpu_count():            6
 
 Interpretation hooks:
-  - slowdown > 1 means CPU-beam hybrid is slower than GPU beam (expected).
-  - Extra PCIe traffic + host sync at the beam boundary usually dominates.
-  - Could still matter for heavier models on hosts with stronger CPUs.
+  - slowdown ~1 expected: CPU beam is hidden behind GPU inference (decode thread).
+  - On Jetson the zero-copy managed handoff degrades to a D2H copy of bwd/post + int8
+    scores (ConcurrentManagedAccess=0); still cheap shared-DRAM and overlap is kept.
 

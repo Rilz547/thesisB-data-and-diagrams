@@ -1,0 +1,19 @@
+
+slorado base-caller version 0.5.0-beta
+model path:         models/dna_r10.4.1_e8.2_400bps_hac@v5.0.0
+input path:         test/PGXXXX230339/reads_20k.blow5
+output path:        /dev/null
+device:             cuda:all
+chunk size:         12288
+read batch size:    4096
+gpu batch size:     128
+no. threads:        8
+overlap:            150
+
+[run_pipeline] streaming pipeline: 5 preprocess, 1 runner, 1 decode (GPU scan + CPU beam), 3 stitch threads
+[basecaller_main] total entries: 20000
+[basecaller_main] total bytes: 1424.8 M
+[main] Version: 0.5.0-beta
+[main] CMD: ./slorado basecaller -C 128 -c 12288 -K 4096 -p 150 -o /dev/null --cpu-beam=yes models/dna_r10.4.1_e8.2_400bps_hac@v5.0.0 test/PGXXXX230339/reads_20k.blow5
+[main] Real time: 1053.017 sec; CPU time: 1625.831 sec; Peak RAM: 5.429 GB
+

@@ -1,0 +1,3 @@
+"/home/riley/slorado-riley-v2/./slorado": not in executable format: file format not recognized
+No executable file specified.
+Use the "file" or "exec-file" command.

@@ -1,0 +1,249 @@
+CPU-beam vs baseline  nproc=6  → /home/riley/slorado-riley-v2/cpu-beam-results.txt
+
+>> FAST 1k / baseline  (1 warmup + 1 timed)
+   $ ./slorado basecaller -C 128 -o /dev/null --cpu-beam=no models/dna_r10.4.1_e8.2_400bps_fast@v5.0.0 test/PGXXXX230339/reads_1k.blow5
+   warmup → FAST_1k_baseline_warmup.log ...
+
+slorado base-caller version 0.5.0-beta
+model path:         models/dna_r10.4.1_e8.2_400bps_fast@v5.0.0
+input path:         test/PGXXXX230339/reads_1k.blow5
+output path:        /dev/null
+device:             cuda:all
+chunk size:         9996
+read batch size:    11654
+gpu batch size:     128
+no. threads:        8
+overlap:            498
+
+[basecaller_main::0.240*4.62] 1000 Entries (49.5M bytes) loaded
+[basecaller_main::11.110*0.35] 1000 Entries (49.5M bytes) processed
+[basecaller_main] total entries: 1000
+[basecaller_main] total bytes: 49.5 M
+[basecaller_main] model initialization: 0.186 sec (1.7%)
+[basecaller_main] data loading: 0.045 sec (0.4%)
+[basecaller_main] data processing: 10.870 sec (97.7%)
+[basecaller_main]     - parse: 0.367 sec (3.3%)
+[basecaller_main]     - preprocess: 0.014 sec (0.1%)
+[basecaller_main]     - runners: 10.468 sec (94.1%)
+[basecaller_main]          - synchronisation: 0.000 sec (0.0%)
+[basecaller_main]          - model runner [0]: 10.468 sec (94.1% util)
+[basecaller_main]             - accept: 0.293 sec (2.6% util)
+[basecaller_main]             - basecall: 10.175 sec (91.5% util)
+[basecaller_main]                 - inference: 6.693 sec (60.2% util)
+[basecaller_main]                     - conv_stack: 1.688 sec (15.2% util)
+[basecaller_main]                     - rnns: 4.708 sec (42.3% util)
+[basecaller_main]                     - crf_1: 0.169 sec (1.5% util)
+[basecaller_main]                     - crf_2: 0.000 sec (0.0% util)
+[basecaller_main]                     - clamp: 0.126 sec (1.1% util)
+[basecaller_main]                 - decode: 3.446 sec (31.0% util)
+[basecaller_main]             - modcall: 0.000 sec (0.0% util)
+[basecaller_main]     - postprocess: 0.021 sec (0.2%)
+[basecaller_main]     - mod_preprocess: 0.000 sec (0.0%)
+[basecaller_main]     - mod_postprocess: 0.000 sec (0.0%)
+[basecaller_main] data output: 0.005 sec (0.0%)
+[basecaller_main] data free: 0.009 sec (0.1%)
+[main] Version: 0.5.0-beta
+[main] CMD: ./slorado basecaller -C 128 -o /dev/null --cpu-beam=no models/dna_r10.4.1_e8.2_400bps_fast@v5.0.0 test/PGXXXX230339/reads_1k.blow5
+[main] Real time: 11.131 sec; CPU time: 3.900 sec; Peak RAM: 2.353 GB
+
+   warmup: real=11.131s  cpu=3.900s  ram=2.353GB
+   timed 1/1 → FAST_1k_baseline.log ...
+
+slorado base-caller version 0.5.0-beta
+model path:         models/dna_r10.4.1_e8.2_400bps_fast@v5.0.0
+input path:         test/PGXXXX230339/reads_1k.blow5
+output path:        /dev/null
+device:             cuda:all
+chunk size:         9996
+read batch size:    11654
+gpu batch size:     128
+no. threads:        8
+overlap:            498
+
+[basecaller_main::0.236*4.63] 1000 Entries (49.5M bytes) loaded
+[basecaller_main::11.134*0.35] 1000 Entries (49.5M bytes) processed
+[basecaller_main] total entries: 1000
+[basecaller_main] total bytes: 49.5 M
+[basecaller_main] model initialization: 0.184 sec (1.6%)
+[basecaller_main] data loading: 0.045 sec (0.4%)
+[basecaller_main] data processing: 10.898 sec (97.8%)
+[basecaller_main]     - parse: 0.379 sec (3.4%)
+[basecaller_main]     - preprocess: 0.015 sec (0.1%)
+[basecaller_main]     - runners: 10.473 sec (94.0%)
+[basecaller_main]          - synchronisation: 0.000 sec (0.0%)
+[basecaller_main]          - model runner [0]: 10.472 sec (94.0% util)
+[basecaller_main]             - accept: 0.288 sec (2.6% util)
+[basecaller_main]             - basecall: 10.184 sec (91.4% util)
+[basecaller_main]                 - inference: 6.711 sec (60.2% util)
+[basecaller_main]                     - conv_stack: 1.690 sec (15.2% util)
+[basecaller_main]                     - rnns: 4.724 sec (42.4% util)
+[basecaller_main]                     - crf_1: 0.169 sec (1.5% util)
+[basecaller_main]                     - crf_2: 0.000 sec (0.0% util)
+[basecaller_main]                     - clamp: 0.127 sec (1.1% util)
+[basecaller_main]                 - decode: 3.438 sec (30.8% util)
+[basecaller_main]             - modcall: 0.000 sec (0.0% util)
+[basecaller_main]     - postprocess: 0.031 sec (0.3%)
+[basecaller_main]     - mod_preprocess: 0.000 sec (0.0%)
+[basecaller_main]     - mod_postprocess: 0.000 sec (0.0%)
+[basecaller_main] data output: 0.004 sec (0.0%)
+[basecaller_main] data free: 0.008 sec (0.1%)
+[main] Version: 0.5.0-beta
+[main] CMD: ./slorado basecaller -C 128 -o /dev/null --cpu-beam=no models/dna_r10.4.1_e8.2_400bps_fast@v5.0.0 test/PGXXXX230339/reads_1k.blow5
+[main] Real time: 11.152 sec; CPU time: 3.937 sec; Peak RAM: 2.349 GB
+
+   timed 1: real=11.152s  cpu=3.937s  ram=2.349GB
+
+>> FAST 1k / cpu_beam  (1 warmup + 1 timed)
+   $ ./slorado basecaller -C 128 -o /dev/null --cpu-beam=yes models/dna_r10.4.1_e8.2_400bps_fast@v5.0.0 test/PGXXXX230339/reads_1k.blow5
+   warmup → FAST_1k_cpu_beam_warmup.log ...
+
+slorado base-caller version 0.5.0-beta
+model path:         models/dna_r10.4.1_e8.2_400bps_fast@v5.0.0
+input path:         test/PGXXXX230339/reads_1k.blow5
+output path:        /dev/null
+device:             cuda:all
+chunk size:         9996
+read batch size:    11654
+gpu batch size:     128
+no. threads:        8
+overlap:            498
+
+[run_pipeline] streaming pipeline: 5 preprocess, 1 runner, 1 decode (GPU scan + CPU beam), 3 stitch threads
+[basecaller_main] total entries: 1000
+[basecaller_main] total bytes: 70.8 M
+[main] Version: 0.5.0-beta
+[main] CMD: ./slorado basecaller -C 128 -o /dev/null --cpu-beam=yes models/dna_r10.4.1_e8.2_400bps_fast@v5.0.0 test/PGXXXX230339/reads_1k.blow5
+[main] Real time: 12.391 sec; CPU time: 42.222 sec; Peak RAM: 2.421 GB
+
+   warmup: real=12.391s  cpu=42.222s  ram=2.421GB
+   timed 1/1 → FAST_1k_cpu_beam.log ...
+
+slorado base-caller version 0.5.0-beta
+model path:         models/dna_r10.4.1_e8.2_400bps_fast@v5.0.0
+input path:         test/PGXXXX230339/reads_1k.blow5
+output path:        /dev/null
+device:             cuda:all
+chunk size:         9996
+read batch size:    11654
+gpu batch size:     128
+no. threads:        8
+overlap:            498
+
+[run_pipeline] streaming pipeline: 5 preprocess, 1 runner, 1 decode (GPU scan + CPU beam), 3 stitch threads
+[basecaller_main] total entries: 1000
+[basecaller_main] total bytes: 70.8 M
+[main] Version: 0.5.0-beta
+[main] CMD: ./slorado basecaller -C 128 -o /dev/null --cpu-beam=yes models/dna_r10.4.1_e8.2_400bps_fast@v5.0.0 test/PGXXXX230339/reads_1k.blow5
+[main] Real time: 12.448 sec; CPU time: 42.261 sec; Peak RAM: 2.426 GB
+
+   timed 1: real=12.448s  cpu=42.261s  ram=2.426GB
+
+>> HAC 1k / baseline  (1 warmup + 1 timed)
+   $ ./slorado basecaller -C 128 -o /dev/null --cpu-beam=no models/dna_r10.4.1_e8.2_400bps_hac@v5.0.0 test/PGXXXX230339/reads_1k.blow5
+   warmup → HAC_1k_baseline_warmup.log ...
+
+slorado base-caller version 0.5.0-beta
+model path:         models/dna_r10.4.1_e8.2_400bps_hac@v5.0.0
+input path:         test/PGXXXX230339/reads_1k.blow5
+output path:        /dev/null
+device:             cuda:all
+chunk size:         9996
+read batch size:    11654
+gpu batch size:     128
+no. threads:        8
+overlap:            498
+
+[basecaller_main::0.360*3.11] 1000 Entries (49.5M bytes) loaded
+[basecaller_main::46.531*0.81] 1000 Entries (49.5M bytes) processed
+[basecaller_main] total entries: 1000
+[basecaller_main] total bytes: 49.5 M
+[basecaller_main] model initialization: 0.307 sec (0.7%)
+[basecaller_main] data loading: 0.045 sec (0.1%)
+[basecaller_main] data processing: 46.171 sec (99.2%)
+[basecaller_main]     - parse: 0.364 sec (0.8%)
+[basecaller_main]     - preprocess: 0.014 sec (0.0%)
+[basecaller_main]     - runners: 45.768 sec (98.3%)
+[basecaller_main]          - synchronisation: 0.000 sec (0.0%)
+[basecaller_main]          - model runner [0]: 45.767 sec (98.3% util)
+[basecaller_main]             - accept: 0.297 sec (0.6% util)
+[basecaller_main]             - basecall: 45.470 sec (97.7% util)
+[basecaller_main]                 - inference: 41.229 sec (88.6% util)
+[basecaller_main]                     - conv_stack: 3.246 sec (7.0% util)
+[basecaller_main]                     - rnns: 36.216 sec (77.8% util)
+[basecaller_main]                     - crf_1: 1.284 sec (2.8% util)
+[basecaller_main]                     - crf_2: 0.000 sec (0.0% util)
+[basecaller_main]                     - clamp: 0.482 sec (1.0% util)
+[basecaller_main]                 - decode: 4.207 sec (9.0% util)
+[basecaller_main]             - modcall: 0.000 sec (0.0% util)
+[basecaller_main]     - postprocess: 0.024 sec (0.1%)
+[basecaller_main]     - mod_preprocess: 0.000 sec (0.0%)
+[basecaller_main]     - mod_postprocess: 0.000 sec (0.0%)
+[basecaller_main] data output: 0.004 sec (0.0%)
+[basecaller_main] data free: 0.010 sec (0.0%)
+[main] Version: 0.5.0-beta
+[main] CMD: ./slorado basecaller -C 128 -o /dev/null --cpu-beam=no models/dna_r10.4.1_e8.2_400bps_hac@v5.0.0 test/PGXXXX230339/reads_1k.blow5
+[main] Real time: 46.568 sec; CPU time: 37.706 sec; Peak RAM: 2.900 GB
+
+   warmup: real=46.568s  cpu=37.706s  ram=2.900GB
+   timed 1/1 → HAC_1k_baseline.log ...
+
+slorado base-caller version 0.5.0-beta
+model path:         models/dna_r10.4.1_e8.2_400bps_hac@v5.0.0
+input path:         test/PGXXXX230339/reads_1k.blow5
+output path:        /dev/null
+device:             cuda:all
+chunk size:         9996
+read batch size:    11654
+gpu batch size:     128
+no. threads:        8
+overlap:            498
+
+[basecaller_main::0.263*4.37] 1000 Entries (49.5M bytes) loaded
+[basecaller_main::46.194*0.81] 1000 Entries (49.5M bytes) processed
+[basecaller_main] total entries: 1000
+[basecaller_main] total bytes: 49.5 M
+[basecaller_main] model initialization: 0.210 sec (0.5%)
+[basecaller_main] data loading: 0.045 sec (0.1%)
+[basecaller_main] data processing: 45.931 sec (99.4%)
+[basecaller_main]     - parse: 0.363 sec (0.8%)
+[basecaller_main]     - preprocess: 0.014 sec (0.0%)
+[basecaller_main]     - runners: 45.529 sec (98.5%)
+[basecaller_main]          - synchronisation: 0.000 sec (0.0%)
+[basecaller_main]          - model runner [0]: 45.528 sec (98.5% util)
+[basecaller_main]             - accept: 0.304 sec (0.7% util)
+[basecaller_main]             - basecall: 45.224 sec (97.9% util)
+[basecaller_main]                 - inference: 40.981 sec (88.7% util)
+[basecaller_main]                     - conv_stack: 3.249 sec (7.0% util)
+[basecaller_main]                     - rnns: 35.956 sec (77.8% util)
+[basecaller_main]                     - crf_1: 1.300 sec (2.8% util)
+[basecaller_main]                     - crf_2: 0.000 sec (0.0% util)
+[basecaller_main]                     - clamp: 0.475 sec (1.0% util)
+[basecaller_main]                 - decode: 4.209 sec (9.1% util)
+[basecaller_main]             - modcall: 0.000 sec (0.0% util)
+[basecaller_main]     - postprocess: 0.025 sec (0.1%)
+[basecaller_main]     - mod_preprocess: 0.000 sec (0.0%)
+[basecaller_main]     - mod_postprocess: 0.000 sec (0.0%)
+[basecaller_main] data output: 0.006 sec (0.0%)
+[basecaller_main] data free: 0.010 sec (0.0%)
+[main] Version: 0.5.0-beta
+[main] CMD: ./slorado basecaller -C 128 -o /dev/null --cpu-beam=no models/dna_r10.4.1_e8.2_400bps_hac@v5.0.0 test/PGXXXX230339/reads_1k.blow5
+[main] Real time: 46.233 sec; CPU time: 37.498 sec; Peak RAM: 2.901 GB
+
+   timed 1: real=46.233s  cpu=37.498s  ram=2.901GB
+
+>> HAC 1k / cpu_beam  (1 warmup + 1 timed)
+   $ ./slorado basecaller -C 128 -o /dev/null --cpu-beam=yes models/dna_r10.4.1_e8.2_400bps_hac@v5.0.0 test/PGXXXX230339/reads_1k.blow5
+   warmup → HAC_1k_cpu_beam_warmup.log ...
+
+slorado base-caller version 0.5.0-beta
+model path:         models/dna_r10.4.1_e8.2_400bps_hac@v5.0.0
+input path:         test/PGXXXX230339/reads_1k.blow5
+output path:        /dev/null
+device:             cuda:all
+chunk size:         9996
+read batch size:    11654
+gpu batch size:     128
+no. threads:        8
+overlap:            498
+
+[run_pipeline] streaming pipeline: 5 preprocess, 1 runner, 1 decode (GPU scan + CPU beam), 3 stitch threads

@@ -1,0 +1,43 @@
+
+slorado base-caller version 0.5.0-beta
+model path:         models/dna_r10.4.1_e8.2_400bps_fast@v5.0.0
+input path:         test/PGXXXX230339/reads_1k.blow5
+output path:        /dev/null
+device:             cuda:all
+chunk size:         12288
+read batch size:    4096
+gpu batch size:     128
+no. threads:        8
+overlap:            150
+
+[basecaller_main::0.229*4.82] 1000 Entries (49.5M bytes) loaded
+[basecaller_main::10.981*0.35] 1000 Entries (49.5M bytes) processed
+[basecaller_main] total entries: 1000
+[basecaller_main] total bytes: 49.5 M
+[basecaller_main] model initialization: 0.182 sec (1.7%)
+[basecaller_main] data loading: 0.045 sec (0.4%)
+[basecaller_main] data processing: 10.752 sec (97.8%)
+[basecaller_main]     - parse: 0.354 sec (3.2%)
+[basecaller_main]     - preprocess: 0.016 sec (0.1%)
+[basecaller_main]     - runners: 10.357 sec (94.2%)
+[basecaller_main]          - synchronisation: 0.000 sec (0.0%)
+[basecaller_main]          - model runner [0]: 10.356 sec (94.2% util)
+[basecaller_main]             - accept: 0.280 sec (2.5% util)
+[basecaller_main]             - basecall: 10.076 sec (91.6% util)
+[basecaller_main]                 - inference: 6.648 sec (60.5% util)
+[basecaller_main]                     - conv_stack: 1.648 sec (15.0% util)
+[basecaller_main]                     - rnns: 4.715 sec (42.9% util)
+[basecaller_main]                     - crf_1: 0.161 sec (1.5% util)
+[basecaller_main]                     - crf_2: 0.000 sec (0.0% util)
+[basecaller_main]                     - clamp: 0.123 sec (1.1% util)
+[basecaller_main]                 - decode: 3.395 sec (30.9% util)
+[basecaller_main]             - modcall: 0.000 sec (0.0% util)
+[basecaller_main]     - postprocess: 0.025 sec (0.2%)
+[basecaller_main]     - mod_preprocess: 0.000 sec (0.0%)
+[basecaller_main]     - mod_postprocess: 0.000 sec (0.0%)
+[basecaller_main] data output: 0.005 sec (0.0%)
+[basecaller_main] data free: 0.009 sec (0.1%)
+[main] Version: 0.5.0-beta
+[main] CMD: ./slorado basecaller -C 128 -c 12288 -K 4096 -p 150 -o /dev/null --cpu-beam=no models/dna_r10.4.1_e8.2_400bps_fast@v5.0.0 test/PGXXXX230339/reads_1k.blow5
+[main] Real time: 11.006 sec; CPU time: 3.897 sec; Peak RAM: 2.600 GB
+
