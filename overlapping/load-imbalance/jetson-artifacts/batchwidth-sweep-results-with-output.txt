@@ -1,0 +1,65 @@
+FAST 1k 2D sweep WITH FASTQ OUTPUT: batch width (C) x flush threshold (narrow vs fixedc)
+timestamp:    2026-07-28 13:37:39 AEST
+host nproc:   6
+model:        models/dna_r10.4.1_e8.2_400bps_fast@v5.0.0
+data:         test/PGXXXX230339/reads_1k.blow5
+C values:     [64, 128]
+flush per C:  full, 32, 8, 4
+modes:        narrow (--fixed-c-batch=no), fixedc (--fixed-c-batch=yes)
+output:       per-cell FASTQ (not /dev/null); timings are slower than -no-output set
+
+Notes:
+  - padded% = (C-N)/C -> for fixed flush N, larger C = MORE padding -> bigger Layer 1 win.
+  - At full batches (flush=C), only the tail is partial; larger C = bigger tail waste.
+  - speedup (fixedc/narrow) = Layer 1; grows with C. Residual = Layer 2.
+  - FASTQ: output_fast_1k_overlap-li-C{C}-f{flush}-{mode}.fastq
+  - 1 timed run per cell; full-batch cells run first to warm CUDA per C.
+
+  C=64 flush=full narrow : real=9.809s infer=4.349s decode=8.324s padded=0.4% batches=80 tail=1 ram=2.415GB log=C64_flushfull_narrow.log fastq=output_fast_1k_overlap-li-C64-ffull-narrow.fastq
+  C=64 flush=full fixedc : real=9.733s infer=4.275s decode=8.238s padded=0.4% batches=80 tail=1 ram=2.418GB log=C64_flushfull_fixedc.log fastq=output_fast_1k_overlap-li-C64-ffull-fixedc.fastq
+  C=64 flush=  32 narrow : real=11.809s infer=2.711s decode=10.349s padded=50.2% batches=160 tail=160 ram=1.843GB log=C64_flush32_narrow.log fastq=output_fast_1k_overlap-li-C64-f32-narrow.fastq
+  C=64 flush=  32 fixedc : real=17.478s infer=7.556s decode=15.959s padded=50.2% batches=160 tail=160 ram=2.414GB log=C64_flush32_fixedc.log fastq=output_fast_1k_overlap-li-C64-f32-fixedc.fastq
+  C=64 flush=   8 narrow : real=31.005s infer=4.663s decode=29.447s padded=87.5% batches=638 tail=638 ram=1.378GB log=C64_flush8_narrow.log fastq=output_fast_1k_overlap-li-C64-f8-narrow.fastq
+  C=64 flush=   8 fixedc : real=63.677s infer=29.621s decode=62.081s padded=87.5% batches=638 tail=638 ram=2.422GB log=C64_flush8_fixedc.log fastq=output_fast_1k_overlap-li-C64-f8-fixedc.fastq
+  C=64 flush=   4 narrow : real=57.088s infer=8.537s decode=55.485s padded=93.8% batches=1275 tail=1275 ram=1.272GB log=C64_flush4_narrow.log fastq=output_fast_1k_overlap-li-C64-f4-narrow.fastq
+  C=64 flush=   4 fixedc : real=125.313s infer=60.103s decode=123.628s padded=93.8% batches=1275 tail=1275 ram=2.415GB log=C64_flush4_fixedc.log fastq=output_fast_1k_overlap-li-C64-f4-fixedc.fastq
+  C=128 flush=full narrow : real=10.249s infer=5.124s decode=8.465s padded=0.4% batches=40 tail=1 ram=3.640GB log=C128_flushfull_narrow.log fastq=output_fast_1k_overlap-li-C128-ffull-narrow.fastq
+  C=128 flush=full fixedc : real=10.160s infer=5.164s decode=8.346s padded=0.4% batches=40 tail=1 ram=3.642GB log=C128_flushfull_fixedc.log fastq=output_fast_1k_overlap-li-C128-ffull-fixedc.fastq
+  C=128 flush=  32 narrow : real=11.899s infer=2.692s decode=10.432s padded=75.1% batches=160 tail=160 ram=1.946GB log=C128_flush32_narrow.log fastq=output_fast_1k_overlap-li-C128-f32-narrow.fastq
+  C=128 flush=  32 fixedc : real=33.591s infer=21.049s decode=31.733s padded=75.1% batches=160 tail=160 ram=3.644GB log=C128_flush32_fixedc.log fastq=output_fast_1k_overlap-li-C128-f32-fixedc.fastq
+  C=128 flush=   8 narrow : real=30.942s infer=4.665s decode=29.391s padded=93.8% batches=638 tail=638 ram=1.486GB log=C128_flush8_narrow.log fastq=output_fast_1k_overlap-li-C128-f8-narrow.fastq
+  C=128 flush=   8 fixedc : real=126.706s infer=80.854s decode=124.728s padded=93.8% batches=638 tail=638 ram=3.640GB log=C128_flush8_fixedc.log fastq=output_fast_1k_overlap-li-C128-f8-fixedc.fastq
+  C=128 flush=   4 narrow : real=57.029s infer=8.664s decode=55.420s padded=96.9% batches=1275 tail=1275 ram=1.374GB log=C128_flush4_narrow.log fastq=output_fast_1k_overlap-li-C128-f4-narrow.fastq
+  C=128 flush=   4 fixedc : real=250.758s infer=159.776s decode=248.741s padded=96.9% batches=1275 tail=1275 ram=3.646GB log=C128_flush4_fixedc.log fastq=output_fast_1k_overlap-li-C128-f4-fixedc.fastq
+
+=== Comparison: real time vs flush, per C ===
+
+C=64:
+ flush  padded%  fixedc(s)  narrow(s)  speedup
+----------------------------------------------
+  full     0.4%      9.733      9.809    0.99x
+    32    50.2%     17.478     11.809    1.48x
+     8    87.5%     63.677     31.005    2.05x
+     4    93.8%    125.313     57.088    2.20x
+
+C=128:
+ flush  padded%  fixedc(s)  narrow(s)  speedup
+----------------------------------------------
+  full     0.4%     10.160     10.249    0.99x
+    32    75.1%     33.591     11.899    2.82x
+     8    93.8%    126.706     30.942    4.09x
+     4    96.9%    250.758     57.029    4.40x
+
+=== Layer 1 speedup surface (fixedc/narrow), rows=C cols=flush ===
+C      flush=full  flush=  32  flush=   8  flush=   4
+-----------------------------------------------------
+C=64    0.99x    1.48x    2.05x    2.20x
+C=128   0.99x    2.82x    4.09x    4.40x
+
+Interpretation:
+  - For a fixed flush N, padded% = (C-N)/C rises with C -> narrow removes more at larger C.
+  - Speedup (Layer 1) should grow down each row (flush down) AND across rows (C up).
+  - At full batches, narrow ~ fixedc (no regression); tail waste ~ (C-N_tail)/total grows with C.
+  - Residual narrow time growth at low flush = Layer 2 (launch overhead / occupancy).
+  - Use *-no-output timings for the performance narrative; these runs are for accuracy.
+

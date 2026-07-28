@@ -1,0 +1,20 @@
+Load-imbalance spot-check WITH FASTQ OUTPUT (FAST 20k + HAC 1k)
+timestamp:    2026-07-28 13:57:51 AEST
+host nproc:   6
+-C:           128
+cells:        FAST 20k (f128-narrow, f64-narrow, f64-fixedc); HAC 1k (f128/f64 x narrow/fixedc)
+output:       per-cell FASTQ; use for accuracy + spot timing (not primary grid)
+
+  FAST 20k flush=128 narrow : real=176.410s infer=83.225s decode=162.328s padded=0.3% batches=800 tail=5 ram=5.473GB log=fast_20k_f128_narrow.log fastq=output_fast_20k_overlap-li-f128-narrow.fastq
+  FAST 20k flush= 64 narrow : real=175.291s infer=73.012s decode=161.067s padded=50.1% batches=1598 tail=1598 ram=4.405GB log=fast_20k_f64_narrow.log fastq=output_fast_20k_overlap-li-f64-narrow.fastq
+  FAST 20k flush= 64 fixedc : real=332.967s infer=198.608s decode=318.564s padded=50.1% batches=1598 tail=1598 ram=5.441GB log=fast_20k_f64_fixedc.log fastq=output_fast_20k_overlap-li-f64-fixedc.fastq
+  HAC 1k   flush=128 narrow : real=45.582s infer=44.075s decode=42.064s padded=0.4% batches=40 tail=1 ram=4.298GB log=hac_1k_f128_narrow.log fastq=output_hac_1k_overlap-li-f128-narrow.fastq
+  HAC 1k   flush=128 fixedc : real=45.350s infer=44.157s decode=42.401s padded=0.4% batches=40 tail=1 ram=4.301GB log=hac_1k_f128_fixedc.log fastq=output_hac_1k_overlap-li-f128-fixedc.fastq
+  HAC 1k   flush= 64 narrow : real=49.275s infer=48.196s decode=47.013s padded=50.2% batches=80 tail=80 ram=3.077GB log=hac_1k_f64_narrow.log fastq=output_hac_1k_overlap-li-f64-narrow.fastq
+  HAC 1k   flush= 64 fixedc : real=87.791s infer=86.572s decode=84.819s padded=50.2% batches=80 tail=80 ram=4.298GB log=hac_1k_f64_fixedc.log fastq=output_hac_1k_overlap-li-f64-fixedc.fastq
+
+Notes:
+  - FAST 20k: compare f64-narrow vs f128-narrow (sweet-spot at scale) and vs f64-fixedc.
+  - HAC 1k: 4-cell check that Layer 1 still appears on a heavier model.
+  - Primary FAST 1k grids remain in flush_sweep_test.py / batchwidth_sweep_test.py.
+

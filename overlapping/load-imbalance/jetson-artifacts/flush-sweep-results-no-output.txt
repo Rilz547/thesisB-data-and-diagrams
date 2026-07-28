@@ -1,0 +1,59 @@
+FAST 1k flush-threshold sweep (narrow vs fixed-c, overlap-decode=yes)
+timestamp:    2026-07-26 23:43:33 AEST
+host nproc:   6
+model:        models/dna_r10.4.1_e8.2_400bps_fast@v5.0.0
+data:         test/PGXXXX230339/reads_1k.blow5
+-C:           128
+flush sweep:  [128, 96, 64, 48, 32, 24, 16, 12, 8, 4]
+modes:        narrow (--fixed-c-batch=no), fixedc (--fixed-c-batch=yes)
+
+Notes:
+  - narrow: GPU batch right-sized to N real chunks (no dummy-slot padding).
+  - fixedc: original fixed-C, pads (C-N) dummy slots (baseline padding waste).
+  - padded% = (C-N)/C = imbalance magnitude; fixedc wastes it, narrow avoids it.
+  - speedup (fixedc/narrow) = Layer 1 (padding tax removed).
+  - residual narrow time growth = Layer 2 (launch overhead + low occupancy).
+  - 1 timed run per (flush, mode); flush 128 first warms the CUDA context.
+
+  flush=128 narrow : real=10.365s infer=5.163s decode=8.597s padded=0.4% batches=40 tail=1 ram=3.649GB log=flush128_narrow.log
+  flush=128 fixedc : real=10.123s infer=5.115s decode=8.357s padded=0.4% batches=40 tail=1 ram=3.647GB log=flush128_fixedc.log
+  flush= 96 narrow : real=10.973s infer=6.017s decode=9.314s padded=26.2% batches=54 tail=54 ram=3.105GB log=flush96_narrow.log
+  flush= 96 fixedc : real=12.884s infer=7.545s decode=11.109s padded=26.2% batches=54 tail=54 ram=3.643GB log=flush96_fixedc.log
+  flush= 64 narrow : real=9.752s infer=4.337s decode=8.254s padded=50.2% batches=80 tail=80 ram=2.522GB log=flush64_narrow.log
+  flush= 64 fixedc : real=17.922s infer=10.790s decode=16.147s padded=50.2% batches=80 tail=80 ram=3.654GB log=flush64_fixedc.log
+  flush= 48 narrow : real=10.427s infer=3.993s decode=8.994s padded=62.8% batches=107 tail=107 ram=2.238GB log=flush48_narrow.log
+  flush= 48 fixedc : real=23.159s infer=14.297s decode=21.383s padded=62.8% batches=107 tail=107 ram=3.646GB log=flush48_fixedc.log
+  flush= 32 narrow : real=11.914s infer=2.694s decode=10.414s padded=75.1% batches=160 tail=160 ram=1.951GB log=flush32_narrow.log
+  flush= 32 fixedc : real=33.528s infer=20.984s decode=31.723s padded=75.1% batches=160 tail=160 ram=3.647GB log=flush32_fixedc.log
+  flush= 24 narrow : real=14.216s infer=2.434s decode=12.758s padded=81.3% batches=213 tail=213 ram=1.816GB log=flush24_narrow.log
+  flush= 24 fixedc : real=43.773s infer=27.602s decode=41.960s padded=81.3% batches=213 tail=213 ram=3.650GB log=flush24_fixedc.log
+  flush= 16 narrow : real=17.580s infer=2.651s decode=16.103s padded=87.5% batches=319 tail=319 ram=1.631GB log=flush16_narrow.log
+  flush= 16 fixedc : real=64.469s infer=41.054s decode=62.628s padded=87.5% batches=319 tail=319 ram=3.651GB log=flush16_fixedc.log
+  flush= 12 narrow : real=22.534s infer=3.260s decode=21.021s padded=90.6% batches=425 tail=425 ram=1.547GB log=flush12_narrow.log
+  flush= 12 fixedc : real=85.088s infer=54.376s decode=83.215s padded=90.6% batches=425 tail=425 ram=3.651GB log=flush12_fixedc.log
+  flush=  8 narrow : real=30.866s infer=4.701s decode=29.357s padded=93.8% batches=638 tail=638 ram=1.488GB log=flush8_narrow.log
+  flush=  8 fixedc : real=126.696s infer=80.679s decode=124.755s padded=93.8% batches=638 tail=638 ram=3.649GB log=flush8_fixedc.log
+  flush=  4 narrow : real=56.965s infer=8.641s decode=55.405s padded=96.9% batches=1275 tail=1275 ram=1.384GB log=flush4_narrow.log
+  flush=  4 fixedc : real=250.788s infer=159.072s decode=248.777s padded=96.9% batches=1275 tail=1275 ram=3.647GB log=flush4_fixedc.log
+
+=== Comparison: real time vs flush threshold ===
+ flush  padded%  fixedc(s)  narrow(s)  speedup narrow infer narrow decode
+-------------------------------------------------------------------------
+   128     0.4%     10.123     10.365    0.98x       5.163        8.597
+    96    26.2%     12.884     10.973    1.17x       6.017        9.314
+    64    50.2%     17.922      9.752    1.84x       4.337        8.254
+    48    62.8%     23.159     10.427    2.22x       3.993        8.994
+    32    75.1%     33.528     11.914    2.81x       2.694       10.414
+    24    81.3%     43.773     14.216    3.08x       2.434       12.758
+    16    87.5%     64.469     17.580    3.67x       2.651       16.103
+    12    90.6%     85.088     22.534    3.78x       3.260       21.021
+     8    93.8%    126.696     30.866    4.10x       4.701       29.357
+     4    96.9%    250.788     56.965    4.40x       8.641       55.405
+
+Interpretation:
+  - padded% rises as (C-N)/C: flush 128 ~0.4% -> flush 4 ~96.9%.
+  - fixedc real time blows up (padding waste + launch overhead).
+  - speedup = Layer 1 (padding removed by narrow); grows as flush drops.
+  - narrow time still grows (not flat) = Layer 2 (launch overhead / occupancy).
+  - narrow decode overtakes narrow infer at low flush (more kernels per batch).
+

@@ -1,0 +1,31 @@
+FAST 1k 2D sweep: batch width (C) x flush threshold (narrow vs fixedc)
+timestamp:    2026-07-27 00:02:09 AEST
+host nproc:   6
+model:        models/dna_r10.4.1_e8.2_400bps_fast@v5.0.0
+data:         test/PGXXXX230339/reads_1k.blow5
+C values:     [64, 128, 256]
+flush per C:  full, 32, 8, 4
+modes:        narrow (--fixed-c-batch=no), fixedc (--fixed-c-batch=yes)
+
+Notes:
+  - padded% = (C-N)/C -> for fixed flush N, larger C = MORE padding -> bigger Layer 1 win.
+  - At full batches (flush=C), only the tail is partial; larger C = bigger tail waste.
+  - speedup (fixedc/narrow) = Layer 1; grows with C. Residual = Layer 2.
+  - 1 timed run per cell; full-batch cells run first to warm CUDA per C.
+
+  C=64 flush=full narrow : real=9.844s infer=4.341s decode=8.334s padded=0.4% batches=80 tail=1 ram=2.419GB log=C64_flushfull_narrow.log
+  C=64 flush=full fixedc : real=9.752s infer=4.334s decode=8.261s padded=0.4% batches=80 tail=1 ram=2.420GB log=C64_flushfull_fixedc.log
+  C=64 flush=  32 narrow : real=11.865s infer=2.694s decode=10.403s padded=50.2% batches=160 tail=160 ram=1.849GB log=C64_flush32_narrow.log
+  C=64 flush=  32 fixedc : real=17.426s infer=7.400s decode=15.906s padded=50.2% batches=160 tail=160 ram=2.426GB log=C64_flush32_fixedc.log
+  C=64 flush=   8 narrow : real=30.874s infer=4.619s decode=29.392s padded=87.5% batches=638 tail=638 ram=1.384GB log=C64_flush8_narrow.log
+  C=64 flush=   8 fixedc : real=63.846s infer=29.743s decode=62.244s padded=87.5% batches=638 tail=638 ram=2.425GB log=C64_flush8_fixedc.log
+  C=64 flush=   4 narrow : real=56.959s infer=8.707s decode=55.451s padded=93.8% batches=1275 tail=1275 ram=1.275GB log=C64_flush4_narrow.log
+  C=64 flush=   4 fixedc : real=125.420s infer=60.247s decode=123.749s padded=93.8% batches=1275 tail=1275 ram=2.420GB log=C64_flush4_fixedc.log
+  C=128 flush=full narrow : real=10.253s infer=5.103s decode=8.463s padded=0.4% batches=40 tail=1 ram=3.647GB log=C128_flushfull_narrow.log
+  C=128 flush=full fixedc : real=10.117s infer=5.122s decode=8.351s padded=0.4% batches=40 tail=1 ram=3.645GB log=C128_flushfull_fixedc.log
+  C=128 flush=  32 narrow : real=11.887s infer=2.703s decode=10.454s padded=75.1% batches=160 tail=160 ram=1.955GB log=C128_flush32_narrow.log
+  C=128 flush=  32 fixedc : real=33.531s infer=20.958s decode=31.741s padded=75.1% batches=160 tail=160 ram=3.655GB log=C128_flush32_fixedc.log
+  C=128 flush=   8 narrow : real=30.872s infer=4.555s decode=29.398s padded=93.8% batches=638 tail=638 ram=1.491GB log=C128_flush8_narrow.log
+  C=128 flush=   8 fixedc : real=126.681s infer=80.654s decode=124.787s padded=93.8% batches=638 tail=638 ram=3.649GB log=C128_flush8_fixedc.log
+  C=128 flush=   4 narrow : real=56.964s infer=8.437s decode=55.430s padded=96.9% batches=1275 tail=1275 ram=1.379GB log=C128_flush4_narrow.log
+  C=128 flush=   4 fixedc : real=250.857s infer=159.498s decode=248.793s padded=96.9% batches=1275 tail=1275 ram=3.651GB log=C128_flush4_fixedc.log

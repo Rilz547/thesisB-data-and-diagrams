@@ -1,0 +1,62 @@
+FAST 1k flush-threshold sweep WITH FASTQ OUTPUT (narrow vs fixed-c, overlap-decode=yes)
+timestamp:    2026-07-28 13:19:02 AEST
+host nproc:   6
+model:        models/dna_r10.4.1_e8.2_400bps_fast@v5.0.0
+data:         test/PGXXXX230339/reads_1k.blow5
+-C:           128
+flush sweep:  [128, 96, 64, 48, 32, 24, 16, 12, 8, 4]
+modes:        narrow (--fixed-c-batch=no), fixedc (--fixed-c-batch=yes)
+output:       per-cell FASTQ (not /dev/null); timings are slower than -no-output set
+
+Notes:
+  - narrow: GPU batch right-sized to N real chunks (no dummy-slot padding).
+  - fixedc: original fixed-C, pads (C-N) dummy slots (baseline padding waste).
+  - padded% = (C-N)/C = imbalance magnitude; fixedc wastes it, narrow avoids it.
+  - speedup (fixedc/narrow) = Layer 1 (padding tax removed).
+  - residual narrow time growth = Layer 2 (launch overhead + low occupancy).
+  - FASTQ: output_fast_1k_overlap-li-f{flush}-{mode}.fastq
+  - 1 timed run per (flush, mode); flush 128 first warms the CUDA context.
+
+  flush=128 narrow : real=10.602s infer=5.352s decode=8.744s padded=0.4% batches=40 tail=1 ram=3.644GB log=flush128_narrow.log fastq=output_fast_1k_overlap-li-f128-narrow.fastq
+  flush=128 fixedc : real=10.159s infer=5.158s decode=8.345s padded=0.4% batches=40 tail=1 ram=3.641GB log=flush128_fixedc.log fastq=output_fast_1k_overlap-li-f128-fixedc.fastq
+  flush= 96 narrow : real=10.863s infer=6.054s decode=9.183s padded=26.2% batches=54 tail=54 ram=3.090GB log=flush96_narrow.log fastq=output_fast_1k_overlap-li-f96-narrow.fastq
+  flush= 96 fixedc : real=12.894s infer=7.556s decode=11.124s padded=26.2% batches=54 tail=54 ram=3.642GB log=flush96_fixedc.log fastq=output_fast_1k_overlap-li-f96-fixedc.fastq
+  flush= 64 narrow : real=9.774s infer=4.321s decode=8.279s padded=50.2% batches=80 tail=80 ram=2.521GB log=flush64_narrow.log fastq=output_fast_1k_overlap-li-f64-narrow.fastq
+  flush= 64 fixedc : real=17.932s infer=10.861s decode=16.136s padded=50.2% batches=80 tail=80 ram=3.643GB log=flush64_fixedc.log fastq=output_fast_1k_overlap-li-f64-fixedc.fastq
+  flush= 48 narrow : real=10.502s infer=4.035s decode=9.014s padded=62.8% batches=107 tail=107 ram=2.227GB log=flush48_narrow.log fastq=output_fast_1k_overlap-li-f48-narrow.fastq
+  flush= 48 fixedc : real=23.193s infer=14.263s decode=21.386s padded=62.8% batches=107 tail=107 ram=3.642GB log=flush48_fixedc.log fastq=output_fast_1k_overlap-li-f48-fixedc.fastq
+  flush= 32 narrow : real=11.858s infer=2.696s decode=10.408s padded=75.1% batches=160 tail=160 ram=1.948GB log=flush32_narrow.log fastq=output_fast_1k_overlap-li-f32-narrow.fastq
+  flush= 32 fixedc : real=33.588s infer=21.024s decode=31.739s padded=75.1% batches=160 tail=160 ram=3.642GB log=flush32_fixedc.log fastq=output_fast_1k_overlap-li-f32-fixedc.fastq
+  flush= 24 narrow : real=14.224s infer=2.470s decode=12.736s padded=81.3% batches=213 tail=213 ram=1.807GB log=flush24_narrow.log fastq=output_fast_1k_overlap-li-f24-narrow.fastq
+  flush= 24 fixedc : real=43.850s infer=27.639s decode=41.966s padded=81.3% batches=213 tail=213 ram=3.645GB log=flush24_fixedc.log fastq=output_fast_1k_overlap-li-f24-fixedc.fastq
+  flush= 16 narrow : real=17.584s infer=2.708s decode=16.103s padded=87.5% batches=319 tail=319 ram=1.628GB log=flush16_narrow.log fastq=output_fast_1k_overlap-li-f16-narrow.fastq
+  flush= 16 fixedc : real=64.488s infer=41.137s decode=62.628s padded=87.5% batches=319 tail=319 ram=3.640GB log=flush16_fixedc.log fastq=output_fast_1k_overlap-li-f16-fixedc.fastq
+  flush= 12 narrow : real=22.531s infer=3.347s decode=21.041s padded=90.6% batches=425 tail=425 ram=1.551GB log=flush12_narrow.log fastq=output_fast_1k_overlap-li-f12-narrow.fastq
+  flush= 12 fixedc : real=85.103s infer=54.444s decode=83.262s padded=90.6% batches=425 tail=425 ram=3.643GB log=flush12_fixedc.log fastq=output_fast_1k_overlap-li-f12-fixedc.fastq
+  flush=  8 narrow : real=30.869s infer=4.663s decode=29.358s padded=93.8% batches=638 tail=638 ram=1.487GB log=flush8_narrow.log fastq=output_fast_1k_overlap-li-f8-narrow.fastq
+  flush=  8 fixedc : real=126.659s infer=80.771s decode=124.715s padded=93.8% batches=638 tail=638 ram=3.646GB log=flush8_fixedc.log fastq=output_fast_1k_overlap-li-f8-fixedc.fastq
+  flush=  4 narrow : real=56.952s infer=8.525s decode=55.372s padded=96.9% batches=1275 tail=1275 ram=1.375GB log=flush4_narrow.log fastq=output_fast_1k_overlap-li-f4-narrow.fastq
+  flush=  4 fixedc : real=250.682s infer=160.155s decode=248.667s padded=96.9% batches=1275 tail=1275 ram=3.645GB log=flush4_fixedc.log fastq=output_fast_1k_overlap-li-f4-fixedc.fastq
+
+=== Comparison: real time vs flush threshold ===
+ flush  padded%  fixedc(s)  narrow(s)  speedup narrow infer narrow decode
+-------------------------------------------------------------------------
+   128     0.4%     10.159     10.602    0.96x       5.352        8.744
+    96    26.2%     12.894     10.863    1.19x       6.054        9.183
+    64    50.2%     17.932      9.774    1.83x       4.321        8.279
+    48    62.8%     23.193     10.502    2.21x       4.035        9.014
+    32    75.1%     33.588     11.858    2.83x       2.696       10.408
+    24    81.3%     43.850     14.224    3.08x       2.470       12.736
+    16    87.5%     64.488     17.584    3.67x       2.708       16.103
+    12    90.6%     85.103     22.531    3.78x       3.347       21.041
+     8    93.8%    126.659     30.869    4.10x       4.663       29.358
+     4    96.9%    250.682     56.952    4.40x       8.525       55.372
+
+Interpretation:
+  - padded% rises as (C-N)/C: flush 128 ~0.4% -> flush 4 ~96.9%.
+  - fixedc real time blows up (padding waste + launch overhead).
+  - speedup = Layer 1 (padding removed by narrow); grows as flush drops.
+  - narrow time still grows (not flat) = Layer 2 (launch overhead / occupancy).
+  - narrow decode overtakes narrow infer at low flush (more kernels per batch).
+  - Use *-no-output timings for the performance narrative; these runs are for accuracy.
+

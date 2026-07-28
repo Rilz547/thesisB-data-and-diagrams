@@ -1,0 +1,17 @@
+C,flush,mode,real_s,cpu_s,peak_ram_gb,infer_s,decode_s,batches,tail,padded_pct,console_log,fastq
+64,full,narrow,9.809000,4.122000,2.415000,4.349000,8.324000,80,1,0.400000,C64_flushfull_narrow.log,output_fast_1k_overlap-li-C64-ffull-narrow.fastq
+64,full,fixedc,9.733000,4.065000,2.418000,4.275000,8.238000,80,1,0.400000,C64_flushfull_fixedc.log,output_fast_1k_overlap-li-C64-ffull-fixedc.fastq
+64,32,narrow,11.809000,4.481000,1.843000,2.711000,10.349000,160,160,50.200000,C64_flush32_narrow.log,output_fast_1k_overlap-li-C64-f32-narrow.fastq
+64,32,fixedc,17.478000,4.782000,2.414000,7.556000,15.959000,160,160,50.200000,C64_flush32_fixedc.log,output_fast_1k_overlap-li-C64-f32-fixedc.fastq
+64,8,narrow,31.005000,7.684000,1.378000,4.663000,29.447000,638,638,87.500000,C64_flush8_narrow.log,output_fast_1k_overlap-li-C64-f8-narrow.fastq
+64,8,fixedc,63.677000,8.836000,2.422000,29.621000,62.081000,638,638,87.500000,C64_flush8_fixedc.log,output_fast_1k_overlap-li-C64-f8-fixedc.fastq
+64,4,narrow,57.088000,11.772000,1.272000,8.537000,55.485000,1275,1275,93.800000,C64_flush4_narrow.log,output_fast_1k_overlap-li-C64-f4-narrow.fastq
+64,4,fixedc,125.313000,14.222000,2.415000,60.103000,123.628000,1275,1275,93.800000,C64_flush4_fixedc.log,output_fast_1k_overlap-li-C64-f4-fixedc.fastq
+128,full,narrow,10.249000,4.314000,3.640000,5.124000,8.465000,40,1,0.400000,C128_flushfull_narrow.log,output_fast_1k_overlap-li-C128-ffull-narrow.fastq
+128,full,fixedc,10.160000,4.245000,3.642000,5.164000,8.346000,40,1,0.400000,C128_flushfull_fixedc.log,output_fast_1k_overlap-li-C128-ffull-fixedc.fastq
+128,32,narrow,11.899000,4.499000,1.946000,2.692000,10.432000,160,160,75.100000,C128_flush32_narrow.log,output_fast_1k_overlap-li-C128-f32-narrow.fastq
+128,32,fixedc,33.591000,5.606000,3.644000,21.049000,31.733000,160,160,75.100000,C128_flush32_fixedc.log,output_fast_1k_overlap-li-C128-f32-fixedc.fastq
+128,8,narrow,30.942000,7.717000,1.486000,4.665000,29.391000,638,638,93.800000,C128_flush8_narrow.log,output_fast_1k_overlap-li-C128-f8-narrow.fastq
+128,8,fixedc,126.706000,10.901000,3.640000,80.854000,124.728000,638,638,93.800000,C128_flush8_fixedc.log,output_fast_1k_overlap-li-C128-f8-fixedc.fastq
+128,4,narrow,57.029000,11.977000,1.374000,8.664000,55.420000,1275,1275,96.900000,C128_flush4_narrow.log,output_fast_1k_overlap-li-C128-f4-narrow.fastq
+128,4,fixedc,250.758000,17.596000,3.646000,159.776000,248.741000,1275,1275,96.900000,C128_flush4_fixedc.log,output_fast_1k_overlap-li-C128-f4-fixedc.fastq

@@ -1,0 +1,8 @@
+label,size_tag,flush,mode,real_s,cpu_s,peak_ram_gb,infer_s,decode_s,batches,tail,padded_pct,console_log,fastq
+FAST 20k,fast_20k,128,narrow,176.410000,40.448000,5.473000,83.225000,162.328000,800,5,0.300000,fast_20k_f128_narrow.log,output_fast_20k_overlap-li-f128-narrow.fastq
+FAST 20k,fast_20k,64,narrow,175.291000,45.130000,4.405000,73.012000,161.067000,1598,1598,50.100000,fast_20k_f64_narrow.log,output_fast_20k_overlap-li-f64-narrow.fastq
+FAST 20k,fast_20k,64,fixedc,332.967000,49.562000,5.441000,198.608000,318.564000,1598,1598,50.100000,fast_20k_f64_fixedc.log,output_fast_20k_overlap-li-f64-fixedc.fastq
+HAC 1k,hac_1k,128,narrow,45.582000,43.790000,4.298000,44.075000,42.064000,40,1,0.400000,hac_1k_f128_narrow.log,output_hac_1k_overlap-li-f128-narrow.fastq
+HAC 1k,hac_1k,128,fixedc,45.350000,43.762000,4.301000,44.157000,42.401000,40,1,0.400000,hac_1k_f128_fixedc.log,output_hac_1k_overlap-li-f128-fixedc.fastq
+HAC 1k,hac_1k,64,narrow,49.275000,47.493000,3.077000,48.196000,47.013000,80,80,50.200000,hac_1k_f64_narrow.log,output_hac_1k_overlap-li-f64-narrow.fastq
+HAC 1k,hac_1k,64,fixedc,87.791000,82.882000,4.298000,86.572000,84.819000,80,80,50.200000,hac_1k_f64_fixedc.log,output_hac_1k_overlap-li-f64-fixedc.fastq
