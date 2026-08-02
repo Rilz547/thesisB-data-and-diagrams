@@ -1,0 +1,6 @@
+timestamp,fastq,mode,size,force_frac,rep,n_reads,n_alignments,map_rate,accuracy_median,delta_vs_fast,delta_vs_hac,real_s,pct_hac,reference
+2026-07-31T08:04:31.153159+00:00,output_cascade_20k_frac150_C64.fastq,cascade,20k,0.15,1,20000,21815,109.1%,0.936925,-0.002450,-0.040408,,,/home/riley/Desktop/slorado_analysis/ref/hg38noAlt.fa
+2026-07-31T08:04:42.181417+00:00,output_cascade_20k_frac200_C64.fastq,cascade,20k,0.2,1,20000,22075,110.4%,0.936441,-0.002934,-0.040892,,,/home/riley/Desktop/slorado_analysis/ref/hg38noAlt.fa
+2026-07-31T08:04:53.627411+00:00,output_cascade_20k_frac300_C64.fastq,cascade,20k,0.3,1,20000,22205,111.0%,0.940090,+0.000715,-0.037243,,,/home/riley/Desktop/slorado_analysis/ref/hg38noAlt.fa
+2026-07-31T08:05:05.445751+00:00,output_cascade_20k_frac400_C64.fastq,cascade,20k,0.4,1,20000,22228,111.1%,0.945472,+0.006097,-0.031861,,,/home/riley/Desktop/slorado_analysis/ref/hg38noAlt.fa
+2026-07-31T08:05:17.252156+00:00,output_cascade_20k_frac500_C64.fastq,cascade,20k,0.5,1,20000,22224,111.1%,0.950063,+0.010688,-0.027270,,,/home/riley/Desktop/slorado_analysis/ref/hg38noAlt.fa
