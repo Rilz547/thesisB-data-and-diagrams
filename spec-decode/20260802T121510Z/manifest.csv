@@ -1,0 +1,17 @@
+tag,model,size,flush,phase,speculative,q_thr,margin_thr,brave,fastq,real_s,cpu_s,peak_ram_gb,drafted,repaired,alpha,draft_s,repair_s,log
+baseline,hac,1k,128,time,no,,,no,,45.305,43.416,4.255,,,,,,1k_baseline_time.log
+baseline,hac,1k,128,keep,no,,,no,output_hac_1k_baseline.fastq,44.991,43.238,4.255,,,,,,1k_baseline_keep.log
+q10_m2,hac,1k,128,time,yes,10,2,no,,44.639,42.131,5.001,5100,873,0.829,0.020,3.576,1k_q10_m2_time.log
+q10_m2,hac,1k,128,keep,yes,10,2,no,output_hac_1k_q10_m2.fastq,44.581,42.116,4.995,5100,873,0.829,0.025,3.607,1k_q10_m2_keep.log
+q10_m2_brave,hac,1k,128,time,yes,10,2,yes,,44.593,40.712,4.988,5100,881,0.827,0.026,0.495,1k_q10_m2_brave_time.log
+q10_m2_brave,hac,1k,128,keep,yes,10,2,yes,output_hac_1k_q10_m2_brave.fastq,44.510,40.545,4.995,5100,881,0.827,0.020,0.515,1k_q10_m2_brave_keep.log
+q10_m3_brave,hac,1k,128,time,yes,10,3,yes,,44.982,40.656,5.032,5100,1485,0.709,0.025,0.538,1k_q10_m3_brave_time.log
+q10_m3_brave,hac,1k,128,keep,yes,10,3,yes,output_hac_1k_q10_m3_brave.fastq,45.004,40.536,5.033,5100,1485,0.709,0.021,0.543,1k_q10_m3_brave_keep.log
+baseline,hac,20k,128,time,no,,,no,,871.297,822.945,6.047,,,,,,20k_baseline_time.log
+baseline,hac,20k,128,keep,no,,,no,output_hac_20k_baseline.fastq,871.649,823.419,6.060,,,,,,20k_baseline_keep.log
+q10_m2,hac,20k,128,time,yes,10,2,no,,867.465,796.970,6.229,102089,19474,0.809,0.174,65.769,20k_q10_m2_time.log
+q10_m2,hac,20k,128,keep,yes,10,2,no,output_hac_20k_q10_m2.fastq,867.412,796.168,6.215,102089,19474,0.809,0.175,65.671,20k_q10_m2_keep.log
+q10_m2_brave,hac,20k,128,time,yes,10,2,yes,,866.079,759.367,6.237,102089,19517,0.809,0.178,2.136,20k_q10_m2_brave_time.log
+q10_m2_brave,hac,20k,128,keep,yes,10,2,yes,output_hac_20k_q10_m2_brave.fastq,868.746,760.984,6.240,102089,19517,0.809,0.187,2.272,20k_q10_m2_brave_keep.log
+q10_m3_brave,hac,20k,128,time,yes,10,3,yes,,880.197,763.161,6.300,102089,33235,0.674,0.172,3.375,20k_q10_m3_brave_time.log
+q10_m3_brave,hac,20k,128,keep,yes,10,3,yes,output_hac_20k_q10_m3_brave.fastq,877.863,760.593,6.320,102089,33235,0.674,0.195,2.836,20k_q10_m3_brave_keep.log

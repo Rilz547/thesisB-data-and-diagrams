@@ -1,0 +1,103 @@
+
+slorado base-caller version 0.5.0-beta
+model path:         models/dna_r10.4.1_e8.2_400bps_hac@v5.0.0
+input path:         test/PGXXXX230339/reads_1k.blow5
+output path:        /dev/null
+device:             cuda:all
+chunk size:         12288
+read batch size:    4096
+gpu batch size:     128
+no. threads:        8
+overlap:            150
+overlap decode:     yes
+fixed-c batch:      no (narrow partials)
+flush threshold:    128
+speculative decode: yes
+spec repair thr:    10.00
+spec margin thr:    2.00
+spec overlap repair:no
+spec agreement:     no
+
+[parse_qscore_params::INFO][1;34m mean_qscore_start_pos not found in config toml, setting default to 60[0m
+[basecaller_main::0.339*3.50] 1000 Entries (49.5M bytes) loaded
+[basecaller_main::44.598*0.94] 1000 Entries (49.5M bytes) processed
+
+[basecaller_main] total entries: 1000
+[basecaller_main] total bytes: 49.5 M
+[basecaller_main] model initialization: 0.289 sec
+[basecaller_main] data loading: 0.048 sec
+[basecaller_main] data processing: 44.260 sec
+[basecaller_main]     - parse: 0.431 sec
+[basecaller_main]     - preprocess: 0.018 sec
+[basecaller_main]     - runners: 43.783 sec
+[basecaller_main]          - synchronisation: 0.000 sec
+[basecaller_main]          - model runner [0]: 43.782 sec
+[basecaller_main]             - accept: 0.143 sec
+[basecaller_main]             - basecall: 43.639 sec
+[basecaller_main]                 - inference: 39.961 sec
+[basecaller_main]                     - conv_stack: 0.509 sec
+[basecaller_main]                         - input [N,C,T]: [128, 1, 12288]
+[basecaller_main]                         - conv[0]: 0.202 sec
+[basecaller_main]                             in  [N,C,T]: [128, 1, 12288]
+[basecaller_main]                             out [N,C,T]: [128, 16, 12288]
+[basecaller_main]                             op: 0.193 sec  act: 0.009 sec
+[basecaller_main]                         - conv[1]: 0.060 sec
+[basecaller_main]                             in  [N,C,T]: [128, 16, 12288]
+[basecaller_main]                             out [N,C,T]: [128, 16, 12288]
+[basecaller_main]                             op: 0.058 sec  act: 0.001 sec
+[basecaller_main]                         - conv[2]: 0.246 sec
+[basecaller_main]                             in  [N,C,T]: [128, 16, 12288]
+[basecaller_main]                             out [N,C,T]: [128, 384, 2048]
+[basecaller_main]                             op: 0.169 sec  act: 0.078 sec
+[basecaller_main]                         - transpose: 0.000 sec
+[basecaller_main]                             in  [N,C,T]: [128, 384, 2048]
+[basecaller_main]                             out [N,T,C]: [128, 2048, 384]
+[basecaller_main]                     - rnns: 38.440 sec
+[basecaller_main]                         - rnn[0] (reverse): 13.084 sec
+[basecaller_main]                             in  [N,T,C]: [128, 2048, 384]
+[basecaller_main]                             out [N,T,C]: [128, 2048, 384]
+[basecaller_main]                             flip: 0.017 sec  lstm: 13.067 sec
+[basecaller_main]                         - rnn[1] (forward): 6.343 sec
+[basecaller_main]                             in  [N,T,C]: [128, 2048, 384]
+[basecaller_main]                             out [N,T,C]: [128, 2048, 384]
+[basecaller_main]                             flip: 0.004 sec  lstm: 6.338 sec
+[basecaller_main]                         - rnn[2] (reverse): 6.341 sec
+[basecaller_main]                             in  [N,T,C]: [128, 2048, 384]
+[basecaller_main]                             out [N,T,C]: [128, 2048, 384]
+[basecaller_main]                             flip: 0.004 sec  lstm: 6.338 sec
+[basecaller_main]                         - rnn[3] (forward): 6.335 sec
+[basecaller_main]                             in  [N,T,C]: [128, 2048, 384]
+[basecaller_main]                             out [N,T,C]: [128, 2048, 384]
+[basecaller_main]                             flip: 0.003 sec  lstm: 6.332 sec
+[basecaller_main]                         - rnn[4] (reverse): 6.333 sec
+[basecaller_main]                             in  [N,T,C]: [128, 2048, 384]
+[basecaller_main]                             out [N,T,C]: [128, 2048, 384]
+[basecaller_main]                             flip: 0.004 sec  lstm: 6.330 sec
+[basecaller_main]                         - rnn_out_flip: 0.004 sec
+[basecaller_main]                             out [N,T,C]: [128, 2048, 384]
+[basecaller_main]                     - crf_1: 0.284 sec
+[basecaller_main]                         in  [N,T,C]: [128, 2048, 384]
+[basecaller_main]                         out [N,T,C]: [128, 2048, 1024]
+[basecaller_main]                     - crf_2: 0.000 sec
+[basecaller_main]                     - clamp: 0.028 sec
+[basecaller_main]                 - decode: 41.713 sec
+[basecaller_main]                     - scores [N,T,C]: [29, 2048, 1024]
+[basecaller_main]                     - bwd_scan: 0.791 sec
+[basecaller_main]                     - beam_search: 1.357 sec
+[basecaller_main]                     - draft (greedy): 0.218 sec
+[basecaller_main]                     - fwd_post_scan: 1.647 sec
+[basecaller_main]                     - qual_data: 0.512 sec
+[basecaller_main]                     - gen_sequence: 0.924 sec
+[basecaller_main]                     - d2h_copy: 0.004 sec
+[basecaller_main]             - modcall: 0.000 sec
+[basecaller_main] load-imbalance: 40 GPU batches (1 tail), 5100 real chunks, 20 padded slots -> 0.4% of 5120 launched GPU slots wasted on padding
+[basecaller_main] speculative: drafted 5100, repaired 873 (alpha=0.829 accept), draft 0.020s repair 3.576s
+[basecaller_main]     - postprocess: 0.028 sec
+[basecaller_main]     - mod_preprocess: 0.000 sec
+[basecaller_main]     - mod_postprocess: 0.000 sec
+[basecaller_main] data output: 0.006 sec
+[basecaller_main] data free: 0.010 sec
+[main] Version: 0.5.0-beta
+[main] CMD: ./slorado basecaller -C 128 -c 12288 -K 4096 -p 150 --overlap-decode=yes --fixed-c-batch=no --flush-threshold=128 -o /dev/null --speculative-decode=yes --spec-repair-threshold=10 --spec-margin-threshold=2 models/dna_r10.4.1_e8.2_400bps_hac@v5.0.0 test/PGXXXX230339/reads_1k.blow5
+[main] Real time: 44.639 sec; CPU time: 42.131 sec; Peak RAM: 5.001 GB
+
