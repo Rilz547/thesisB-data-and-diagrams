@@ -1,0 +1,10 @@
+stamp=20260811T130451Z
+label=cb_off
+profile=cb_off
+model=fast size=20k
+git_branch=cpu-beam
+git_commit=664bb1f
+nvpmodel=NV Power Mode: 25W 1 
+jetson_clocks=OFF (do not enable; match prior runtime campaign)
+outdir=docs-riley/power-runs/20260811T130451Z_cb_off_fast_20k
+command=./slorado basecaller -C 128 -c 12288 -K 4096 -p 150 --cpu-beam=no -o /dev/null models/dna_r10.4.1_e8.2_400bps_fast@v5.0.0 test/PGXXXX230339/reads_20k.blow5 
