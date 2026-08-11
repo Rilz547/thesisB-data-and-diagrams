@@ -37,7 +37,7 @@ JETSON_REPO = "~/slorado-riley-v2"
 REMOTE_POWER_ROOT = "docs-riley/power-runs"
 
 # Deliverable pack (new folder each pull).
-LOCAL_OUT_ROOT = Path.cwd() / "power-runs"
+LOCAL_OUT_ROOT = Path.cwd() / "power-runs" / "load-balance"
 
 _SSH_CONTROL = f"/tmp/ssh-slorado-power-{JETSON_USER}@{JETSON_HOST}-%p"
 _SSH_OPTS = [

@@ -1,0 +1,10 @@
+stamp=20260811T073530Z
+label=lb_baseline
+lb_profile=baseline
+model=fast size=20k flush=64
+git_branch=load-imbalance
+git_commit=65246f2
+nvpmodel=NV Power Mode: 25W 1 
+jetson_clocks=OFF (do not enable; match prior runtime campaign)
+outdir=docs-riley/power-runs/20260811T073530Z_lb_baseline_fast_20k
+command=./slorado basecaller -C 128 -c 12288 -K 4096 -p 150 --overlap-decode=yes --fixed-c-batch=yes -o /dev/null models/dna_r10.4.1_e8.2_400bps_fast@v5.0.0 test/PGXXXX230339/reads_20k.blow5 
