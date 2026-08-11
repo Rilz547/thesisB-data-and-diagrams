@@ -1,0 +1,10 @@
+stamp=20260811T114537Z
+label=pre_overlap
+profile=pre
+model=hac size=1k
+git_branch=HEAD
+git_commit=8873209
+nvpmodel=NV Power Mode: 25W 1 
+jetson_clocks=OFF (do not enable; match prior runtime campaign)
+outdir=docs-riley/power-runs/20260811T114537Z_pre_overlap_hac_1k
+command=./slorado basecaller -C 128 -c 12288 -K 4096 -p 150 -o /dev/null models/dna_r10.4.1_e8.2_400bps_hac@v5.0.0 test/PGXXXX230339/reads_1k.blow5 

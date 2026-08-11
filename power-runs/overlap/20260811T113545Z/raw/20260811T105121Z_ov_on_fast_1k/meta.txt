@@ -1,0 +1,11 @@
+stamp=20260811T105121Z
+label=ov_on
+ov_profile=on
+lb_profile=(none)
+model=fast size=1k
+git_branch=HEAD
+git_commit=7cec6c5
+nvpmodel=NV Power Mode: 25W 1 
+jetson_clocks=OFF (do not enable; match prior runtime campaign)
+outdir=docs-riley/power-runs/20260811T105121Z_ov_on_fast_1k
+command=./slorado basecaller -C 128 -c 12288 -K 4096 -p 150 --overlap-decode=yes -o /dev/null models/dna_r10.4.1_e8.2_400bps_fast@v5.0.0 test/PGXXXX230339/reads_1k.blow5 
