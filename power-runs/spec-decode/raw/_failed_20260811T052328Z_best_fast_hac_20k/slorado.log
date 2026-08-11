@@ -1,0 +1,68 @@
+
+slorado base-caller version 0.5.0-beta
+model path:         models/dna_r10.4.1_e8.2_400bps_hac@v5.0.0
+input path:         test/PGXXXX230339/reads_20k.blow5
+output path:        /dev/null
+device:             cuda:all
+chunk size:         12288
+read batch size:    4096
+gpu batch size:     128
+no. threads:        8
+overlap:            150
+overlap decode:     yes
+fixed-c batch:      no (narrow partials)
+flush threshold:    128
+speculative decode: no
+
+[parse_qscore_params::INFO][1;34m mean_qscore_start_pos not found in config toml, setting default to 60[0m
+[basecaller_main::0.935*1.62] 4096 Entries (201.7M bytes) loaded
+NvMapMemAllocInternalTagged: 1075072515 error 12
+NvMapMemHandleAlloc: error 0
+NvMapMemAllocInternalTagged: 1075072515 error 12
+NvMapMemHandleAlloc: error 0
+NvMapMemAllocInternalTagged: 1075072515 error 12
+NvMapMemHandleAlloc: error 0
+NvMapMemAllocInternalTagged: 1075072515 error 12
+NvMapMemHandleAlloc: error 0
+NvMapMemAllocInternalTagged: 1075072515 error 12
+NvMapMemHandleAlloc: error 0
+NvMapMemAllocInternalTagged: 1075072515 error 12
+NvMapMemHandleAlloc: error 0
+terminate called after throwing an instance of 'c10::Error'
+  what():  NVML_SUCCESS == r INTERNAL ASSERT FAILED at "/opt/pytorch/c10/cuda/CUDACachingAllocator.cpp":1165, please report a bug to PyTorch. 
+Exception raised from reportProcessMemoryInfo at /opt/pytorch/c10/cuda/CUDACachingAllocator.cpp:1165 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) + 0xec (0xffff9042c0ac in /home/riley/slorado_venv/lib/python3.10/site-packages/torch/lib/libc10.so)
+frame #1: c10::detail::torchCheckFail(char const*, char const*, unsigned int, char const*) + 0x88 (0xffff903c5c8c in /home/riley/slorado_venv/lib/python3.10/site-packages/torch/lib/libc10.so)
+frame #2: <unknown function> + 0x43f590 (0xffff85eef590 in /home/riley/slorado_venv/lib/python3.10/site-packages/torch/lib/libc10_cuda.so)
+frame #3: <unknown function> + 0x440f2c (0xffff85ef0f2c in /home/riley/slorado_venv/lib/python3.10/site-packages/torch/lib/libc10_cuda.so)
+frame #4: <unknown function> + 0x44165c (0xffff85ef165c in /home/riley/slorado_venv/lib/python3.10/site-packages/torch/lib/libc10_cuda.so)
+frame #5: at::detail::empty_generic(c10::ArrayRef<long>, c10::Allocator*, c10::DispatchKeySet, c10::ScalarType, std::optional<c10::MemoryFormat>) + 0x4c0 (0xffff911a5890 in /home/riley/slorado_venv/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so)
+frame #6: at::detail::empty_cuda(c10::ArrayRef<long>, c10::ScalarType, std::optional<c10::Device>, std::optional<c10::MemoryFormat>) + 0xe0 (0xffff86e94490 in /home/riley/slorado_venv/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #7: at::detail::empty_cuda(c10::ArrayRef<long>, std::optional<c10::ScalarType>, std::optional<c10::Layout>, std::optional<c10::Device>, std::optional<bool>, std::optional<c10::MemoryFormat>) + 0x88 (0xffff86e946e8 in /home/riley/slorado_venv/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #8: at::native::empty_cuda(c10::ArrayRef<long>, std::optional<c10::ScalarType>, std::optional<c10::Layout>, std::optional<c10::Device>, std::optional<bool>, std::optional<c10::MemoryFormat>) + 0x48 (0xffff87404a38 in /home/riley/slorado_venv/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #9: <unknown function> + 0x1362030 (0xffff86eb2030 in /home/riley/slorado_venv/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #10: <unknown function> + 0x1362174 (0xffff86eb2174 in /home/riley/slorado_venv/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #11: at::_ops::empty_memory_format::redispatch(c10::DispatchKeySet, c10::ArrayRef<c10::SymInt>, std::optional<c10::ScalarType>, std::optional<c10::Layout>, std::optional<c10::Device>, std::optional<bool>, std::optional<c10::MemoryFormat>) + 0x110 (0xffff911f8160 in /home/riley/slorado_venv/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so)
+frame #12: <unknown function> + 0x1128580 (0xffff91208580 in /home/riley/slorado_venv/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so)
+frame #13: at::_ops::empty_memory_format::call(c10::ArrayRef<c10::SymInt>, std::optional<c10::ScalarType>, std::optional<c10::Layout>, std::optional<c10::Device>, std::optional<bool>, std::optional<c10::MemoryFormat>) + 0x140 (0xffff911f9f90 in /home/riley/slorado_venv/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so)
+frame #14: <unknown function> + 0x1348968 (0xffff86e98968 in /home/riley/slorado_venv/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #15: at::native::_cudnn_rnn(at::Tensor const&, c10::ArrayRef<at::Tensor>, long, std::optional<at::Tensor> const&, at::Tensor const&, std::optional<at::Tensor> const&, long, long, long, long, bool, double, bool, bool, c10::ArrayRef<long>, std::optional<at::Tensor> const&) + 0xcbc (0xffff87262d9c in /home/riley/slorado_venv/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #16: <unknown function> + 0x3b1dd08 (0xffff8966dd08 in /home/riley/slorado_venv/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #17: at::_ops::_cudnn_rnn::call(at::Tensor const&, c10::ArrayRef<at::Tensor>, long, std::optional<at::Tensor> const&, at::Tensor const&, std::optional<at::Tensor> const&, long, c10::SymInt, c10::SymInt, long, bool, double, bool, bool, c10::ArrayRef<c10::SymInt>, std::optional<at::Tensor> const&) + 0x31c (0xffff920bddec in /home/riley/slorado_venv/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so)
+frame #18: <unknown function> + 0x170a000 (0xffff8725a000 in /home/riley/slorado_venv/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #19: <unknown function> + 0x1713f80 (0xffff87263f80 in /home/riley/slorado_venv/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #20: at::native::lstm(at::Tensor const&, c10::ArrayRef<at::Tensor>, c10::ArrayRef<at::Tensor>, bool, long, double, bool, bool, bool) + 0xfc (0xffff919860cc in /home/riley/slorado_venv/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so)
+frame #21: <unknown function> + 0x2b26034 (0xffff92c06034 in /home/riley/slorado_venv/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so)
+frame #22: at::_ops::lstm_input::call(at::Tensor const&, c10::ArrayRef<at::Tensor>, c10::ArrayRef<at::Tensor>, bool, long, double, bool, bool, bool) + 0x248 (0xffff922895c8 in /home/riley/slorado_venv/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so)
+frame #23: torch::nn::LSTMImpl::forward_helper(at::Tensor const&, at::Tensor const&, at::Tensor const&, long, std::optional<std::tuple<at::Tensor, at::Tensor> >) + 0x4e0 (0xffff96dd9980 in /home/riley/slorado_venv/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so)
+frame #24: torch::nn::LSTMImpl::forward(at::Tensor const&, std::optional<std::tuple<at::Tensor, at::Tensor> >) + 0xac (0xffff96dd9aec in /home/riley/slorado_venv/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so)
+frame #25: <unknown function> + 0x4cf90 (0xaaaac2e0cf90 in ./slorado)
+frame #26: <unknown function> + 0x4d470 (0xaaaac2e0d470 in ./slorado)
+frame #27: <unknown function> + 0x59444 (0xaaaac2e19444 in ./slorado)
+frame #28: <unknown function> + 0x59788 (0xaaaac2e19788 in ./slorado)
+frame #29: <unknown function> + 0x38e84 (0xaaaac2df8e84 in ./slorado)
+frame #30: <unknown function> + 0x32e38 (0xaaaac2df2e38 in ./slorado)
+frame #31: <unknown function> + 0x34e10 (0xaaaac2df4e10 in ./slorado)
+frame #32: <unknown function> + 0x80398 (0xffff85960398 in /lib/aarch64-linux-gnu/libc.so.6)
+frame #33: <unknown function> + 0xe9e9c (0xffff859c9e9c in /lib/aarch64-linux-gnu/libc.so.6)
+
