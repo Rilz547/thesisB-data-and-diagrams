@@ -1,0 +1,9 @@
+config,phase,run,real_s,cpu_s,peak_ram_gb,status,attempts,nsight,fastq,note
+FAST 1k,accuracy,,10.097000,4.961000,2.731000,ok,1,no,output_fast_1k_overlap-spec-q10m2brave.fastq,
+FAST 1k,timed,1,9.023000,4.238000,2.738000,ok,1,no,,
+HAC 1k,accuracy,,45.898000,41.697000,5.043000,ok,1,no,output_hac_1k_overlap-spec-q10m2brave.fastq,
+HAC 1k,timed,1,44.679000,40.771000,5.041000,ok,1,no,,
+FAST 20k,accuracy,,159.724000,46.335000,4.931000,ok,1,no,output_fast_20k_overlap-spec-q10m2brave.fastq,
+FAST 20k,timed,1,158.803000,45.514000,4.812000,ok,1,no,,
+HAC 20k,accuracy,,877.992000,770.810000,6.183000,ok,1,no,output_hac_20k_overlap-spec-q10m2brave.fastq,
+HAC 20k,timed,1,865.431000,759.228000,6.157000,ok,1,no,,

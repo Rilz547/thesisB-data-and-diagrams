@@ -97,7 +97,7 @@ from pathlib import Path
 # CONFIG — edit for your machines
 # ---------------------------------------------------------------------------
 
-JETSON_HOST = "192.168.4.36"  # hostname or IP (must work with ssh)
+JETSON_HOST = "192.168.8.211"  # hostname or IP (must work with ssh)
 JETSON_USER = "riley"
 JETSON_REPO = "~/slorado-riley-v2"
 
@@ -197,10 +197,14 @@ def die(msg: str, code: int = 1) -> None:
     sys.exit(code)
 
 
-def run(cmd: list[str] | str, check: bool = True, shell: bool = False) -> subprocess.CompletedProcess:
+def run(
+    cmd: list[str] | str, check: bool = True, shell: bool = False
+) -> subprocess.CompletedProcess:
     shown = cmd if shell else " ".join(cmd)
     print(c(f"+ {shown}", Col.DIM))
-    return subprocess.run(cmd, check=check, shell=shell, text=True, capture_output=False)
+    return subprocess.run(
+        cmd, check=check, shell=shell, text=True, capture_output=False
+    )
 
 
 def ssh_base() -> list[str]:
@@ -222,8 +226,7 @@ def close_ssh_master() -> None:
 
 def remote_list_fastqs(fastq_glob: str) -> list[str]:
     remote_cmd = (
-        f"bash -lc 'cd {JETSON_REPO} && "
-        f"compgen -G \"{fastq_glob}\" | sort || true'"
+        f"bash -lc 'cd {JETSON_REPO} && " f'compgen -G "{fastq_glob}" | sort || true\''
     )
     proc = subprocess.run(
         ssh_base() + [remote_cmd],
@@ -238,7 +241,7 @@ def remote_mtime(rel_path: str) -> int | None:
     """Epoch mtime of repo-relative file on Jetson, or None if missing."""
     remote_cmd = (
         f"bash -lc 'cd {JETSON_REPO} && "
-        f"if [ -e \"{rel_path}\" ]; then stat -c %Y \"{rel_path}\"; fi'"
+        f'if [ -e "{rel_path}" ]; then stat -c %Y "{rel_path}"; fi\''
     )
     proc = subprocess.run(
         ssh_base() + [remote_cmd],
@@ -423,7 +426,9 @@ def rsync_pull(remote_rel_paths: list[str], dest: Path) -> list[Path]:
     dest.mkdir(parents=True, exist_ok=True)
     if not remote_rel_paths:
         return []
-    sources = [f"{JETSON_USER}@{JETSON_HOST}:{JETSON_REPO}/{rel}" for rel in remote_rel_paths]
+    sources = [
+        f"{JETSON_USER}@{JETSON_HOST}:{JETSON_REPO}/{rel}" for rel in remote_rel_paths
+    ]
     run(["rsync", "-avP", "-e", rsync_ssh_e(), *sources, str(dest) + "/"])
     local_files: list[Path] = []
     for rel in remote_rel_paths:
@@ -475,7 +480,18 @@ def ensure_mmi(reference: Path, mmi: Path) -> Path:
         return mmi
     banner(f"building minimap2 index → {mmi.name}", Col.YELLOW)
     mmi.parent.mkdir(parents=True, exist_ok=True)
-    run([MINIMAP2, "-x", MINIMAP2_PRESET, "-t", str(MINIMAP2_THREADS), "-d", str(mmi), str(reference)])
+    run(
+        [
+            MINIMAP2,
+            "-x",
+            MINIMAP2_PRESET,
+            "-t",
+            str(MINIMAP2_THREADS),
+            "-d",
+            str(mmi),
+            str(reference),
+        ]
+    )
     return mmi
 
 
@@ -657,7 +673,9 @@ def accuracy_crunch(*, keep_paf: bool = False) -> None:
     """Offline: crunch output_*.fastq already in LOCAL_WORK_DIR → ACCURACY_DIR."""
     mm2 = Path(MINIMAP2)
     if not (mm2.is_file() or shutil.which(MINIMAP2)):
-        die(f"minimap2 not found ({MINIMAP2!r}); install it or set MINIMAP2 in the script")
+        die(
+            f"minimap2 not found ({MINIMAP2!r}); install it or set MINIMAP2 in the script"
+        )
 
     fastqs = sorted(LOCAL_WORK_DIR.glob("output_*.fastq"))
     if not fastqs:
@@ -731,11 +749,20 @@ def nsight_convert(
 
     banner(f"nsight convert → {out_dir}", Col.GREEN)
     print(c(f"nsys:  {nsys}", Col.DIM))
-    print(c(f"src:   {work_dir if not selected else '(selected .nsys-rep files)'}", Col.DIM))
+    print(
+        c(
+            f"src:   {work_dir if not selected else '(selected .nsys-rep files)'}",
+            Col.DIM,
+        )
+    )
     print(f"Found {len(reps)} report(s)\n")
 
     for i, rep in enumerate(reps, 1):
-        stem = rep.name[: -len(".nsys-rep")] if rep.name.endswith(".nsys-rep") else rep.stem
+        stem = (
+            rep.name[: -len(".nsys-rep")]
+            if rep.name.endswith(".nsys-rep")
+            else rep.stem
+        )
         out = out_dir / f"{stem}_stats.txt"
         print(c(f"[{i}/{len(reps)}] {rep.name} → {out.name}", Col.CYAN, Col.BOLD))
         print(c(f"+ {nsys} stats --force-export=true {rep} > {out}", Col.DIM))
@@ -804,7 +831,9 @@ def print_summary(rows: list[dict]) -> None:
 
 
 def main() -> None:
-    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap = argparse.ArgumentParser(
+        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
+    )
     ap.add_argument(
         "--dry-run",
         action="store_true",
@@ -893,7 +922,9 @@ def main() -> None:
     mm2 = Path(MINIMAP2)
     need_minimap = not args.dry_run and not args.fetch_only
     if need_minimap and not (mm2.is_file() or shutil.which(MINIMAP2)):
-        die(f"minimap2 not found ({MINIMAP2!r}); install it or set MINIMAP2 in the script")
+        die(
+            f"minimap2 not found ({MINIMAP2!r}); install it or set MINIMAP2 in the script"
+        )
 
     atexit.register(close_ssh_master)
 
@@ -974,7 +1005,10 @@ def main() -> None:
     local_nsys_sqlite: list[Path] = []
     nsys_by_fastq: dict[str, str] = {}
     if nsys_matches:
-        banner("rsync matching nsys reports + sqlite (kept locally; overwrite OK)", Col.YELLOW)
+        banner(
+            "rsync matching nsys reports + sqlite (kept locally; overwrite OK)",
+            Col.YELLOW,
+        )
         nsys_rels = [ns for _, ns, _ in nsys_matches]
         sqlite_rels = []
         for _, ns, _ in nsys_matches:
@@ -991,7 +1025,9 @@ def main() -> None:
 
     if runner_rels:
         banner(f"rsync runner summaries → {RUNNER_SUMMARY_DIR}", Col.YELLOW)
-        if not confirm_dest_writes(RUNNER_SUMMARY_DIR, [Path(r).name for r in runner_rels], "runner summary"):
+        if not confirm_dest_writes(
+            RUNNER_SUMMARY_DIR, [Path(r).name for r in runner_rels], "runner summary"
+        ):
             die("runner summary pull cancelled by user")
         RUNNER_SUMMARY_DIR.mkdir(parents=True, exist_ok=True)
         pulled_summaries = rsync_pull(runner_rels, RUNNER_SUMMARY_DIR)

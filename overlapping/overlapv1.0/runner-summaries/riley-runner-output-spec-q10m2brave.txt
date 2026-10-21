@@ -1,0 +1,171 @@
+riley's runner — variance + optional nsight + console capture
+timestamp:              2026-10-05 17:16:40 AEDT
+repo:                   /home/riley/slorado-riley-v2
+FILENAME_APPEND_FLAG:   '-spec-q10m2brave'
+NSIGHT:                 no
+RECORD_CONSOLE:         yes
+EXTRA_ARGS:             '--overlap-decode=yes --fixed-c-batch=no --speculative-decode=yes --spec-repair-threshold=10 --spec-margin-threshold=2 --spec-overlap-repair=yes'
+FAMILY_ARGS:            {'fast': '--flush-threshold=64', 'hac': '--flush-threshold=128'}
+BASE_ARGS:              '-C 128 -c 12288 -K 4096 -p 150'
+overlap_mode:           True
+NSYS_TRACE:             'cuda,nvtx,osrt'
+NSYS_OSRT_THRESHOLD:    '1000'
+RUN_STALL_TIMEOUT_S:    600
+WALL_MARGIN:            1.25
+NSYS_WALL_FACTOR:       2.0
+RUN_MAX_ATTEMPTS:       2
+EXPECTED wall budgets (timed / nsys-accuracy):
+  FAST_1K: timed<=75s  nsys-accuracy<=150s
+  HAC_1K: timed<=150s  nsys-accuracy<=300s
+  FAST_20K: timed<=438s  nsys-accuracy<=875s
+  HAC_20K: timed<=1500s  nsys-accuracy<=3000s
+
+NUM_RUNS / WARMUP:
+  FAST_1K: runs=1  warmup=no
+  HAC_1K: runs=1  warmup=no
+  FAST_20K: runs=1  warmup=no
+  HAC_20K: runs=1  warmup=no
+
+FASTQ / timing rules:
+  - Accuracy pass (NSIGHT or single-run FASTQ) is EXCLUDED from mean/stdev/CV%.
+  - Timed variance runs always use -o /dev/null (NUM_RUNS_* each).
+  - Hang: stall OR per-config wall timeout → killall + nvidia-smi, retry once, then fail.
+  - Lock: riley-runner.lock prevents two suites sharing the GPU.
+  - Resume: python3 rileys-runner.py --resume
+
+=== Artifact names (this invocation) ===
+  report:         riley-runner-output-spec-q10m2brave.txt
+  timings csv:    riley-runner-timings-spec-q10m2brave.csv
+  state:          riley-runner-state-spec-q10m2brave.json
+  lock:           riley-runner.lock
+  console fast:   riley-runner-fast-console-spec-q10m2brave.txt
+  console hac:    riley-runner-hac-console-spec-q10m2brave.txt
+  [FAST 1k] FASTQ (if saved): output_fast_1k_overlap-spec-q10m2brave.fastq
+  [FAST 1k] nsys stem:        nsys_fast_1k_overlap-spec-q10m2brave.nsys-rep
+  [HAC 1k] FASTQ (if saved): output_hac_1k_overlap-spec-q10m2brave.fastq
+  [HAC 1k] nsys stem:        nsys_hac_1k_overlap-spec-q10m2brave.nsys-rep
+  [FAST 20k] FASTQ (if saved): output_fast_20k_overlap-spec-q10m2brave.fastq
+  [FAST 20k] nsys stem:        nsys_fast_20k_overlap-spec-q10m2brave.nsys-rep
+  [HAC 20k] FASTQ (if saved): output_hac_20k_overlap-spec-q10m2brave.fastq
+  [HAC 20k] nsys stem:        nsys_hac_20k_overlap-spec-q10m2brave.nsys-rep
+
+=== Commands used ===
+  [FAST 1k] timed/devnull: ./slorado basecaller -C 128 -c 12288 -K 4096 -p 150 -o /dev/null --overlap-decode=yes --fixed-c-batch=no --speculative-decode=yes --spec-repair-threshold=10 --spec-margin-threshold=2 --spec-overlap-repair=yes --flush-threshold=64 models/dna_r10.4.1_e8.2_400bps_fast@v5.0.0 test/PGXXXX230339/reads_1k.blow5
+  [FAST 1k] accuracy+fastq: ./slorado basecaller -C 128 -c 12288 -K 4096 -p 150 -o output_fast_1k_overlap-spec-q10m2brave.fastq --overlap-decode=yes --fixed-c-batch=no --speculative-decode=yes --spec-repair-threshold=10 --spec-margin-threshold=2 --spec-overlap-repair=yes --flush-threshold=64 models/dna_r10.4.1_e8.2_400bps_fast@v5.0.0 test/PGXXXX230339/reads_1k.blow5
+  [HAC 1k] timed/devnull: ./slorado basecaller -C 128 -c 12288 -K 4096 -p 150 -o /dev/null --overlap-decode=yes --fixed-c-batch=no --speculative-decode=yes --spec-repair-threshold=10 --spec-margin-threshold=2 --spec-overlap-repair=yes --flush-threshold=128 models/dna_r10.4.1_e8.2_400bps_hac@v5.0.0 test/PGXXXX230339/reads_1k.blow5
+  [HAC 1k] accuracy+fastq: ./slorado basecaller -C 128 -c 12288 -K 4096 -p 150 -o output_hac_1k_overlap-spec-q10m2brave.fastq --overlap-decode=yes --fixed-c-batch=no --speculative-decode=yes --spec-repair-threshold=10 --spec-margin-threshold=2 --spec-overlap-repair=yes --flush-threshold=128 models/dna_r10.4.1_e8.2_400bps_hac@v5.0.0 test/PGXXXX230339/reads_1k.blow5
+  [FAST 20k] timed/devnull: ./slorado basecaller -C 128 -c 12288 -K 4096 -p 150 -o /dev/null --overlap-decode=yes --fixed-c-batch=no --speculative-decode=yes --spec-repair-threshold=10 --spec-margin-threshold=2 --spec-overlap-repair=yes --flush-threshold=64 models/dna_r10.4.1_e8.2_400bps_fast@v5.0.0 test/PGXXXX230339/reads_20k.blow5
+  [FAST 20k] accuracy+fastq: ./slorado basecaller -C 128 -c 12288 -K 4096 -p 150 -o output_fast_20k_overlap-spec-q10m2brave.fastq --overlap-decode=yes --fixed-c-batch=no --speculative-decode=yes --spec-repair-threshold=10 --spec-margin-threshold=2 --spec-overlap-repair=yes --flush-threshold=64 models/dna_r10.4.1_e8.2_400bps_fast@v5.0.0 test/PGXXXX230339/reads_20k.blow5
+  [HAC 20k] timed/devnull: ./slorado basecaller -C 128 -c 12288 -K 4096 -p 150 -o /dev/null --overlap-decode=yes --fixed-c-batch=no --speculative-decode=yes --spec-repair-threshold=10 --spec-margin-threshold=2 --spec-overlap-repair=yes --flush-threshold=128 models/dna_r10.4.1_e8.2_400bps_hac@v5.0.0 test/PGXXXX230339/reads_20k.blow5
+  [HAC 20k] accuracy+fastq: ./slorado basecaller -C 128 -c 12288 -K 4096 -p 150 -o output_hac_20k_overlap-spec-q10m2brave.fastq --overlap-decode=yes --fixed-c-batch=no --speculative-decode=yes --spec-repair-threshold=10 --spec-margin-threshold=2 --spec-overlap-repair=yes --flush-threshold=128 models/dna_r10.4.1_e8.2_400bps_hac@v5.0.0 test/PGXXXX230339/reads_20k.blow5
+
+How to read this file:
+  - Per-config tables: timed runs + summary (accuracy/nsys listed but not in stats).
+  - CV% = stdev/mean*100 on real time — headline for run-to-run jitter.
+  - File is rewritten after every run so overnight hangs still leave partial results.
+
+=== FAST 1k ===
+command (typical timed /dev/null run): ./slorado basecaller -C 128 -c 12288 -K 4096 -p 150 -o /dev/null --overlap-decode=yes --fixed-c-batch=no --speculative-decode=yes --spec-repair-threshold=10 --spec-margin-threshold=2 --spec-overlap-repair=yes --flush-threshold=64 models/dna_r10.4.1_e8.2_400bps_fast@v5.0.0 test/PGXXXX230339/reads_1k.blow5
+saved FASTQ (accuracy pass, excluded from stats): output_fast_1k_overlap-spec-q10m2brave.fastq
+accuracy pass: real=10.097s cpu=4.961s peak_ram=2.731GB  status=ok
+
+Per-run values (timed /dev/null only — used for stats):
+ run     real(s)      cpu(s)  peak_ram(GB)    status  tries
+-----------------------------------------------------------
+   1       9.023       4.238         2.738        ok      1
+
+Summary (ok timed runs only; n=1/1; accuracy/nsys excluded; sample stdev when n>=2):
+metric           real(s)        cpu(s)  peak_ram(GB)
+----------------------------------------------------
+n                      1             1             1
+mean               9.023         4.238         2.738
+stdev              0.000         0.000         0.000
+variance        0.000000      0.000000      0.000000
+min                9.023         4.238         2.738
+max                9.023         4.238         2.738
+range              0.000         0.000         0.000
+CV%               0.000%        0.000%        0.000%
+
+=== HAC 1k ===
+command (typical timed /dev/null run): ./slorado basecaller -C 128 -c 12288 -K 4096 -p 150 -o /dev/null --overlap-decode=yes --fixed-c-batch=no --speculative-decode=yes --spec-repair-threshold=10 --spec-margin-threshold=2 --spec-overlap-repair=yes --flush-threshold=128 models/dna_r10.4.1_e8.2_400bps_hac@v5.0.0 test/PGXXXX230339/reads_1k.blow5
+saved FASTQ (accuracy pass, excluded from stats): output_hac_1k_overlap-spec-q10m2brave.fastq
+accuracy pass: real=45.898s cpu=41.697s peak_ram=5.043GB  status=ok
+
+Per-run values (timed /dev/null only — used for stats):
+ run     real(s)      cpu(s)  peak_ram(GB)    status  tries
+-----------------------------------------------------------
+   1      44.679      40.771         5.041        ok      1
+
+Summary (ok timed runs only; n=1/1; accuracy/nsys excluded; sample stdev when n>=2):
+metric           real(s)        cpu(s)  peak_ram(GB)
+----------------------------------------------------
+n                      1             1             1
+mean              44.679        40.771         5.041
+stdev              0.000         0.000         0.000
+variance        0.000000      0.000000      0.000000
+min               44.679        40.771         5.041
+max               44.679        40.771         5.041
+range              0.000         0.000         0.000
+CV%               0.000%        0.000%        0.000%
+
+=== FAST 20k ===
+command (typical timed /dev/null run): ./slorado basecaller -C 128 -c 12288 -K 4096 -p 150 -o /dev/null --overlap-decode=yes --fixed-c-batch=no --speculative-decode=yes --spec-repair-threshold=10 --spec-margin-threshold=2 --spec-overlap-repair=yes --flush-threshold=64 models/dna_r10.4.1_e8.2_400bps_fast@v5.0.0 test/PGXXXX230339/reads_20k.blow5
+saved FASTQ (accuracy pass, excluded from stats): output_fast_20k_overlap-spec-q10m2brave.fastq
+accuracy pass: real=159.724s cpu=46.335s peak_ram=4.931GB  status=ok
+
+Per-run values (timed /dev/null only — used for stats):
+ run     real(s)      cpu(s)  peak_ram(GB)    status  tries
+-----------------------------------------------------------
+   1     158.803      45.514         4.812        ok      1
+
+Summary (ok timed runs only; n=1/1; accuracy/nsys excluded; sample stdev when n>=2):
+metric           real(s)        cpu(s)  peak_ram(GB)
+----------------------------------------------------
+n                      1             1             1
+mean             158.803        45.514         4.812
+stdev              0.000         0.000         0.000
+variance        0.000000      0.000000      0.000000
+min              158.803        45.514         4.812
+max              158.803        45.514         4.812
+range              0.000         0.000         0.000
+CV%               0.000%        0.000%        0.000%
+
+=== HAC 20k ===
+command (typical timed /dev/null run): ./slorado basecaller -C 128 -c 12288 -K 4096 -p 150 -o /dev/null --overlap-decode=yes --fixed-c-batch=no --speculative-decode=yes --spec-repair-threshold=10 --spec-margin-threshold=2 --spec-overlap-repair=yes --flush-threshold=128 models/dna_r10.4.1_e8.2_400bps_hac@v5.0.0 test/PGXXXX230339/reads_20k.blow5
+saved FASTQ (accuracy pass, excluded from stats): output_hac_20k_overlap-spec-q10m2brave.fastq
+accuracy pass: real=877.992s cpu=770.810s peak_ram=6.183GB  status=ok
+
+Per-run values (timed /dev/null only — used for stats):
+ run     real(s)      cpu(s)  peak_ram(GB)    status  tries
+-----------------------------------------------------------
+   1     865.431     759.228         6.157        ok      1
+
+Summary (ok timed runs only; n=1/1; accuracy/nsys excluded; sample stdev when n>=2):
+metric           real(s)        cpu(s)  peak_ram(GB)
+----------------------------------------------------
+n                      1             1             1
+mean             865.431       759.228         6.157
+stdev              0.000         0.000         0.000
+variance        0.000000      0.000000      0.000000
+min              865.431       759.228         6.157
+max              865.431       759.228         6.157
+range              0.000         0.000         0.000
+CV%               0.000%        0.000%        0.000%
+
+=== Quick real-time comparison (timed /dev/null ok runs only) ===
+config           mean(s)    stdev(s)      min(s)      max(s)    range(s)       CV%      ok
+------------------------------------------------------------------------------------------
+FAST 1k            9.023       0.000       9.023       9.023       0.000    0.000%    1/1
+HAC 1k            44.679       0.000      44.679      44.679       0.000    0.000%    1/1
+FAST 20k         158.803       0.000     158.803     158.803       0.000    0.000%    1/1
+HAC 20k          865.431       0.000     865.431     865.431       0.000    0.000%    1/1
+
+Notes:
+  - Stats use timed /dev/null runs only (ok status); accuracy/nsys excluded.
+  - stdev/variance are sample statistics (n-1) when n>=2.
+  - CV% = stdev/mean*100; lower = tighter run-to-run timing.
+  - Timings CSV: riley-runner-timings-spec-q10m2brave.csv
+  - Console logs: RECORD_CONSOLE=yes → riley-runner-{fast,hac}-console-spec-q10m2brave.txt
+  - State file: riley-runner-state-spec-q10m2brave.json  (python3 rileys-runner.py --resume)
+  - Change EXTRA_ARGS / FILENAME_APPEND_FLAG to label A/B experiments.
+
