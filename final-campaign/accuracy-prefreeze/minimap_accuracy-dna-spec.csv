@@ -1,0 +1,3 @@
+timestamp,fastq,n_reads,n_alignments,map_rate,accuracy_median,expected_median,delta_vs_expected,nsys_pulled,reference
+2026-10-22T13:57:24.072033+00:00,output_fast_1k-dna-spec.fastq,1000,1032,103.2%,0.935276,0.940696,-0.005420,,/home/riley/Desktop/slorado_analysis/ref/hg38noAlt.fa
+2026-10-22T13:57:48.736298+00:00,output_hac_1k-dna-spec.fastq,1000,1105,110.5%,0.975490,0.976852,-0.001362,,/home/riley/Desktop/slorado_analysis/ref/hg38noAlt.fa
