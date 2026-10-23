@@ -1,3 +1,9 @@
 /slorado-accuracy-tmp
 __pycache__/
 .venv-power/
+# Jetson run data: keep the FASTQs out of git (large, reproducible from the runs)
+final-campaign/jetson-prefreeze-runs/kept*/
+final-campaign/jetson-campaign-runs/kept*/
+*.fastq
+*.paf
+.bench.lock
