@@ -128,7 +128,7 @@ RESULTS_CSV = LOCAL_WORK_DIR / "minimap_results.csv"  # scratch running log (app
 
 # Durable accuracy CSVs (one file per APPEND), sibling to nsight/runner dirs.
 # Example: ACCURACY_DIR/minimap_accuracy-baseline-v1.0.csv
-ACCURACY_DIR = Path.cwd() / "overlapping" / "overlapv1.0" / "accuracy"
+ACCURACY_DIR = Path.cwd() / "final-campaign" / "accuracy"
 
 # Pull nsys_*.nsys-rep alongside FASTQs when remote mtimes are close enough.
 # rileys-runner.py writes FASTQ + nsys in the same first timed run (shared APPEND).
