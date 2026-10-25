@@ -7,3 +7,4 @@ final-campaign/jetson-campaign-runs/kept*/
 *.fastq
 *.paf
 .bench.lock
+DEST

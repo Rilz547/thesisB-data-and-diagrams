@@ -1,0 +1,5 @@
+timestamp,fastq,n_reads,n_alignments,map_rate,accuracy_median,expected_median,delta_vs_expected,nsys_pulled,reference
+2026-10-25T13:54:05.505334+00:00,output_fast_1k-rna-ov_on.fastq,1000,974,97.4%,0.934396,-,-,,~/data/ref/gencode.v40.transcripts.fa
+2026-10-25T13:55:40.757105+00:00,output_fast_20k-rna-ov_on.fastq,20000,19667,98.3%,0.933084,-,-,,~/data/ref/gencode.v40.transcripts.fa
+2026-10-25T13:57:14.903459+00:00,output_hac_1k-rna-ov_on.fastq,1000,980,98.0%,0.971673,-,-,,~/data/ref/gencode.v40.transcripts.fa
+2026-10-25T13:58:52.066505+00:00,output_hac_20k-rna-ov_on.fastq,20000,19769,98.8%,0.971514,-,-,,~/data/ref/gencode.v40.transcripts.fa

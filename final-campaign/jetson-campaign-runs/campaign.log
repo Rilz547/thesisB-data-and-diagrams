@@ -1,0 +1,1001 @@
+power sensor: /sys/class/hwmon/hwmon1 {'in': 1, 'cg': 2, 'soc': 3} | gpu load node: /sys/devices/platform/bus@0/17000000.gpu/load | tj zone: /sys/class/thermal/thermal_zone8/temp
+problems: none
+##### phase 1: 1k
+=== 2026-10-23 13:40:30 bench.py run --stage upstream --cells dna_fast_1k,dna_hac_1k,rna_fast_1k,rna_hac_1k
+[bench] block upstream-20261023T134030  harness d5704e0ec3e6  commit 754a74d  cells 4
+[bench] idle baseline (before)
+[bench] canary (before)
+[bench] upstream dna_fast_1k warm-up (mode A)
+[bench] upstream dna_fast_1k mode A rep 1/5
+        Real 13.892s  proc 15.5s  E_in 163.1 J  P 11.74 W  gpu 855 MHz  tj 52.2 C
+[bench] upstream dna_fast_1k mode A rep 2/5
+        Real 13.892s  proc 15.0s  E_in 162.4 J  P 11.69 W  gpu 859 MHz  tj 52.3 C
+[bench] upstream dna_fast_1k mode A rep 3/5
+        Real 13.765s  proc 15.0s  E_in 164.4 J  P 11.94 W  gpu 856 MHz  tj 52.9 C
+[bench] upstream dna_fast_1k mode A rep 4/5
+        Real 13.808s  proc 15.0s  E_in 163.6 J  P 11.85 W  gpu 856 MHz  tj 53.1 C
+[bench] upstream dna_fast_1k mode A rep 5/5
+        Real 13.852s  proc 15.0s  E_in 164.8 J  P 11.90 W  gpu 855 MHz  tj 53.3 C
+[bench] upstream dna_fast_1k mode B rep 1/5
+        Real 13.741s  proc 15.0s  E_in 164.5 J  P 11.97 W  gpu 858 MHz  tj 53.4 C
+[bench] upstream dna_fast_1k mode B rep 2/5
+        Real 13.819s  proc 15.0s  E_in 162.9 J  P 11.79 W  gpu 853 MHz  tj 53.5 C
+[bench] upstream dna_fast_1k mode B rep 3/5
+        Real 13.870s  proc 15.0s  E_in 164.1 J  P 11.83 W  gpu 850 MHz  tj 53.4 C
+[bench] upstream dna_fast_1k mode B rep 4/5
+        Real 13.835s  proc 15.0s  E_in 162.6 J  P 11.75 W  gpu 855 MHz  tj 53.4 C
+[bench] upstream dna_fast_1k mode B rep 5/5
+        Real 13.841s  proc 15.0s  E_in 163.9 J  P 11.84 W  gpu 854 MHz  tj 53.7 C
+[bench] upstream dna_hac_1k warm-up (mode A)
+[bench] upstream dna_hac_1k mode A rep 1/5
+        Real 49.650s  proc 51.1s  E_in 810.5 J  P 16.33 W  gpu 895 MHz  tj 59.1 C
+[bench] upstream dna_hac_1k mode A rep 2/5
+        Real 49.384s  proc 51.1s  E_in 807.6 J  P 16.35 W  gpu 897 MHz  tj 59.3 C
+[bench] upstream dna_hac_1k mode A rep 3/5
+        Real 49.375s  proc 51.1s  E_in 808.3 J  P 16.37 W  gpu 898 MHz  tj 59.4 C
+[bench] upstream dna_hac_1k mode A rep 4/5
+        Real 49.589s  proc 51.1s  E_in 809.5 J  P 16.32 W  gpu 899 MHz  tj 59.3 C
+[bench] upstream dna_hac_1k mode A rep 5/5
+        Real 49.409s  proc 51.1s  E_in 808.5 J  P 16.36 W  gpu 898 MHz  tj 59.4 C
+[bench] upstream dna_hac_1k mode B rep 1/5
+        Real 51.124s  proc 52.6s  E_in 829.6 J  P 16.23 W  gpu 899 MHz  tj 59.1 C
+[bench] upstream dna_hac_1k mode B rep 2/5
+        Real 49.430s  proc 51.1s  E_in 809.7 J  P 16.38 W  gpu 899 MHz  tj 59.4 C
+[bench] upstream dna_hac_1k mode B rep 3/5
+        Real 49.426s  proc 51.1s  E_in 806.2 J  P 16.31 W  gpu 898 MHz  tj 59.5 C
+[bench] upstream dna_hac_1k mode B rep 4/5
+        Real 49.262s  proc 50.6s  E_in 807.6 J  P 16.39 W  gpu 897 MHz  tj 59.4 C
+[bench] upstream dna_hac_1k mode B rep 5/5
+        Real 49.451s  proc 51.1s  E_in 811.0 J  P 16.40 W  gpu 898 MHz  tj 59.6 C
+[bench] upstream rna_fast_1k warm-up (mode A)
+[bench] upstream rna_fast_1k mode A rep 1/5
+        Real 10.672s  proc 12.0s  E_in 122.3 J  P 11.46 W  gpu 841 MHz  tj 55.3 C
+[bench] upstream rna_fast_1k mode A rep 2/5
+        Real 10.661s  proc 12.0s  E_in 122.1 J  P 11.46 W  gpu 849 MHz  tj 54.7 C
+[bench] upstream rna_fast_1k mode A rep 3/5
+        Real 10.717s  proc 12.0s  E_in 121.9 J  P 11.38 W  gpu 838 MHz  tj 54.4 C
+[bench] upstream rna_fast_1k mode A rep 4/5
+        Real 10.696s  proc 12.0s  E_in 122.1 J  P 11.41 W  gpu 846 MHz  tj 54.2 C
+[bench] upstream rna_fast_1k mode A rep 5/5
+        Real 10.651s  proc 12.0s  E_in 121.1 J  P 11.37 W  gpu 845 MHz  tj 54.0 C
+[bench] upstream rna_fast_1k mode B rep 1/5
+        Real 10.620s  proc 12.0s  E_in 121.5 J  P 11.44 W  gpu 844 MHz  tj 53.8 C
+[bench] upstream rna_fast_1k mode B rep 2/5
+        Real 10.624s  proc 12.0s  E_in 121.7 J  P 11.46 W  gpu 848 MHz  tj 53.8 C
+[bench] upstream rna_fast_1k mode B rep 3/5
+        Real 10.658s  proc 12.0s  E_in 121.4 J  P 11.39 W  gpu 847 MHz  tj 53.7 C
+[bench] upstream rna_fast_1k mode B rep 4/5
+        Real 10.654s  proc 12.0s  E_in 121.4 J  P 11.39 W  gpu 848 MHz  tj 53.6 C
+[bench] upstream rna_fast_1k mode B rep 5/5
+        Real 10.683s  proc 12.0s  E_in 121.2 J  P 11.35 W  gpu 845 MHz  tj 53.6 C
+[bench] upstream rna_hac_1k warm-up (mode A)
+[bench] upstream rna_hac_1k mode A rep 1/5
+        Real 38.458s  proc 40.0s  E_in 625.1 J  P 16.25 W  gpu 895 MHz  tj 58.8 C
+[bench] upstream rna_hac_1k mode A rep 2/5
+        Real 38.288s  proc 39.5s  E_in 623.8 J  P 16.29 W  gpu 895 MHz  tj 59.0 C
+[bench] upstream rna_hac_1k mode A rep 3/5
+        Real 38.251s  proc 39.5s  E_in 623.5 J  P 16.30 W  gpu 895 MHz  tj 58.9 C
+[bench] upstream rna_hac_1k mode A rep 4/5
+        Real 38.391s  proc 40.0s  E_in 625.2 J  P 16.29 W  gpu 895 MHz  tj 59.0 C
+[bench] upstream rna_hac_1k mode A rep 5/5
+        Real 38.501s  proc 40.0s  E_in 626.5 J  P 16.27 W  gpu 896 MHz  tj 59.2 C
+[bench] upstream rna_hac_1k mode B rep 1/5
+        Real 38.403s  proc 40.0s  E_in 624.2 J  P 16.25 W  gpu 893 MHz  tj 59.1 C
+[bench] upstream rna_hac_1k mode B rep 2/5
+        Real 38.448s  proc 40.1s  E_in 625.1 J  P 16.26 W  gpu 895 MHz  tj 59.1 C
+[bench] upstream rna_hac_1k mode B rep 3/5
+        Real 38.369s  proc 40.0s  E_in 624.3 J  P 16.27 W  gpu 893 MHz  tj 59.0 C
+[bench] upstream rna_hac_1k mode B rep 4/5
+        Real 38.323s  proc 39.5s  E_in 625.2 J  P 16.31 W  gpu 895 MHz  tj 59.3 C
+[bench] upstream rna_hac_1k mode B rep 5/5
+        Real 38.350s  proc 40.0s  E_in 624.5 J  P 16.28 W  gpu 893 MHz  tj 59.4 C
+[bench] canary (after)
+[bench] idle baseline (after)
+[bench] block complete
+=== 2026-10-23 14:13:02 bench.py run --stage ov_off --cells dna_fast_1k,dna_hac_1k
+[bench] block ov_off-20261023T141302  harness d5704e0ec3e6  commit 7cec6c5  cells 2
+[bench] idle baseline (before)
+[bench] canary (before)
+[bench] ov_off dna_fast_1k warm-up (mode A)
+[bench] ov_off dna_fast_1k mode A rep 1/5
+        Real 11.460s  proc 13.0s  E_in 143.2 J  P 12.49 W  gpu 838 MHz  tj 52.1 C
+[bench] ov_off dna_fast_1k mode A rep 2/5
+        Real 11.455s  proc 13.0s  E_in 143.0 J  P 12.48 W  gpu 842 MHz  tj 51.7 C
+[bench] ov_off dna_fast_1k mode A rep 3/5
+        Real 11.435s  proc 13.0s  E_in 142.9 J  P 12.50 W  gpu 837 MHz  tj 51.3 C
+[bench] ov_off dna_fast_1k mode A rep 4/5
+        Real 11.446s  proc 13.0s  E_in 143.3 J  P 12.52 W  gpu 840 MHz  tj 51.0 C
+[bench] ov_off dna_fast_1k mode A rep 5/5
+        Real 11.424s  proc 13.0s  E_in 143.3 J  P 12.55 W  gpu 840 MHz  tj 50.9 C
+[bench] ov_off dna_fast_1k mode B rep 1/5
+        Real 11.429s  proc 13.0s  E_in 143.0 J  P 12.51 W  gpu 840 MHz  tj 50.8 C
+[bench] ov_off dna_fast_1k mode B rep 2/5
+        Real 11.498s  proc 13.0s  E_in 143.7 J  P 12.50 W  gpu 842 MHz  tj 50.4 C
+[bench] ov_off dna_fast_1k mode B rep 3/5
+        Real 11.475s  proc 13.0s  E_in 143.4 J  P 12.50 W  gpu 838 MHz  tj 50.2 C
+[bench] ov_off dna_fast_1k mode B rep 4/5
+        Real 11.466s  proc 13.0s  E_in 143.2 J  P 12.48 W  gpu 841 MHz  tj 49.9 C
+[bench] ov_off dna_fast_1k mode B rep 5/5
+        Real 11.456s  proc 13.0s  E_in 143.1 J  P 12.49 W  gpu 840 MHz  tj 49.7 C
+[bench] ov_off dna_hac_1k warm-up (mode A)
+[bench] ov_off dna_hac_1k mode A rep 1/5
+        Real 46.655s  proc 48.1s  E_in 767.5 J  P 16.45 W  gpu 896 MHz  tj 55.1 C
+[bench] ov_off dna_hac_1k mode A rep 2/5
+        Real 46.581s  proc 48.1s  E_in 768.1 J  P 16.49 W  gpu 897 MHz  tj 55.5 C
+[bench] ov_off dna_hac_1k mode A rep 3/5
+        Real 46.605s  proc 48.1s  E_in 767.5 J  P 16.47 W  gpu 896 MHz  tj 55.8 C
+[bench] ov_off dna_hac_1k mode A rep 4/5
+        Real 46.581s  proc 48.1s  E_in 767.8 J  P 16.48 W  gpu 897 MHz  tj 56.0 C
+[bench] ov_off dna_hac_1k mode A rep 5/5
+        Real 46.681s  proc 48.1s  E_in 768.2 J  P 16.46 W  gpu 897 MHz  tj 56.3 C
+[bench] ov_off dna_hac_1k mode B rep 1/5
+        Real 46.654s  proc 48.1s  E_in 766.8 J  P 16.44 W  gpu 897 MHz  tj 56.3 C
+[bench] ov_off dna_hac_1k mode B rep 2/5
+        Real 46.736s  proc 48.1s  E_in 768.2 J  P 16.44 W  gpu 897 MHz  tj 56.4 C
+[bench] ov_off dna_hac_1k mode B rep 3/5
+        Real 46.547s  proc 48.1s  E_in 767.2 J  P 16.48 W  gpu 897 MHz  tj 56.6 C
+[bench] ov_off dna_hac_1k mode B rep 4/5
+        Real 46.545s  proc 48.1s  E_in 767.2 J  P 16.48 W  gpu 896 MHz  tj 56.6 C
+[bench] ov_off dna_hac_1k mode B rep 5/5
+        Real 46.620s  proc 48.1s  E_in 768.4 J  P 16.48 W  gpu 898 MHz  tj 56.6 C
+[bench] canary (after)
+[bench] idle baseline (after)
+[bench] block complete
+=== 2026-10-23 14:29:34 bench.py run --stage ov_on --cells dna_fast_1k,dna_hac_1k,rna_fast_1k,rna_hac_1k
+[bench] block ov_on-20261023T142934  harness d5704e0ec3e6  commit 7cec6c5  cells 4
+[bench] idle baseline (before)
+[bench] canary (before)
+[bench] ov_on dna_fast_1k warm-up (mode A)
+[bench] ov_on dna_fast_1k mode A rep 1/5
+        Real 10.179s  proc 11.5s  E_in 135.3 J  P 13.30 W  gpu 822 MHz  tj 48.8 C
+[bench] ov_on dna_fast_1k mode A rep 2/5
+        Real 10.161s  proc 11.5s  E_in 135.6 J  P 13.34 W  gpu 821 MHz  tj 49.3 C
+[bench] ov_on dna_fast_1k mode A rep 3/5
+        Real 10.134s  proc 11.5s  E_in 135.3 J  P 13.35 W  gpu 826 MHz  tj 49.6 C
+[bench] ov_on dna_fast_1k mode A rep 4/5
+        Real 10.165s  proc 11.5s  E_in 135.3 J  P 13.31 W  gpu 826 MHz  tj 50.1 C
+[bench] ov_on dna_fast_1k mode A rep 5/5
+        Real 10.137s  proc 11.5s  E_in 135.6 J  P 13.37 W  gpu 824 MHz  tj 50.1 C
+[bench] ov_on dna_fast_1k mode B rep 1/5
+        Real 10.206s  proc 11.5s  E_in 136.0 J  P 13.33 W  gpu 824 MHz  tj 50.5 C
+[bench] ov_on dna_fast_1k mode B rep 2/5
+        Real 10.169s  proc 11.5s  E_in 135.7 J  P 13.34 W  gpu 825 MHz  tj 50.5 C
+[bench] ov_on dna_fast_1k mode B rep 3/5
+        Real 10.171s  proc 11.5s  E_in 136.0 J  P 13.37 W  gpu 822 MHz  tj 50.8 C
+[bench] ov_on dna_fast_1k mode B rep 4/5
+        Real 10.173s  proc 11.5s  E_in 135.9 J  P 13.36 W  gpu 823 MHz  tj 50.8 C
+[bench] ov_on dna_fast_1k mode B rep 5/5
+        Real 10.186s  proc 11.5s  E_in 136.3 J  P 13.39 W  gpu 822 MHz  tj 51.1 C
+[bench] ov_on dna_hac_1k warm-up (mode A)
+[bench] ov_on dna_hac_1k mode A rep 1/5
+        Real 45.293s  proc 46.6s  E_in 764.1 J  P 16.87 W  gpu 897 MHz  tj 56.2 C
+[bench] ov_on dna_hac_1k mode A rep 2/5
+        Real 45.212s  proc 46.6s  E_in 764.2 J  P 16.90 W  gpu 896 MHz  tj 57.3 C
+[bench] ov_on dna_hac_1k mode A rep 3/5
+        Real 45.231s  proc 46.6s  E_in 765.6 J  P 16.93 W  gpu 896 MHz  tj 57.4 C
+[bench] ov_on dna_hac_1k mode A rep 4/5
+        Real 45.221s  proc 46.6s  E_in 769.1 J  P 17.01 W  gpu 896 MHz  tj 57.8 C
+[bench] ov_on dna_hac_1k mode A rep 5/5
+        Real 45.250s  proc 46.6s  E_in 766.4 J  P 16.94 W  gpu 896 MHz  tj 58.1 C
+[bench] ov_on dna_hac_1k mode B rep 1/5
+        Real 45.355s  proc 47.1s  E_in 766.4 J  P 16.90 W  gpu 897 MHz  tj 57.8 C
+[bench] ov_on dna_hac_1k mode B rep 2/5
+        Real 45.085s  proc 46.6s  E_in 764.2 J  P 16.95 W  gpu 896 MHz  tj 57.6 C
+[bench] ov_on dna_hac_1k mode B rep 3/5
+        Real 45.147s  proc 46.6s  E_in 764.2 J  P 16.93 W  gpu 896 MHz  tj 57.4 C
+[bench] ov_on dna_hac_1k mode B rep 4/5
+        Real 45.175s  proc 46.6s  E_in 764.3 J  P 16.92 W  gpu 896 MHz  tj 57.4 C
+[bench] ov_on dna_hac_1k mode B rep 5/5
+        Real 45.373s  proc 47.1s  E_in 766.1 J  P 16.89 W  gpu 897 MHz  tj 57.3 C
+[bench] ov_on rna_fast_1k warm-up (mode A)
+[bench] ov_on rna_fast_1k mode A rep 1/5
+        Real 8.438s  proc 10.0s  E_in 106.7 J  P 12.65 W  gpu 809 MHz  tj 53.6 C
+[bench] ov_on rna_fast_1k mode A rep 2/5
+        Real 8.471s  proc 10.0s  E_in 107.0 J  P 12.63 W  gpu 809 MHz  tj 52.6 C
+[bench] ov_on rna_fast_1k mode A rep 3/5
+        Real 8.459s  proc 10.0s  E_in 106.8 J  P 12.63 W  gpu 811 MHz  tj 51.9 C
+[bench] ov_on rna_fast_1k mode A rep 4/5
+        Real 8.437s  proc 10.0s  E_in 106.3 J  P 12.60 W  gpu 809 MHz  tj 51.2 C
+[bench] ov_on rna_fast_1k mode A rep 5/5
+        Real 8.470s  proc 10.0s  E_in 106.2 J  P 12.54 W  gpu 813 MHz  tj 50.8 C
+[bench] ov_on rna_fast_1k mode B rep 1/5
+        Real 8.474s  proc 10.0s  E_in 106.6 J  P 12.58 W  gpu 813 MHz  tj 50.3 C
+[bench] ov_on rna_fast_1k mode B rep 2/5
+        Real 8.452s  proc 10.0s  E_in 106.7 J  P 12.62 W  gpu 809 MHz  tj 50.2 C
+[bench] ov_on rna_fast_1k mode B rep 3/5
+        Real 8.452s  proc 10.0s  E_in 106.5 J  P 12.60 W  gpu 810 MHz  tj 50.0 C
+[bench] ov_on rna_fast_1k mode B rep 4/5
+        Real 8.461s  proc 10.0s  E_in 106.1 J  P 12.54 W  gpu 813 MHz  tj 50.0 C
+[bench] ov_on rna_fast_1k mode B rep 5/5
+        Real 8.498s  proc 10.0s  E_in 106.6 J  P 12.54 W  gpu 817 MHz  tj 50.1 C
+[bench] ov_on rna_hac_1k warm-up (mode A)
+[bench] ov_on rna_hac_1k mode A rep 1/5
+        Real 35.614s  proc 37.0s  E_in 598.8 J  P 16.81 W  gpu 894 MHz  tj 55.4 C
+[bench] ov_on rna_hac_1k mode A rep 2/5
+        Real 35.471s  proc 37.0s  E_in 599.0 J  P 16.89 W  gpu 893 MHz  tj 56.2 C
+[bench] ov_on rna_hac_1k mode A rep 3/5
+        Real 35.445s  proc 37.0s  E_in 597.9 J  P 16.87 W  gpu 892 MHz  tj 56.5 C
+[bench] ov_on rna_hac_1k mode A rep 4/5
+        Real 35.439s  proc 37.0s  E_in 599.6 J  P 16.92 W  gpu 894 MHz  tj 57.2 C
+[bench] ov_on rna_hac_1k mode A rep 5/5
+        Real 35.471s  proc 37.0s  E_in 599.5 J  P 16.90 W  gpu 894 MHz  tj 57.1 C
+[bench] ov_on rna_hac_1k mode B rep 1/5
+        Real 35.545s  proc 37.0s  E_in 600.1 J  P 16.88 W  gpu 893 MHz  tj 57.2 C
+[bench] ov_on rna_hac_1k mode B rep 2/5
+        Real 35.557s  proc 37.0s  E_in 599.6 J  P 16.86 W  gpu 892 MHz  tj 57.1 C
+[bench] ov_on rna_hac_1k mode B rep 3/5
+        Real 35.569s  proc 37.0s  E_in 598.0 J  P 16.81 W  gpu 892 MHz  tj 57.1 C
+[bench] ov_on rna_hac_1k mode B rep 4/5
+        Real 35.529s  proc 37.0s  E_in 599.6 J  P 16.88 W  gpu 895 MHz  tj 57.4 C
+[bench] ov_on rna_hac_1k mode B rep 5/5
+        Real 35.466s  proc 37.0s  E_in 599.4 J  P 16.90 W  gpu 894 MHz  tj 57.4 C
+[bench] canary (after)
+[bench] idle baseline (after)
+[bench] block complete
+=== 2026-10-23 14:56:52 bench.py run --stage lb_best --cells dna_fast_1k,dna_hac_1k,rna_fast_1k,rna_hac_1k
+[bench] block lb_best-20261023T145652  harness d5704e0ec3e6  commit 65246f2  cells 4
+[bench] idle baseline (before)
+[bench] canary (before)
+[bench] lb_best dna_fast_1k warm-up (mode A)
+[bench] lb_best dna_fast_1k mode A rep 1/5
+        Real 9.868s  proc 11.0s  E_in 134.7 J  P 13.65 W  gpu 834 MHz  tj 49.6 C
+[bench] lb_best dna_fast_1k mode A rep 2/5
+        Real 9.850s  proc 11.0s  E_in 134.5 J  P 13.66 W  gpu 837 MHz  tj 50.0 C
+[bench] lb_best dna_fast_1k mode A rep 3/5
+        Real 9.865s  proc 11.0s  E_in 134.7 J  P 13.66 W  gpu 837 MHz  tj 50.4 C
+[bench] lb_best dna_fast_1k mode A rep 4/5
+        Real 9.830s  proc 11.0s  E_in 134.6 J  P 13.70 W  gpu 837 MHz  tj 50.6 C
+[bench] lb_best dna_fast_1k mode A rep 5/5
+        Real 9.823s  proc 11.0s  E_in 134.6 J  P 13.70 W  gpu 835 MHz  tj 50.7 C
+[bench] lb_best dna_fast_1k mode B rep 1/5
+        Real 9.852s  proc 11.0s  E_in 135.0 J  P 13.70 W  gpu 840 MHz  tj 50.7 C
+[bench] lb_best dna_fast_1k mode B rep 2/5
+        Real 9.879s  proc 11.0s  E_in 135.1 J  P 13.68 W  gpu 832 MHz  tj 50.7 C
+[bench] lb_best dna_fast_1k mode B rep 3/5
+        Real 9.854s  proc 11.0s  E_in 135.1 J  P 13.71 W  gpu 837 MHz  tj 50.6 C
+[bench] lb_best dna_fast_1k mode B rep 4/5
+        Real 9.849s  proc 11.0s  E_in 135.0 J  P 13.71 W  gpu 839 MHz  tj 50.7 C
+[bench] lb_best dna_fast_1k mode B rep 5/5
+        Real 9.926s  proc 11.0s  E_in 135.5 J  P 13.65 W  gpu 834 MHz  tj 51.0 C
+[bench] lb_best dna_hac_1k warm-up (mode A)
+[bench] lb_best dna_hac_1k mode A rep 1/5
+        Real 45.236s  proc 46.6s  E_in 764.1 J  P 16.89 W  gpu 897 MHz  tj 57.7 C
+[bench] lb_best dna_hac_1k mode A rep 2/5
+        Real 44.899s  proc 46.6s  E_in 762.6 J  P 16.99 W  gpu 897 MHz  tj 58.2 C
+[bench] lb_best dna_hac_1k mode A rep 3/5
+        Real 45.318s  proc 46.6s  E_in 765.9 J  P 16.90 W  gpu 897 MHz  tj 58.3 C
+[bench] lb_best dna_hac_1k mode A rep 4/5
+        Real 45.040s  proc 46.6s  E_in 762.7 J  P 16.93 W  gpu 896 MHz  tj 58.0 C
+[bench] lb_best dna_hac_1k mode A rep 5/5
+        Real 45.100s  proc 46.6s  E_in 762.7 J  P 16.91 W  gpu 895 MHz  tj 58.2 C
+[bench] lb_best dna_hac_1k mode B rep 1/5
+        Real 44.972s  proc 46.6s  E_in 762.2 J  P 16.95 W  gpu 895 MHz  tj 58.5 C
+[bench] lb_best dna_hac_1k mode B rep 2/5
+        Real 45.196s  proc 46.6s  E_in 764.4 J  P 16.91 W  gpu 897 MHz  tj 58.8 C
+[bench] lb_best dna_hac_1k mode B rep 3/5
+        Real 45.241s  proc 46.6s  E_in 764.5 J  P 16.90 W  gpu 896 MHz  tj 58.5 C
+[bench] lb_best dna_hac_1k mode B rep 4/5
+        Real 45.133s  proc 46.6s  E_in 762.3 J  P 16.89 W  gpu 897 MHz  tj 58.6 C
+[bench] lb_best dna_hac_1k mode B rep 5/5
+        Real 45.105s  proc 46.6s  E_in 764.8 J  P 16.96 W  gpu 896 MHz  tj 58.4 C
+[bench] lb_best rna_fast_1k warm-up (mode A)
+[bench] lb_best rna_fast_1k mode A rep 1/5
+        Real 7.724s  proc 9.0s  E_in 103.2 J  P 13.36 W  gpu 824 MHz  tj 54.9 C
+[bench] lb_best rna_fast_1k mode A rep 2/5
+        Real 7.818s  proc 9.0s  E_in 103.3 J  P 13.21 W  gpu 811 MHz  tj 53.7 C
+[bench] lb_best rna_fast_1k mode A rep 3/5
+        Real 7.731s  proc 9.0s  E_in 102.6 J  P 13.27 W  gpu 824 MHz  tj 52.9 C
+[bench] lb_best rna_fast_1k mode A rep 4/5
+        Real 7.737s  proc 9.0s  E_in 102.8 J  P 13.28 W  gpu 827 MHz  tj 52.4 C
+[bench] lb_best rna_fast_1k mode A rep 5/5
+        Real 7.754s  proc 9.0s  E_in 102.6 J  P 13.23 W  gpu 821 MHz  tj 51.9 C
+[bench] lb_best rna_fast_1k mode B rep 1/5
+        Real 7.795s  proc 9.0s  E_in 103.0 J  P 13.21 W  gpu 824 MHz  tj 51.4 C
+[bench] lb_best rna_fast_1k mode B rep 2/5
+        Real 7.738s  proc 9.0s  E_in 102.5 J  P 13.25 W  gpu 823 MHz  tj 51.3 C
+[bench] lb_best rna_fast_1k mode B rep 3/5
+        Real 7.813s  proc 9.0s  E_in 102.9 J  P 13.16 W  gpu 822 MHz  tj 50.9 C
+[bench] lb_best rna_fast_1k mode B rep 4/5
+        Real 7.755s  proc 9.0s  E_in 102.7 J  P 13.24 W  gpu 823 MHz  tj 50.8 C
+[bench] lb_best rna_fast_1k mode B rep 5/5
+        Real 7.753s  proc 9.0s  E_in 102.5 J  P 13.21 W  gpu 825 MHz  tj 50.8 C
+[bench] lb_best rna_hac_1k warm-up (mode A)
+[bench] lb_best rna_hac_1k mode A rep 1/5
+        Real 35.523s  proc 37.0s  E_in 599.1 J  P 16.87 W  gpu 892 MHz  tj 55.7 C
+[bench] lb_best rna_hac_1k mode A rep 2/5
+        Real 35.424s  proc 37.0s  E_in 597.6 J  P 16.87 W  gpu 893 MHz  tj 56.5 C
+[bench] lb_best rna_hac_1k mode A rep 3/5
+        Real 35.402s  proc 37.0s  E_in 597.5 J  P 16.88 W  gpu 892 MHz  tj 56.8 C
+[bench] lb_best rna_hac_1k mode A rep 4/5
+        Real 35.435s  proc 37.0s  E_in 597.1 J  P 16.85 W  gpu 894 MHz  tj 57.1 C
+[bench] lb_best rna_hac_1k mode A rep 5/5
+        Real 35.570s  proc 37.0s  E_in 598.7 J  P 16.83 W  gpu 896 MHz  tj 57.2 C
+[bench] lb_best rna_hac_1k mode B rep 1/5
+        Real 35.397s  proc 37.0s  E_in 597.2 J  P 16.87 W  gpu 894 MHz  tj 57.3 C
+[bench] lb_best rna_hac_1k mode B rep 2/5
+        Real 35.543s  proc 37.0s  E_in 599.1 J  P 16.86 W  gpu 893 MHz  tj 57.1 C
+[bench] lb_best rna_hac_1k mode B rep 3/5
+        Real 35.556s  proc 37.0s  E_in 598.4 J  P 16.83 W  gpu 893 MHz  tj 57.2 C
+[bench] lb_best rna_hac_1k mode B rep 4/5
+        Real 35.627s  proc 37.0s  E_in 598.8 J  P 16.81 W  gpu 894 MHz  tj 57.2 C
+[bench] lb_best rna_hac_1k mode B rep 5/5
+        Real 35.502s  proc 37.0s  E_in 599.0 J  P 16.87 W  gpu 893 MHz  tj 57.4 C
+[bench] canary (after)
+[bench] idle baseline (after)
+[bench] block complete
+=== 2026-10-23 15:24:02 bench.py run --stage spec --cells dna_fast_1k,dna_hac_1k,rna_fast_1k,rna_hac_1k
+[bench] block spec-20261023T152402  harness d5704e0ec3e6  commit 49ac641  cells 4
+[bench] idle baseline (before)
+[bench] canary (before)
+[bench] spec dna_fast_1k warm-up (mode A)
+[bench] spec dna_fast_1k mode A rep 1/5
+        Real 9.125s  proc 10.5s  E_in 125.4 J  P 13.74 W  gpu 829 MHz  tj 49.7 C
+[bench] spec dna_fast_1k mode A rep 2/5
+        Real 9.132s  proc 10.5s  E_in 125.4 J  P 13.74 W  gpu 823 MHz  tj 49.8 C
+[bench] spec dna_fast_1k mode A rep 3/5
+        Real 9.138s  proc 10.5s  E_in 125.6 J  P 13.75 W  gpu 827 MHz  tj 50.4 C
+[bench] spec dna_fast_1k mode A rep 4/5
+        Real 9.131s  proc 10.5s  E_in 125.7 J  P 13.76 W  gpu 829 MHz  tj 50.4 C
+[bench] spec dna_fast_1k mode A rep 5/5
+        Real 9.083s  proc 10.5s  E_in 125.1 J  P 13.78 W  gpu 830 MHz  tj 50.7 C
+[bench] spec dna_fast_1k mode B rep 1/5
+        Real 9.159s  proc 10.5s  E_in 125.9 J  P 13.74 W  gpu 832 MHz  tj 50.7 C
+[bench] spec dna_fast_1k mode B rep 2/5
+        Real 9.259s  proc 10.5s  E_in 126.7 J  P 13.69 W  gpu 830 MHz  tj 50.8 C
+[bench] spec dna_fast_1k mode B rep 3/5
+        Real 9.130s  proc 10.5s  E_in 125.6 J  P 13.76 W  gpu 829 MHz  tj 51.0 C
+[bench] spec dna_fast_1k mode B rep 4/5
+        Real 9.112s  proc 10.5s  E_in 125.5 J  P 13.78 W  gpu 831 MHz  tj 50.9 C
+[bench] spec dna_fast_1k mode B rep 5/5
+        Real 9.156s  proc 10.5s  E_in 125.6 J  P 13.72 W  gpu 823 MHz  tj 51.0 C
+[bench] spec dna_hac_1k warm-up (mode A)
+[bench] spec dna_hac_1k mode A rep 1/5
+        Real 44.838s  proc 46.6s  E_in 763.0 J  P 17.02 W  gpu 895 MHz  tj 56.7 C
+[bench] spec dna_hac_1k mode A rep 2/5
+        Real 44.738s  proc 46.1s  E_in 762.3 J  P 17.04 W  gpu 896 MHz  tj 57.4 C
+[bench] spec dna_hac_1k mode A rep 3/5
+        Real 44.781s  proc 46.6s  E_in 760.0 J  P 16.97 W  gpu 896 MHz  tj 57.5 C
+[bench] spec dna_hac_1k mode A rep 4/5
+        Real 44.656s  proc 46.1s  E_in 757.9 J  P 16.97 W  gpu 896 MHz  tj 57.7 C
+[bench] spec dna_hac_1k mode A rep 5/5
+        Real 44.729s  proc 46.1s  E_in 760.1 J  P 16.99 W  gpu 897 MHz  tj 57.9 C
+[bench] spec dna_hac_1k mode B rep 1/5
+        Real 44.853s  proc 46.6s  E_in 760.1 J  P 16.95 W  gpu 896 MHz  tj 57.8 C
+[bench] spec dna_hac_1k mode B rep 2/5
+        Real 44.690s  proc 46.1s  E_in 759.8 J  P 17.00 W  gpu 896 MHz  tj 57.8 C
+[bench] spec dna_hac_1k mode B rep 3/5
+        Real 44.892s  proc 46.6s  E_in 759.8 J  P 16.92 W  gpu 897 MHz  tj 57.7 C
+[bench] spec dna_hac_1k mode B rep 4/5
+        Real 44.601s  proc 46.1s  E_in 758.2 J  P 17.00 W  gpu 895 MHz  tj 57.8 C
+[bench] spec dna_hac_1k mode B rep 5/5
+        Real 44.664s  proc 46.1s  E_in 758.3 J  P 16.98 W  gpu 896 MHz  tj 57.8 C
+[bench] spec rna_fast_1k warm-up (mode A)
+[bench] spec rna_fast_1k mode A rep 1/5
+        Real 7.099s  proc 8.5s  E_in 94.3 J  P 13.28 W  gpu 812 MHz  tj 54.4 C
+[bench] spec rna_fast_1k mode A rep 2/5
+        Real 7.091s  proc 8.5s  E_in 94.4 J  P 13.31 W  gpu 810 MHz  tj 53.6 C
+[bench] spec rna_fast_1k mode A rep 3/5
+        Real 7.091s  proc 8.5s  E_in 94.3 J  P 13.30 W  gpu 811 MHz  tj 52.7 C
+[bench] spec rna_fast_1k mode A rep 4/5
+        Real 7.133s  proc 8.5s  E_in 94.3 J  P 13.22 W  gpu 813 MHz  tj 52.4 C
+[bench] spec rna_fast_1k mode A rep 5/5
+        Real 7.165s  proc 8.5s  E_in 94.5 J  P 13.19 W  gpu 812 MHz  tj 51.8 C
+[bench] spec rna_fast_1k mode B rep 1/5
+        Real 7.183s  proc 8.5s  E_in 94.4 J  P 13.14 W  gpu 810 MHz  tj 51.5 C
+[bench] spec rna_fast_1k mode B rep 2/5
+        Real 7.154s  proc 8.5s  E_in 94.2 J  P 13.17 W  gpu 815 MHz  tj 51.3 C
+[bench] spec rna_fast_1k mode B rep 3/5
+        Real 7.088s  proc 8.5s  E_in 93.9 J  P 13.25 W  gpu 815 MHz  tj 51.2 C
+[bench] spec rna_fast_1k mode B rep 4/5
+        Real 7.122s  proc 8.5s  E_in 94.2 J  P 13.22 W  gpu 807 MHz  tj 51.0 C
+[bench] spec rna_fast_1k mode B rep 5/5
+        Real 7.078s  proc 8.5s  E_in 94.0 J  P 13.27 W  gpu 811 MHz  tj 50.7 C
+[bench] spec rna_hac_1k warm-up (mode A)
+[bench] spec rna_hac_1k mode A rep 1/5
+        Real 35.000s  proc 36.5s  E_in 590.9 J  P 16.88 W  gpu 893 MHz  tj 56.0 C
+[bench] spec rna_hac_1k mode A rep 2/5
+        Real 35.071s  proc 36.5s  E_in 590.5 J  P 16.84 W  gpu 892 MHz  tj 56.7 C
+[bench] spec rna_hac_1k mode A rep 3/5
+        Real 35.026s  proc 36.5s  E_in 590.4 J  P 16.86 W  gpu 893 MHz  tj 56.9 C
+[bench] spec rna_hac_1k mode A rep 4/5
+        Real 34.931s  proc 36.5s  E_in 589.2 J  P 16.87 W  gpu 893 MHz  tj 57.2 C
+[bench] spec rna_hac_1k mode A rep 5/5
+        Real 34.807s  proc 36.5s  E_in 588.7 J  P 16.91 W  gpu 893 MHz  tj 57.0 C
+[bench] spec rna_hac_1k mode B rep 1/5
+        Real 35.073s  proc 36.5s  E_in 592.4 J  P 16.89 W  gpu 893 MHz  tj 56.7 C
+[bench] spec rna_hac_1k mode B rep 2/5
+        Real 35.047s  proc 36.5s  E_in 591.2 J  P 16.87 W  gpu 894 MHz  tj 56.6 C
+[bench] spec rna_hac_1k mode B rep 3/5
+        Real 34.941s  proc 36.5s  E_in 590.5 J  P 16.90 W  gpu 894 MHz  tj 56.6 C
+[bench] spec rna_hac_1k mode B rep 4/5
+        Real 35.156s  proc 36.5s  E_in 592.2 J  P 16.85 W  gpu 894 MHz  tj 57.0 C
+[bench] spec rna_hac_1k mode B rep 5/5
+        Real 34.985s  proc 36.5s  E_in 589.9 J  P 16.86 W  gpu 895 MHz  tj 56.9 C
+[bench] canary (after)
+[bench] idle baseline (after)
+[bench] block complete
+##### phase 2: 20k
+=== 2026-10-23 15:50:42 bench.py run --stage upstream --cells dna_fast_20k,dna_hac_20k,rna_fast_20k,rna_hac_20k
+[bench] block upstream-20261023T155042  harness d5704e0ec3e6  commit 754a74d  cells 4
+[bench] idle baseline (before)
+[bench] canary (before)
+[bench] upstream dna_fast_20k warm-up (mode A)
+[bench] upstream dna_fast_20k mode A rep 1/3
+        Real 254.072s  proc 255.8s  E_in 3194.7 J  P 12.57 W  gpu 902 MHz  tj 54.2 C
+[bench] upstream dna_fast_20k mode A rep 2/3
+        Real 252.345s  proc 253.8s  E_in 3180.1 J  P 12.60 W  gpu 906 MHz  tj 54.2 C
+[bench] upstream dna_fast_20k mode A rep 3/3
+        Real 252.869s  proc 254.3s  E_in 3178.6 J  P 12.57 W  gpu 906 MHz  tj 54.3 C
+[bench] upstream dna_fast_20k mode B rep 1/3
+        Real 252.645s  proc 254.3s  E_in 3195.3 J  P 12.65 W  gpu 905 MHz  tj 54.2 C
+[bench] upstream dna_fast_20k mode B rep 2/3
+        Real 253.138s  proc 255.3s  E_in 3202.4 J  P 12.65 W  gpu 903 MHz  tj 54.1 C
+[bench] upstream dna_fast_20k mode B rep 3/3
+        Real 254.261s  proc 256.3s  E_in 3185.6 J  P 12.53 W  gpu 904 MHz  tj 54.0 C
+[bench] upstream dna_hac_20k warm-up (mode A)
+[bench] upstream dna_hac_20k mode A rep 1/3
+        Real 956.490s  proc 959.6s  E_in 15958.8 J  P 16.68 W  gpu 913 MHz  tj 59.0 C
+[bench] upstream dna_hac_20k mode A rep 2/3
+        Real 957.745s  proc 961.1s  E_in 15965.0 J  P 16.67 W  gpu 913 MHz  tj 58.5 C
+[bench] upstream dna_hac_20k mode A rep 3/3
+        Real 955.932s  proc 958.6s  E_in 15921.6 J  P 16.66 W  gpu 913 MHz  tj 56.1 C
+[bench] upstream dna_hac_20k mode B rep 1/3
+        Real 954.353s  proc 957.1s  E_in 15919.1 J  P 16.68 W  gpu 913 MHz  tj 55.9 C
+[bench] upstream dna_hac_20k mode B rep 2/3
+        Real 955.349s  proc 958.1s  E_in 15940.1 J  P 16.69 W  gpu 913 MHz  tj 56.0 C
+[bench] upstream dna_hac_20k mode B rep 3/3
+        Real 956.878s  proc 959.6s  E_in 15961.5 J  P 16.68 W  gpu 913 MHz  tj 56.0 C
+[bench] upstream rna_fast_20k warm-up (mode A)
+[bench] upstream rna_fast_20k mode A rep 1/3
+        Real 199.540s  proc 201.2s  E_in 2470.0 J  P 12.38 W  gpu 906 MHz  tj 51.0 C
+[bench] upstream rna_fast_20k mode A rep 2/3
+        Real 199.781s  proc 201.2s  E_in 2471.5 J  P 12.37 W  gpu 906 MHz  tj 51.0 C
+[bench] upstream rna_fast_20k mode A rep 3/3
+        Real 199.674s  proc 201.2s  E_in 2472.2 J  P 12.38 W  gpu 906 MHz  tj 51.0 C
+[bench] upstream rna_fast_20k mode B rep 1/3
+        Real 199.338s  proc 200.7s  E_in 2469.7 J  P 12.39 W  gpu 905 MHz  tj 51.3 C
+[bench] upstream rna_fast_20k mode B rep 2/3
+        Real 199.169s  proc 200.7s  E_in 2483.3 J  P 12.47 W  gpu 905 MHz  tj 54.9 C
+[bench] upstream rna_fast_20k mode B rep 3/3
+        Real 198.332s  proc 199.7s  E_in 2485.9 J  P 12.53 W  gpu 905 MHz  tj 55.3 C
+[bench] upstream rna_hac_20k warm-up (mode A)
+[bench] upstream rna_hac_20k mode A rep 1/3
+        Real 772.058s  proc 774.4s  E_in 13192.3 J  P 17.09 W  gpu 913 MHz  tj 59.9 C
+[bench] upstream rna_hac_20k mode A rep 2/3
+        Real 769.202s  proc 771.9s  E_in 12937.3 J  P 16.82 W  gpu 913 MHz  tj 60.3 C
+[bench] upstream rna_hac_20k mode A rep 3/3
+        Real 770.029s  proc 772.9s  E_in 13006.8 J  P 16.89 W  gpu 913 MHz  tj 60.3 C
+[bench] upstream rna_hac_20k mode B rep 1/3
+        Real 773.215s  proc 775.9s  E_in 13006.4 J  P 16.82 W  gpu 913 MHz  tj 60.1 C
+[bench] upstream rna_hac_20k mode B rep 2/3
+        Real 773.204s  proc 775.9s  E_in 13007.8 J  P 16.82 W  gpu 913 MHz  tj 60.0 C
+[bench] upstream rna_hac_20k mode B rep 3/3
+        Real 769.056s  proc 771.9s  E_in 12990.6 J  P 16.89 W  gpu 913 MHz  tj 60.2 C
+[bench] canary (after)
+[bench] idle baseline (after)
+[bench] block complete
+=== 2026-10-23 20:13:06 bench.py run --stage ov_off --cells dna_fast_20k,dna_hac_20k
+[bench] block ov_off-20261023T201306  harness d5704e0ec3e6  commit 7cec6c5  cells 2
+[bench] idle baseline (before)
+[bench] canary (before)
+[bench] ov_off dna_fast_20k warm-up (mode A)
+[bench] ov_off dna_fast_20k mode A rep 1/3
+        Real 203.230s  proc 204.7s  E_in 2813.9 J  P 13.85 W  gpu 903 MHz  tj 56.6 C
+[bench] ov_off dna_fast_20k mode A rep 2/3
+        Real 203.362s  proc 204.7s  E_in 2809.3 J  P 13.81 W  gpu 904 MHz  tj 56.7 C
+[bench] ov_off dna_fast_20k mode A rep 3/3
+        Real 203.646s  proc 205.2s  E_in 2822.5 J  P 13.86 W  gpu 904 MHz  tj 56.7 C
+[bench] ov_off dna_fast_20k mode B rep 1/3
+        Real 203.697s  proc 205.2s  E_in 2814.7 J  P 13.82 W  gpu 903 MHz  tj 56.6 C
+[bench] ov_off dna_fast_20k mode B rep 2/3
+        Real 203.632s  proc 205.2s  E_in 2813.3 J  P 13.82 W  gpu 903 MHz  tj 56.5 C
+[bench] ov_off dna_fast_20k mode B rep 3/3
+        Real 203.655s  proc 205.2s  E_in 2818.4 J  P 13.84 W  gpu 903 MHz  tj 56.6 C
+[bench] ov_off dna_hac_20k warm-up (mode A)
+[bench] ov_off dna_hac_20k mode A rep 1/3
+        Real 913.978s  proc 916.1s  E_in 15379.9 J  P 16.83 W  gpu 908 MHz  tj 59.9 C
+[bench] ov_off dna_hac_20k mode A rep 2/3
+        Real 903.852s  proc 906.0s  E_in 15336.2 J  P 16.97 W  gpu 914 MHz  tj 59.8 C
+[bench] ov_off dna_hac_20k mode A rep 3/3
+        Real 904.984s  proc 907.0s  E_in 15361.7 J  P 16.97 W  gpu 914 MHz  tj 59.8 C
+[bench] ov_off dna_hac_20k mode B rep 1/3
+        Real 908.110s  proc 910.6s  E_in 15391.2 J  P 16.95 W  gpu 913 MHz  tj 59.8 C
+[bench] ov_off dna_hac_20k mode B rep 2/3
+        Real 903.956s  proc 906.0s  E_in 15340.7 J  P 16.97 W  gpu 913 MHz  tj 59.7 C
+[bench] ov_off dna_hac_20k mode B rep 3/3
+        Real 904.621s  proc 907.0s  E_in 15330.9 J  P 16.95 W  gpu 913 MHz  tj 59.6 C
+[bench] canary (after)
+[bench] idle baseline (after)
+[bench] block complete
+=== 2026-10-23 22:28:01 bench.py run --stage ov_on --cells dna_fast_20k,dna_hac_20k,rna_fast_20k,rna_hac_20k
+[bench] block ov_on-20261023T222802  harness d5704e0ec3e6  commit 7cec6c5  cells 4
+[bench] idle baseline (before)
+[bench] canary (before)
+[bench] ov_on dna_fast_20k warm-up (mode A)
+[bench] ov_on dna_fast_20k mode A rep 1/3
+        Real 174.055s  proc 176.2s  E_in 2639.4 J  P 15.16 W  gpu 898 MHz  tj 57.7 C
+[bench] ov_on dna_fast_20k mode A rep 2/3
+        Real 173.601s  proc 175.2s  E_in 2636.8 J  P 15.19 W  gpu 899 MHz  tj 57.5 C
+[bench] ov_on dna_fast_20k mode A rep 3/3
+        Real 193.183s  proc 194.7s  E_in 2736.8 J  P 14.17 W  gpu 839 MHz  tj 57.2 C
+[bench] ov_on dna_fast_20k mode B rep 1/3
+        Real 198.155s  proc 200.2s  E_in 2762.6 J  P 13.94 W  gpu 826 MHz  tj 57.1 C
+[bench] ov_on dna_fast_20k mode B rep 2/3
+        Real 174.827s  proc 177.2s  E_in 2643.5 J  P 15.12 W  gpu 895 MHz  tj 57.5 C
+[bench] ov_on dna_fast_20k mode B rep 3/3
+        Real 175.296s  proc 177.2s  E_in 2661.7 J  P 15.18 W  gpu 895 MHz  tj 57.7 C
+[bench] ov_on dna_hac_20k warm-up (mode A)
+[bench] ov_on dna_hac_20k mode A rep 1/3
+        Real 875.431s  proc 878.5s  E_in 15277.2 J  P 17.45 W  gpu 913 MHz  tj 59.9 C
+[bench] ov_on dna_hac_20k mode A rep 2/3
+        Real 876.358s  proc 906.5s  E_in 15285.4 J  P 17.44 W  gpu 913 MHz  tj 59.9 C
+[bench] ov_on dna_hac_20k mode A rep 3/3
+        Real 880.676s  proc 883.5s  E_in 15327.4 J  P 17.40 W  gpu 913 MHz  tj 59.8 C
+[bench] ov_on dna_hac_20k mode B rep 1/3
+        Real 874.092s  proc 877.0s  E_in 15271.4 J  P 17.47 W  gpu 913 MHz  tj 59.8 C
+[bench] ov_on dna_hac_20k mode B rep 2/3
+        Real 875.493s  proc 878.5s  E_in 15281.6 J  P 17.45 W  gpu 913 MHz  tj 59.8 C
+[bench] ov_on dna_hac_20k mode B rep 3/3
+        Real 879.913s  proc 883.0s  E_in 15309.2 J  P 17.40 W  gpu 909 MHz  tj 59.6 C
+[bench] ov_on rna_fast_20k warm-up (mode A)
+[bench] ov_on rna_fast_20k mode A rep 1/3
+        Real 145.246s  proc 147.2s  E_in 2137.9 J  P 14.72 W  gpu 900 MHz  tj 56.7 C
+[bench] ov_on rna_fast_20k mode A rep 2/3
+        Real 145.374s  proc 147.2s  E_in 2136.2 J  P 14.69 W  gpu 899 MHz  tj 56.6 C
+[bench] ov_on rna_fast_20k mode A rep 3/3
+        Real 145.183s  proc 146.7s  E_in 2135.9 J  P 14.71 W  gpu 900 MHz  tj 56.6 C
+[bench] ov_on rna_fast_20k mode B rep 1/3
+        Real 145.142s  proc 146.7s  E_in 2136.5 J  P 14.72 W  gpu 900 MHz  tj 56.4 C
+[bench] ov_on rna_fast_20k mode B rep 2/3
+        Real 145.309s  proc 147.2s  E_in 2135.7 J  P 14.70 W  gpu 900 MHz  tj 56.5 C
+[bench] ov_on rna_fast_20k mode B rep 3/3
+        Real 145.697s  proc 147.2s  E_in 2139.2 J  P 14.68 W  gpu 899 MHz  tj 56.4 C
+[bench] ov_on rna_hac_20k warm-up (mode A)
+[bench] ov_on rna_hac_20k mode A rep 1/3
+        Real 711.232s  proc 713.8s  E_in 12440.3 J  P 17.49 W  gpu 913 MHz  tj 59.8 C
+[bench] ov_on rna_hac_20k mode A rep 2/3
+        Real 713.689s  proc 716.3s  E_in 12469.7 J  P 17.47 W  gpu 913 MHz  tj 59.7 C
+[bench] ov_on rna_hac_20k mode A rep 3/3
+        Real 713.043s  proc 715.8s  E_in 12496.4 J  P 17.53 W  gpu 913 MHz  tj 59.4 C
+[bench] ov_on rna_hac_20k mode B rep 1/3
+        Real 711.093s  proc 713.9s  E_in 12489.3 J  P 17.56 W  gpu 913 MHz  tj 59.5 C
+[bench] ov_on rna_hac_20k mode B rep 2/3
+        Real 713.043s  proc 715.9s  E_in 12474.2 J  P 17.49 W  gpu 913 MHz  tj 59.2 C
+[bench] ov_on rna_hac_20k mode B rep 3/3
+        Real 711.625s  proc 714.3s  E_in 12407.6 J  P 17.44 W  gpu 913 MHz  tj 59.2 C
+[bench] canary (after)
+[bench] idle baseline (after)
+[bench] block complete
+=== 2026-10-24 02:20:13 bench.py run --stage lb_best --cells dna_fast_20k,dna_hac_20k,rna_fast_20k,rna_hac_20k
+[bench] block lb_best-20261024T022013  harness d5704e0ec3e6  commit 65246f2  cells 4
+[bench] idle baseline (before)
+[bench] canary (before)
+[bench] lb_best dna_fast_20k warm-up (mode A)
+[bench] lb_best dna_fast_20k mode A rep 1/3
+        Real 172.128s  proc 173.7s  E_in 2636.7 J  P 15.32 W  gpu 902 MHz  tj 57.0 C
+[bench] lb_best dna_fast_20k mode A rep 2/3
+        Real 171.969s  proc 173.7s  E_in 2634.7 J  P 15.32 W  gpu 903 MHz  tj 56.9 C
+[bench] lb_best dna_fast_20k mode A rep 3/3
+        Real 171.983s  proc 173.7s  E_in 2634.7 J  P 15.32 W  gpu 903 MHz  tj 56.9 C
+[bench] lb_best dna_fast_20k mode B rep 1/3
+        Real 172.093s  proc 173.7s  E_in 2635.6 J  P 15.32 W  gpu 902 MHz  tj 56.9 C
+[bench] lb_best dna_fast_20k mode B rep 2/3
+        Real 172.093s  proc 173.7s  E_in 2636.4 J  P 15.32 W  gpu 902 MHz  tj 56.9 C
+[bench] lb_best dna_fast_20k mode B rep 3/3
+        Real 172.318s  proc 173.7s  E_in 2636.9 J  P 15.30 W  gpu 902 MHz  tj 56.9 C
+[bench] lb_best dna_hac_20k warm-up (mode A)
+[bench] lb_best dna_hac_20k mode A rep 1/3
+        Real 871.634s  proc 874.5s  E_in 15219.5 J  P 17.46 W  gpu 913 MHz  tj 59.2 C
+[bench] lb_best dna_hac_20k mode A rep 2/3
+        Real 875.169s  proc 878.0s  E_in 15229.4 J  P 17.40 W  gpu 913 MHz  tj 59.0 C
+[bench] lb_best dna_hac_20k mode A rep 3/3
+        Real 871.465s  proc 874.6s  E_in 15195.0 J  P 17.44 W  gpu 913 MHz  tj 59.1 C
+[bench] lb_best dna_hac_20k mode B rep 1/3
+        Real 872.726s  proc 879.0s  E_in 15240.1 J  P 17.46 W  gpu 913 MHz  tj 59.0 C
+[bench] lb_best dna_hac_20k mode B rep 2/3
+        Real 875.526s  proc 878.5s  E_in 15229.5 J  P 17.39 W  gpu 913 MHz  tj 59.0 C
+[bench] lb_best dna_hac_20k mode B rep 3/3
+        Real 875.355s  proc 878.0s  E_in 15234.8 J  P 17.40 W  gpu 913 MHz  tj 58.8 C
+[bench] lb_best rna_fast_20k warm-up (mode A)
+[bench] lb_best rna_fast_20k mode A rep 1/3
+        Real 136.056s  proc 137.7s  E_in 2064.8 J  P 15.18 W  gpu 900 MHz  tj 56.3 C
+[bench] lb_best rna_fast_20k mode A rep 2/3
+        Real 136.110s  proc 137.7s  E_in 2066.4 J  P 15.18 W  gpu 901 MHz  tj 56.3 C
+[bench] lb_best rna_fast_20k mode A rep 3/3
+        Real 135.795s  proc 137.2s  E_in 2064.4 J  P 15.20 W  gpu 901 MHz  tj 56.3 C
+[bench] lb_best rna_fast_20k mode B rep 1/3
+        Real 135.962s  proc 137.7s  E_in 2065.0 J  P 15.19 W  gpu 901 MHz  tj 56.2 C
+[bench] lb_best rna_fast_20k mode B rep 2/3
+        Real 136.025s  proc 137.7s  E_in 2065.6 J  P 15.19 W  gpu 900 MHz  tj 56.3 C
+[bench] lb_best rna_fast_20k mode B rep 3/3
+        Real 136.105s  proc 137.7s  E_in 2065.9 J  P 15.18 W  gpu 900 MHz  tj 56.2 C
+[bench] lb_best rna_hac_20k warm-up (mode A)
+[bench] lb_best rna_hac_20k mode A rep 1/3
+        Real 709.792s  proc 712.3s  E_in 12480.5 J  P 17.58 W  gpu 913 MHz  tj 59.0 C
+[bench] lb_best rna_hac_20k mode A rep 2/3
+        Real 708.558s  proc 711.3s  E_in 12376.7 J  P 17.47 W  gpu 913 MHz  tj 58.7 C
+[bench] lb_best rna_hac_20k mode A rep 3/3
+        Real 706.557s  proc 709.3s  E_in 12328.6 J  P 17.45 W  gpu 913 MHz  tj 58.6 C
+[bench] lb_best rna_hac_20k mode B rep 1/3
+        Real 710.081s  proc 712.9s  E_in 12355.7 J  P 17.40 W  gpu 913 MHz  tj 58.5 C
+[bench] lb_best rna_hac_20k mode B rep 2/3
+        Real 710.749s  proc 713.9s  E_in 12412.5 J  P 17.46 W  gpu 913 MHz  tj 58.7 C
+[bench] lb_best rna_hac_20k mode B rep 3/3
+        Real 710.525s  proc 714.3s  E_in 12461.7 J  P 17.54 W  gpu 913 MHz  tj 59.0 C
+[bench] canary (after)
+[bench] idle baseline (after)
+[bench] block complete
+=== 2026-10-24 06:08:17 bench.py run --stage spec --cells dna_fast_20k,dna_hac_20k,rna_fast_20k,rna_hac_20k
+[bench] block spec-20261024T060817  harness d5704e0ec3e6  commit 49ac641  cells 4
+[bench] idle baseline (before)
+[bench] canary (before)
+[bench] spec dna_fast_20k warm-up (mode A)
+[bench] spec dna_fast_20k mode A rep 1/3
+        Real 158.203s  proc 159.7s  E_in 2457.0 J  P 15.53 W  gpu 899 MHz  tj 56.4 C
+[bench] spec dna_fast_20k mode A rep 2/3
+        Real 158.652s  proc 160.2s  E_in 2456.7 J  P 15.48 W  gpu 899 MHz  tj 56.6 C
+[bench] spec dna_fast_20k mode A rep 3/3
+        Real 157.924s  proc 159.7s  E_in 2454.4 J  P 15.54 W  gpu 900 MHz  tj 56.7 C
+[bench] spec dna_fast_20k mode B rep 1/3
+        Real 158.127s  proc 159.7s  E_in 2455.5 J  P 15.53 W  gpu 900 MHz  tj 56.7 C
+[bench] spec dna_fast_20k mode B rep 2/3
+        Real 161.404s  proc 163.2s  E_in 2476.2 J  P 15.34 W  gpu 888 MHz  tj 56.4 C
+[bench] spec dna_fast_20k mode B rep 3/3
+        Real 159.167s  proc 160.7s  E_in 2468.9 J  P 15.51 W  gpu 896 MHz  tj 56.6 C
+[bench] spec dna_hac_20k warm-up (mode A)
+[bench] spec dna_hac_20k mode A rep 1/3
+        Real 870.116s  proc 874.0s  E_in 15216.1 J  P 17.49 W  gpu 912 MHz  tj 58.9 C
+[bench] spec dna_hac_20k mode A rep 2/3
+    attempt 1/2 failed: returncode -6
+        Real 871.843s  proc 875.1s  E_in 15203.1 J  P 17.44 W  gpu 913 MHz  tj 58.9 C
+[bench] spec dna_hac_20k mode A rep 3/3
+        Real 869.955s  proc 873.0s  E_in 15178.3 J  P 17.45 W  gpu 913 MHz  tj 59.0 C
+[bench] spec dna_hac_20k mode B rep 1/3
+        Real 869.457s  proc 872.5s  E_in 15169.0 J  P 17.45 W  gpu 912 MHz  tj 59.1 C
+[bench] spec dna_hac_20k mode B rep 2/3
+        Real 883.612s  proc 887.5s  E_in 15485.0 J  P 17.52 W  gpu 912 MHz  tj 59.1 C
+[bench] spec dna_hac_20k mode B rep 3/3
+        Real 868.726s  proc 871.5s  E_in 15154.3 J  P 17.44 W  gpu 913 MHz  tj 59.2 C
+[bench] spec rna_fast_20k warm-up (mode A)
+[bench] spec rna_fast_20k mode A rep 1/3
+        Real 121.197s  proc 122.6s  E_in 1866.9 J  P 15.40 W  gpu 899 MHz  tj 57.0 C
+[bench] spec rna_fast_20k mode A rep 2/3
+        Real 121.009s  proc 122.7s  E_in 1866.2 J  P 15.42 W  gpu 899 MHz  tj 57.0 C
+[bench] spec rna_fast_20k mode A rep 3/3
+        Real 120.998s  proc 122.6s  E_in 1865.2 J  P 15.42 W  gpu 898 MHz  tj 57.0 C
+[bench] spec rna_fast_20k mode B rep 1/3
+        Real 121.110s  proc 122.6s  E_in 1866.0 J  P 15.41 W  gpu 898 MHz  tj 57.0 C
+[bench] spec rna_fast_20k mode B rep 2/3
+        Real 120.968s  proc 122.6s  E_in 1865.1 J  P 15.42 W  gpu 898 MHz  tj 57.0 C
+[bench] spec rna_fast_20k mode B rep 3/3
+        Real 121.346s  proc 122.6s  E_in 1867.3 J  P 15.39 W  gpu 897 MHz  tj 57.0 C
+[bench] spec rna_hac_20k warm-up (mode A)
+[bench] spec rna_hac_20k mode A rep 1/3
+        Real 699.252s  proc 703.3s  E_in 12239.5 J  P 17.50 W  gpu 912 MHz  tj 59.7 C
+[bench] spec rna_hac_20k mode A rep 2/3
+        Real 700.935s  proc 703.8s  E_in 12281.1 J  P 17.52 W  gpu 913 MHz  tj 59.9 C
+[bench] spec rna_hac_20k mode A rep 3/3
+        Real 700.225s  proc 702.8s  E_in 12270.5 J  P 17.52 W  gpu 913 MHz  tj 59.9 C
+[bench] spec rna_hac_20k mode B rep 1/3
+        Real 700.232s  proc 704.3s  E_in 12279.0 J  P 17.54 W  gpu 912 MHz  tj 60.0 C
+[bench] spec rna_hac_20k mode B rep 2/3
+        Real 699.384s  proc 703.8s  E_in 12286.5 J  P 17.57 W  gpu 912 MHz  tj 60.2 C
+[bench] spec rna_hac_20k mode B rep 3/3
+        Real 700.767s  proc 703.3s  E_in 12288.1 J  P 17.54 W  gpu 913 MHz  tj 60.3 C
+[bench] canary (after)
+[bench] idle baseline (after)
+[bench] block complete
+##### phase 3: 500k FAST
+=== 2026-10-24 09:58:51 bench.py run --stage paper_xavier --cells dna_fast_500k
+[bench] block paper_xavier-20261024T095851  harness d5704e0ec3e6  commit 406ab8c  cells 1
+[bench] idle baseline (before)
+[bench] canary (before)
+[bench] paper_xavier dna_fast_500k mode B rep 1/1
+        Real 5495.826s  proc 5497.5s  E_in 74298.4 J  P 13.52 W  gpu 906 MHz  tj 56.4 C
+[bench] canary (after)
+[bench] idle baseline (after)
+[bench] block complete
+=== 2026-10-24 11:33:30 bench.py run --stage upstream --cells dna_fast_500k
+[bench] block upstream-20261024T113331  harness d5704e0ec3e6  commit 754a74d  cells 1
+[bench] idle baseline (before)
+[bench] canary (before)
+[bench] upstream dna_fast_500k mode B rep 1/1
+        Real 6331.195s  proc 6333.0s  E_in 79380.0 J  P 12.54 W  gpu 908 MHz  tj 55.9 C
+[bench] canary (after)
+[bench] idle baseline (after)
+[bench] block complete
+=== 2026-10-24 13:22:19 bench.py run --stage spec --cells dna_fast_500k
+[bench] block spec-20261024T132219  harness d5704e0ec3e6  commit 49ac641  cells 1
+[bench] idle baseline (before)
+[bench] canary (before)
+[bench] spec dna_fast_500k mode B rep 1/1
+    attempt 1/2 failed: stall
+    attempt 2/2 failed: stall
+        FAILED: stall
+[bench] canary (after)
+[bench] idle baseline (after)
+[bench] block complete
+##### phase 4: extras
+=== 2026-10-24 14:55:46 bench.py run --stage lb_baseline --cells dna_fast_1k,dna_hac_1k
+[bench] block lb_baseline-20261024T145546  harness d5704e0ec3e6  commit 65246f2  cells 2
+[bench] idle baseline (before)
+[bench] canary (before)
+[bench] lb_baseline dna_fast_1k warm-up (mode A)
+[bench] lb_baseline dna_fast_1k mode A rep 1/5
+        Real 10.113s  proc 11.5s  E_in 136.0 J  P 13.45 W  gpu 824 MHz  tj 53.1 C
+[bench] lb_baseline dna_fast_1k mode A rep 2/5
+        Real 10.099s  proc 11.5s  E_in 135.9 J  P 13.45 W  gpu 827 MHz  tj 53.6 C
+[bench] lb_baseline dna_fast_1k mode A rep 3/5
+        Real 10.087s  proc 11.5s  E_in 136.2 J  P 13.50 W  gpu 823 MHz  tj 53.8 C
+[bench] lb_baseline dna_fast_1k mode A rep 4/5
+        Real 10.093s  proc 11.5s  E_in 136.0 J  P 13.47 W  gpu 823 MHz  tj 54.1 C
+[bench] lb_baseline dna_fast_1k mode A rep 5/5
+        Real 10.087s  proc 11.5s  E_in 136.0 J  P 13.49 W  gpu 827 MHz  tj 54.4 C
+[bench] lb_baseline dna_fast_1k mode B rep 1/5
+        Real 10.109s  proc 11.5s  E_in 136.6 J  P 13.51 W  gpu 823 MHz  tj 54.6 C
+[bench] lb_baseline dna_fast_1k mode B rep 2/5
+        Real 10.093s  proc 11.5s  E_in 136.2 J  P 13.49 W  gpu 823 MHz  tj 54.6 C
+[bench] lb_baseline dna_fast_1k mode B rep 3/5
+        Real 10.095s  proc 11.5s  E_in 136.5 J  P 13.52 W  gpu 823 MHz  tj 54.6 C
+[bench] lb_baseline dna_fast_1k mode B rep 4/5
+        Real 10.105s  proc 11.5s  E_in 136.5 J  P 13.51 W  gpu 826 MHz  tj 54.8 C
+[bench] lb_baseline dna_fast_1k mode B rep 5/5
+        Real 10.156s  proc 11.5s  E_in 136.9 J  P 13.48 W  gpu 826 MHz  tj 54.6 C
+[bench] lb_baseline dna_hac_1k warm-up (mode A)
+[bench] lb_baseline dna_hac_1k mode A rep 1/5
+        Real 45.297s  proc 46.6s  E_in 768.7 J  P 16.97 W  gpu 896 MHz  tj 59.6 C
+[bench] lb_baseline dna_hac_1k mode A rep 2/5
+        Real 45.236s  proc 46.6s  E_in 768.5 J  P 16.99 W  gpu 897 MHz  tj 59.8 C
+[bench] lb_baseline dna_hac_1k mode A rep 3/5
+        Real 45.154s  proc 46.6s  E_in 768.0 J  P 17.01 W  gpu 898 MHz  tj 59.9 C
+[bench] lb_baseline dna_hac_1k mode A rep 4/5
+        Real 45.146s  proc 46.6s  E_in 767.1 J  P 16.99 W  gpu 897 MHz  tj 59.9 C
+[bench] lb_baseline dna_hac_1k mode A rep 5/5
+        Real 45.312s  proc 46.6s  E_in 768.4 J  P 16.96 W  gpu 896 MHz  tj 59.6 C
+[bench] lb_baseline dna_hac_1k mode B rep 1/5
+        Real 45.081s  proc 46.6s  E_in 766.1 J  P 16.99 W  gpu 897 MHz  tj 59.9 C
+[bench] lb_baseline dna_hac_1k mode B rep 2/5
+        Real 45.206s  proc 46.6s  E_in 766.3 J  P 16.95 W  gpu 897 MHz  tj 60.1 C
+[bench] lb_baseline dna_hac_1k mode B rep 3/5
+        Real 45.091s  proc 46.6s  E_in 766.8 J  P 17.01 W  gpu 897 MHz  tj 59.8 C
+[bench] lb_baseline dna_hac_1k mode B rep 4/5
+        Real 45.339s  proc 46.6s  E_in 769.4 J  P 16.97 W  gpu 898 MHz  tj 59.9 C
+[bench] lb_baseline dna_hac_1k mode B rep 5/5
+        Real 45.213s  proc 46.6s  E_in 767.6 J  P 16.98 W  gpu 896 MHz  tj 59.9 C
+[bench] canary (after)
+[bench] idle baseline (after)
+[bench] block complete
+=== 2026-10-24 15:13:36 bench.py run --stage cb_off --cells dna_fast_1k,dna_hac_1k
+[bench] block cb_off-20261024T151336  harness d5704e0ec3e6  commit 664bb1f  cells 2
+[bench] idle baseline (before)
+[bench] canary (before)
+[bench] cb_off dna_fast_1k warm-up (mode A)
+[bench] cb_off dna_fast_1k mode A rep 1/5
+        Real 10.979s  proc 12.5s  E_in 140.6 J  P 12.80 W  gpu 838 MHz  tj 53.7 C
+[bench] cb_off dna_fast_1k mode A rep 2/5
+        Real 10.988s  proc 12.5s  E_in 140.3 J  P 12.77 W  gpu 839 MHz  tj 54.0 C
+[bench] cb_off dna_fast_1k mode A rep 3/5
+        Real 10.968s  proc 12.5s  E_in 140.5 J  P 12.81 W  gpu 838 MHz  tj 54.1 C
+[bench] cb_off dna_fast_1k mode A rep 4/5
+        Real 10.952s  proc 12.0s  E_in 140.5 J  P 12.83 W  gpu 838 MHz  tj 54.4 C
+[bench] cb_off dna_fast_1k mode A rep 5/5
+        Real 10.978s  proc 12.0s  E_in 140.4 J  P 12.79 W  gpu 842 MHz  tj 54.4 C
+[bench] cb_off dna_fast_1k mode B rep 1/5
+        Real 10.948s  proc 12.0s  E_in 140.6 J  P 12.84 W  gpu 841 MHz  tj 54.6 C
+[bench] cb_off dna_fast_1k mode B rep 2/5
+        Real 11.039s  proc 12.5s  E_in 141.1 J  P 12.78 W  gpu 835 MHz  tj 54.7 C
+[bench] cb_off dna_fast_1k mode B rep 3/5
+        Real 11.024s  proc 12.5s  E_in 141.0 J  P 12.79 W  gpu 835 MHz  tj 54.8 C
+[bench] cb_off dna_fast_1k mode B rep 4/5
+        Real 11.024s  proc 12.5s  E_in 141.2 J  P 12.80 W  gpu 837 MHz  tj 54.7 C
+[bench] cb_off dna_fast_1k mode B rep 5/5
+        Real 10.995s  proc 12.5s  E_in 140.8 J  P 12.80 W  gpu 839 MHz  tj 54.9 C
+[bench] cb_off dna_hac_1k warm-up (mode A)
+[bench] cb_off dna_hac_1k mode A rep 1/5
+        Real 46.069s  proc 47.6s  E_in 763.4 J  P 16.57 W  gpu 897 MHz  tj 59.7 C
+[bench] cb_off dna_hac_1k mode A rep 2/5
+        Real 46.237s  proc 47.6s  E_in 764.0 J  P 16.52 W  gpu 898 MHz  tj 59.7 C
+[bench] cb_off dna_hac_1k mode A rep 3/5
+        Real 46.062s  proc 47.6s  E_in 763.4 J  P 16.57 W  gpu 898 MHz  tj 59.8 C
+[bench] cb_off dna_hac_1k mode A rep 4/5
+        Real 46.214s  proc 47.6s  E_in 766.5 J  P 16.59 W  gpu 899 MHz  tj 59.9 C
+[bench] cb_off dna_hac_1k mode A rep 5/5
+        Real 46.214s  proc 47.6s  E_in 767.3 J  P 16.60 W  gpu 898 MHz  tj 59.6 C
+[bench] cb_off dna_hac_1k mode B rep 1/5
+        Real 46.032s  proc 47.6s  E_in 763.9 J  P 16.59 W  gpu 898 MHz  tj 59.6 C
+[bench] cb_off dna_hac_1k mode B rep 2/5
+        Real 46.311s  proc 47.6s  E_in 766.9 J  P 16.56 W  gpu 898 MHz  tj 59.7 C
+[bench] cb_off dna_hac_1k mode B rep 3/5
+        Real 46.205s  proc 47.6s  E_in 765.4 J  P 16.57 W  gpu 898 MHz  tj 59.9 C
+[bench] cb_off dna_hac_1k mode B rep 4/5
+        Real 46.338s  proc 47.6s  E_in 768.5 J  P 16.59 W  gpu 898 MHz  tj 59.8 C
+[bench] cb_off dna_hac_1k mode B rep 5/5
+        Real 45.951s  proc 47.6s  E_in 763.6 J  P 16.62 W  gpu 899 MHz  tj 59.8 C
+[bench] canary (after)
+[bench] idle baseline (after)
+[bench] block complete
+=== 2026-10-24 15:31:56 bench.py run --stage cb_on --cells dna_fast_1k,dna_hac_1k
+[bench] block cb_on-20261024T153156  harness d5704e0ec3e6  commit 664bb1f  cells 2
+[bench] idle baseline (before)
+[bench] canary (before)
+[bench] cb_on dna_fast_1k warm-up (mode A)
+[bench] cb_on dna_fast_1k mode A rep 1/5
+        Real 11.993s  proc 13.5s  E_in 169.1 J  P 14.10 W  gpu 845 MHz  tj 54.2 C
+[bench] cb_on dna_fast_1k mode A rep 2/5
+        Real 12.067s  proc 13.5s  E_in 169.8 J  P 14.07 W  gpu 841 MHz  tj 54.7 C
+[bench] cb_on dna_fast_1k mode A rep 3/5
+        Real 11.957s  proc 13.5s  E_in 169.0 J  P 14.13 W  gpu 841 MHz  tj 55.1 C
+[bench] cb_on dna_fast_1k mode A rep 4/5
+        Real 12.057s  proc 13.5s  E_in 169.7 J  P 14.07 W  gpu 840 MHz  tj 55.3 C
+[bench] cb_on dna_fast_1k mode A rep 5/5
+        Real 12.054s  proc 13.5s  E_in 169.6 J  P 14.07 W  gpu 841 MHz  tj 55.4 C
+[bench] cb_on dna_fast_1k mode B rep 1/5
+        Real 11.998s  proc 13.5s  E_in 168.7 J  P 14.06 W  gpu 841 MHz  tj 55.5 C
+[bench] cb_on dna_fast_1k mode B rep 2/5
+        Real 12.102s  proc 13.5s  E_in 169.5 J  P 14.00 W  gpu 842 MHz  tj 55.4 C
+[bench] cb_on dna_fast_1k mode B rep 3/5
+        Real 11.918s  proc 13.0s  E_in 168.4 J  P 14.13 W  gpu 847 MHz  tj 55.8 C
+[bench] cb_on dna_fast_1k mode B rep 4/5
+        Real 11.959s  proc 13.5s  E_in 168.9 J  P 14.13 W  gpu 842 MHz  tj 55.8 C
+[bench] cb_on dna_fast_1k mode B rep 5/5
+        Real 12.065s  proc 13.5s  E_in 169.7 J  P 14.07 W  gpu 843 MHz  tj 55.6 C
+[bench] cb_on dna_hac_1k warm-up (mode A)
+[bench] cb_on dna_hac_1k mode A rep 1/5
+        Real 56.511s  proc 58.1s  E_in 896.8 J  P 15.87 W  gpu 902 MHz  tj 59.5 C
+[bench] cb_on dna_hac_1k mode A rep 2/5
+        Real 56.207s  proc 57.6s  E_in 898.3 J  P 15.98 W  gpu 902 MHz  tj 59.8 C
+[bench] cb_on dna_hac_1k mode A rep 3/5
+        Real 56.457s  proc 58.1s  E_in 897.2 J  P 15.89 W  gpu 903 MHz  tj 59.6 C
+[bench] cb_on dna_hac_1k mode A rep 4/5
+        Real 56.170s  proc 57.6s  E_in 893.5 J  P 15.91 W  gpu 902 MHz  tj 59.8 C
+[bench] cb_on dna_hac_1k mode A rep 5/5
+        Real 56.276s  proc 57.6s  E_in 894.8 J  P 15.90 W  gpu 903 MHz  tj 59.6 C
+[bench] cb_on dna_hac_1k mode B rep 1/5
+        Real 56.406s  proc 58.1s  E_in 895.8 J  P 15.88 W  gpu 903 MHz  tj 59.8 C
+[bench] cb_on dna_hac_1k mode B rep 2/5
+        Real 56.216s  proc 57.6s  E_in 893.7 J  P 15.90 W  gpu 903 MHz  tj 59.8 C
+[bench] cb_on dna_hac_1k mode B rep 3/5
+        Real 56.338s  proc 58.1s  E_in 895.2 J  P 15.89 W  gpu 902 MHz  tj 59.8 C
+[bench] cb_on dna_hac_1k mode B rep 4/5
+        Real 56.181s  proc 57.6s  E_in 894.4 J  P 15.92 W  gpu 903 MHz  tj 59.8 C
+[bench] cb_on dna_hac_1k mode B rep 5/5
+        Real 56.092s  proc 57.6s  E_in 894.9 J  P 15.95 W  gpu 902 MHz  tj 59.9 C
+[bench] canary (after)
+[bench] idle baseline (after)
+[bench] block complete
+=== 2026-10-24 15:52:43 bench.py run --stage lb_baseline --cells dna_fast_20k,dna_hac_20k
+[bench] block lb_baseline-20261024T155243  harness d5704e0ec3e6  commit 65246f2  cells 2
+[bench] idle baseline (before)
+[bench] canary (before)
+[bench] lb_baseline dna_fast_20k warm-up (mode A)
+[bench] lb_baseline dna_fast_20k mode A rep 1/3
+    attempt 1/2 failed: wall_cap
+        Real 173.887s  proc 176.2s  E_in 2651.8 J  P 15.25 W  gpu 899 MHz  tj 60.6 C
+[bench] lb_baseline dna_fast_20k mode A rep 2/3
+        Real 175.758s  proc 177.2s  E_in 2692.9 J  P 15.32 W  gpu 898 MHz  tj 60.8 C
+[bench] lb_baseline dna_fast_20k mode A rep 3/3
+        Real 175.001s  proc 177.2s  E_in 2664.3 J  P 15.22 W  gpu 895 MHz  tj 61.1 C
+[bench] lb_baseline dna_fast_20k mode B rep 1/3
+        Real 175.816s  proc 178.2s  E_in 2680.2 J  P 15.24 W  gpu 895 MHz  tj 61.1 C
+[bench] lb_baseline dna_fast_20k mode B rep 2/3
+        Real 175.894s  proc 178.2s  E_in 2682.6 J  P 15.25 W  gpu 894 MHz  tj 61.1 C
+[bench] lb_baseline dna_fast_20k mode B rep 3/3
+        Real 175.317s  proc 177.7s  E_in 2672.9 J  P 15.25 W  gpu 895 MHz  tj 61.3 C
+[bench] lb_baseline dna_hac_20k warm-up (mode A)
+[bench] lb_baseline dna_hac_20k mode A rep 1/3
+        Real 878.136s  proc 881.0s  E_in 15416.4 J  P 17.56 W  gpu 913 MHz  tj 64.6 C
+[bench] lb_baseline dna_hac_20k mode A rep 2/3
+        Real 878.340s  proc 881.5s  E_in 15495.2 J  P 17.64 W  gpu 913 MHz  tj 65.0 C
+[bench] lb_baseline dna_hac_20k mode A rep 3/3
+        Real 879.948s  proc 883.0s  E_in 15430.0 J  P 17.54 W  gpu 913 MHz  tj 64.9 C
+[bench] lb_baseline dna_hac_20k mode B rep 1/3
+        Real 875.221s  proc 878.0s  E_in 15245.5 J  P 17.42 W  gpu 913 MHz  tj 60.2 C
+[bench] lb_baseline dna_hac_20k mode B rep 2/3
+        Real 877.380s  proc 880.0s  E_in 15375.6 J  P 17.52 W  gpu 913 MHz  tj 60.2 C
+[bench] lb_baseline dna_hac_20k mode B rep 3/3
+        Real 878.690s  proc 881.5s  E_in 15352.3 J  P 17.47 W  gpu 913 MHz  tj 63.8 C
+[bench] canary (after)
+[bench] idle baseline (after)
+[bench] block complete
+=== 2026-10-24 18:21:58 bench.py run --stage cb_off --cells dna_fast_20k,dna_hac_20k
+[bench] block cb_off-20261024T182159  harness d5704e0ec3e6  commit 664bb1f  cells 2
+[bench] idle baseline (before)
+[bench] canary (before)
+[bench] cb_off dna_fast_20k warm-up (mode A)
+[bench] cb_off dna_fast_20k mode A rep 1/3
+        Real 195.862s  proc 197.2s  E_in 2768.9 J  P 14.14 W  gpu 904 MHz  tj 59.9 C
+[bench] cb_off dna_fast_20k mode A rep 2/3
+        Real 195.750s  proc 197.2s  E_in 2768.6 J  P 14.14 W  gpu 904 MHz  tj 60.1 C
+[bench] cb_off dna_fast_20k mode A rep 3/3
+    attempt 1/2 failed: wall_cap
+        Real 196.248s  proc 197.7s  E_in 2764.6 J  P 14.09 W  gpu 903 MHz  tj 59.8 C
+[bench] cb_off dna_fast_20k mode B rep 1/3
+        Real 196.061s  proc 197.7s  E_in 2768.7 J  P 14.12 W  gpu 904 MHz  tj 60.0 C
+[bench] cb_off dna_fast_20k mode B rep 2/3
+        Real 195.760s  proc 197.2s  E_in 2770.1 J  P 14.15 W  gpu 904 MHz  tj 60.0 C
+[bench] cb_off dna_fast_20k mode B rep 3/3
+        Real 195.893s  proc 197.2s  E_in 2768.7 J  P 14.13 W  gpu 904 MHz  tj 60.2 C
+[bench] cb_off dna_hac_20k warm-up (mode A)
+[bench] cb_off dna_hac_20k mode A rep 1/3
+        Real 896.395s  proc 898.5s  E_in 15333.8 J  P 17.11 W  gpu 914 MHz  tj 63.7 C
+[bench] cb_off dna_hac_20k mode A rep 2/3
+        Real 895.464s  proc 897.5s  E_in 15335.4 J  P 17.13 W  gpu 913 MHz  tj 63.7 C
+[bench] cb_off dna_hac_20k mode A rep 3/3
+        Real 895.451s  proc 897.5s  E_in 15308.4 J  P 17.10 W  gpu 914 MHz  tj 63.4 C
+[bench] cb_off dna_hac_20k mode B rep 1/3
+        Real 898.193s  proc 900.5s  E_in 15298.0 J  P 17.03 W  gpu 913 MHz  tj 61.7 C
+[bench] cb_off dna_hac_20k mode B rep 2/3
+        Real 899.387s  proc 901.6s  E_in 15344.1 J  P 17.06 W  gpu 913 MHz  tj 61.5 C
+[bench] cb_off dna_hac_20k mode B rep 3/3
+        Real 899.578s  proc 901.5s  E_in 15323.9 J  P 17.03 W  gpu 913 MHz  tj 61.5 C
+[bench] canary (after)
+[bench] idle baseline (after)
+[bench] block complete
+=== 2026-10-24 20:55:33 bench.py run --stage cb_on --cells dna_fast_20k,dna_hac_20k
+[bench] block cb_on-20261024T205533  harness d5704e0ec3e6  commit 664bb1f  cells 2
+[bench] idle baseline (before)
+[bench] canary (before)
+[bench] cb_on dna_fast_20k warm-up (mode A)
+[bench] cb_on dna_fast_20k mode A rep 1/3
+        Real 218.276s  proc 219.8s  E_in 3324.5 J  P 15.23 W  gpu 912 MHz  tj 59.1 C
+[bench] cb_on dna_fast_20k mode A rep 2/3
+        Real 217.635s  proc 218.8s  E_in 3310.7 J  P 15.21 W  gpu 912 MHz  tj 59.0 C
+[bench] cb_on dna_fast_20k mode A rep 3/3
+        Real 218.254s  proc 219.8s  E_in 3320.7 J  P 15.21 W  gpu 912 MHz  tj 58.9 C
+[bench] cb_on dna_fast_20k mode B rep 1/3
+        Real 220.829s  proc 222.3s  E_in 3336.0 J  P 15.11 W  gpu 910 MHz  tj 58.8 C
+[bench] cb_on dna_fast_20k mode B rep 2/3
+        Real 218.065s  proc 219.3s  E_in 3319.1 J  P 15.22 W  gpu 912 MHz  tj 58.8 C
+[bench] cb_on dna_fast_20k mode B rep 3/3
+        Real 219.905s  proc 221.3s  E_in 3321.2 J  P 15.10 W  gpu 911 MHz  tj 58.7 C
+[bench] cb_on dna_hac_20k warm-up (mode A)
+    attempt 1/2 failed: stall
+    attempt 2/2 failed: stall
+[bench] cb_on dna_hac_20k mode A rep 1/3
+    attempt 1/2 failed: stall
+    attempt 2/2 failed: stall
+        FAILED: stall
+[bench] cb_on dna_hac_20k mode A rep 2/3
+    attempt 1/2 failed: stall
+    attempt 2/2 failed: stall
+        FAILED: stall
+[bench] cb_on dna_hac_20k mode A rep 3/3
+    attempt 1/2 failed: stall
+    attempt 2/2 failed: stall
+        FAILED: stall
+[bench] cb_on dna_hac_20k mode B rep 1/3
+    attempt 1/2 failed: stall
+    attempt 2/2 failed: stall
+        FAILED: stall
+[bench] cb_on dna_hac_20k mode B rep 2/3
+    attempt 1/2 failed: stall
+    attempt 2/2 failed: stall
+        FAILED: stall
+[bench] cb_on dna_hac_20k mode B rep 3/3
+    attempt 1/2 failed: stall
+    attempt 2/2 failed: stall
+        FAILED: stall
+[bench] canary (after)
+[bench] idle baseline (after)
+[bench] block complete
+=== 2026-10-25 01:01:17 campaign complete
+spec          rna_hac_20k    mode A: 3 timed runs ok
+spec          rna_hac_20k    mode B: 3 timed runs ok
+upstream      dna_fast_1k    mode A: 5 timed runs ok
+upstream      dna_fast_1k    mode B: 5 timed runs ok
+upstream      dna_fast_20k   mode A: 3 timed runs ok
+upstream      dna_fast_20k   mode B: 3 timed runs ok
+upstream      dna_fast_500k  mode B: 1 timed runs ok
+upstream      dna_hac_1k     mode A: 5 timed runs ok
+upstream      dna_hac_1k     mode B: 5 timed runs ok
+upstream      dna_hac_20k    mode A: 3 timed runs ok
+upstream      dna_hac_20k    mode B: 3 timed runs ok
+upstream      rna_fast_1k    mode A: 5 timed runs ok
+upstream      rna_fast_1k    mode B: 5 timed runs ok
+upstream      rna_fast_20k   mode A: 3 timed runs ok
+upstream      rna_fast_20k   mode B: 3 timed runs ok
+upstream      rna_hac_1k     mode A: 5 timed runs ok
+upstream      rna_hac_1k     mode B: 5 timed runs ok
+upstream      rna_hac_20k    mode A: 3 timed runs ok
+upstream      rna_hac_20k    mode B: 3 timed runs ok
+522 records, 19 failed/other

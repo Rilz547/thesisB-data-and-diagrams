@@ -1,0 +1,54 @@
+{
+ "cell": "rna_hac_1k",
+ "stage": "spec",
+ "ref": {
+  "label": "ref-lb_best",
+  "stage": "lb_best",
+  "extra": "",
+  "status": "ok",
+  "real_s": 38.118,
+  "alpha": null,
+  "identity": 0.9716731505310581,
+  "map_rate": 0.98,
+  "bases": 1013496,
+  "fastq": "/home/riley/slorado-riley-v2/docs-riley/bench-runs/kept/output_hac_1k-rna-explore-ref-lb_best.fastq"
+ },
+ "results": [
+  {
+   "label": "ref-lb_best",
+   "stage": "lb_best",
+   "extra": "",
+   "status": "ok",
+   "real_s": 38.118,
+   "alpha": null,
+   "identity": 0.9716731505310581,
+   "map_rate": 0.98,
+   "bases": 1013496,
+   "fastq": "/home/riley/slorado-riley-v2/docs-riley/bench-runs/kept/output_hac_1k-rna-explore-ref-lb_best.fastq"
+  },
+  {
+   "label": "repair10_margin2.5",
+   "stage": "spec",
+   "extra": "--spec-repair-threshold 10 --spec-margin-threshold 2.5",
+   "status": "ok",
+   "real_s": 37.521,
+   "alpha": 0.929539295392954,
+   "identity": 0.9682093282697339,
+   "map_rate": 0.974,
+   "bases": 985259,
+   "fastq": "/home/riley/slorado-riley-v2/docs-riley/bench-runs/kept/output_hac_1k-rna-explore-repair10_margin2.5.fastq"
+  },
+  {
+   "label": "repair10_margin3",
+   "stage": "spec",
+   "extra": "--spec-repair-threshold 10 --spec-margin-threshold 3",
+   "status": "ok",
+   "real_s": 37.455,
+   "alpha": 0.929539295392954,
+   "identity": 0.9682093282697339,
+   "map_rate": 0.974,
+   "bases": 985259,
+   "fastq": "/home/riley/slorado-riley-v2/docs-riley/bench-runs/kept/output_hac_1k-rna-explore-repair10_margin3.fastq"
+  }
+ ]
+}

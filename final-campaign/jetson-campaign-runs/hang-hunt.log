@@ -1,0 +1,8 @@
+command under gdb: /home/riley/bench-stages/spec/slorado basecaller -C 128 -c 12288 -K 4096 -p 150 --overlap-decode=yes --fixed-c-batch=no --speculative-decode=yes --spec-repair-threshold=10 --spec-margin-threshold=2 --spec-overlap-repair=yes --flush-threshold=64 -o /dev/null /home/riley/slorado-riley-v2/models/dna_r10.4.1_e8.2_400bps_fast@v5.0.0 /home/riley/data/PGXXXX230339_reads_500k.blow5
+[hunt] run 1 (0.00 h used of 3.0 h) -> /home/riley/slorado-riley-v2/docs-riley/bench-runs/hang-hunt/20261025T230242-spec-dna_fast_500k-1
+[hunt] run 1: {'hung': False, 'completed': True, 'forced': False, 'elapsed_s': 4003.3, 'batches': 123, 'run': 1, 'dir': '/home/riley/slorado-riley-v2/docs-riley/bench-runs/hang-hunt/20261025T230242-spec-dna_fast_500k-1'}
+[hunt] run 2 (1.11 h used of 3.0 h) -> /home/riley/slorado-riley-v2/docs-riley/bench-runs/hang-hunt/20261025T230242-spec-dna_fast_500k-2
+[hunt] HANG detected: no output for 181 s after 56 batches (2009 s into the run). Snapshotting, then stopping under gdb ...
+[hunt] run 2: {'hung': True, 'completed': False, 'forced': False, 'elapsed_s': 2009.2, 'batches': 56, 'run': 2, 'dir': '/home/riley/slorado-riley-v2/docs-riley/bench-runs/hang-hunt/20261025T230242-spec-dna_fast_500k-2'}
+[hunt] finished: 1 hang(s) captured in 2 run(s), 1.67 h
+[hunt] look at: /home/riley/slorado-riley-v2/docs-riley/bench-runs/hang-hunt/20261025T230242-spec-dna_fast_500k-2/gdb.txt

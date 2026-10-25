@@ -1,0 +1,11 @@
+spec: /home/riley/bench-stages/spec/slorado basecaller -C 128 -c 12288 -K 2000 -p 150 --overlap-decode=yes --fixed-c-batch=no --speculative-decode=yes --spec-repair-threshold=10 --spec-margin-threshold=2 --spec-overlap-repair=yes --flush-threshold=64 -o /home/riley/bench-out/tmp/<fastq> /home/riley/slorado-riley-v2/models/dna_r10.4.1_e8.2_400bps_fast@v5.0.0 /home/riley/data/PGXXXX230339_reads_500k.blow5
+upstream: /home/riley/bench-stages/upstream/slorado basecaller -C 128 -c 12288 -K 2000 -p 150 -o /home/riley/bench-out/tmp/<fastq> /home/riley/slorado-riley-v2/models/dna_r10.4.1_e8.2_400bps_fast@v5.0.0 /home/riley/data/PGXXXX230339_reads_500k.blow5
+[reducedK] block reducedK-K2000-20261025T161533  harness d5704e0ec3e6  stages ['spec', 'upstream']  -K 2000
+[reducedK] idle baseline (before)
+[reducedK] canary (before)
+[reducedK] spec dna_fast_500k mode B, -K 2000
+        FAILED: stall
+[reducedK] skipping upstream (an earlier stage did not complete)
+[reducedK] canary (after)
+[reducedK] idle baseline (after)
+[reducedK] done

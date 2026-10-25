@@ -1,0 +1,9 @@
+{
+ "hung": true,
+ "completed": false,
+ "forced": false,
+ "elapsed_s": 2009.2,
+ "batches": 56,
+ "run": 2,
+ "dir": "/home/riley/slorado-riley-v2/docs-riley/bench-runs/hang-hunt/20261025T230242-spec-dna_fast_500k-2"
+}

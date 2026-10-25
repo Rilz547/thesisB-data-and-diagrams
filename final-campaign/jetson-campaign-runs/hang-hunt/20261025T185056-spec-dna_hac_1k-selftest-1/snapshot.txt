@@ -1,0 +1,38 @@
+time 2026-10-25 18:51:11  pid 2488918
+VDD_IN 17.52 W (4920 mV x 3560 mA)
+gpu load node: 997 (permille)  tj: 53.468 C
+free -m:
+               total        used        free      shared  buff/cache   available
+Mem:            7607        6618         290           3         697         722
+Swap:          16383        1426       14957
+
+status:
+State:	S (sleeping)
+VmRSS:	 4689440 kB
+VmSwap:	       0 kB
+Threads:	13
+threads (tid state comm | wchan | syscall):
+   2488918 S slorado          | futex_wait_queue_me          | 98 0xffff63fc2910 0x109 0x25faab 0x0 0x0 0xffffffff 0xffffffffe820 0xffffe474cb7c
+   2488955 S slorado          | futex_wait_queue_me          | 98 0xffffe46c3968 0x189 0x0 0x0 0x0 0xffffffff 0xffffa1320e00 0xffffe474cb7c
+   2488956 S slorado          | futex_wait_queue_me          | 98 0xffffe46c39e8 0x189 0x0 0x0 0x0 0xffffffff 0xffffa0b10e00 0xffffe474cb7c
+   2488957 S slorado          | futex_wait_queue_me          | 98 0xffffe46c3a68 0x189 0x0 0x0 0x0 0xffffffff 0xffff9e300e00 0xffffe474cb7c
+   2488958 S slorado          | futex_wait_queue_me          | 98 0xffffe46c3ae8 0x189 0x0 0x0 0x0 0xffffffff 0xffff9baf0e00 0xffffe474cb7c
+   2488959 S slorado          | futex_wait_queue_me          | 98 0xffffe46c3b68 0x189 0x0 0x0 0x0 0xffffffff 0xffff992e0e00 0xffffe474cb7c
+   2488975 S cuda-EvtHandlr   | do_sys_poll                  | 73 0xffff84000c20 0xa 0x0 0x0 0x0 0x0 0xffff8bdf0d60 0xffffe47afb64
+   2488976 S slorado          | futex_wait_queue_me          | 98 0xaaaaaf44b144 0x80 0xd0 0x0 0x40000 0x226846e0000 0xffff8b48aed0 0xffffe47b5b68
+   2488977 S slorado          | futex_wait_queue_me          | 98 0xaaaaaf44b144 0x80 0xd0 0x0 0x22684760000 0x226846e0000 0xffff8ac7aed0 0xffffe47b5b68
+   2488978 S slorado          | futex_wait_queue_me          | 98 0xaaaaaf44b144 0x80 0xd0 0x0 0x226847e0000 0x22684760000 0xffff8a46aed0 0xffffe47b5b68
+   2488979 S slorado          | futex_wait_queue_me          | 98 0xaaaaaf44b144 0x80 0xd0 0x0 0x40000 0x22684860000 0xffff89c5aed0 0xffffe47b5b68
+   2488980 S slorado          | futex_wait_queue_me          | 98 0xaaaaaf44b144 0x80 0xd0 0x0 0x226848e0000 0x22684860000 0xffff8944aed0 0xffffe47b5b68
+   2489003 R slorado          | 0                            | running
+last output lines:
+  [Thread 0xffff696f2840 (LWP 2488998) exited]
+  [Thread 0xffff68ee2840 (LWP 2488996) exited]
+  [Thread 0xffff637b2840 (LWP 2488995) exited]
+  [Thread 0xffff62fa2840 (LWP 2488993) exited]
+  [Thread 0xffff69f02840 (LWP 2489001) exited]
+  [New Thread 0xffff63fc2840 (LWP 2489002)]
+  [Thread 0xffff63fc2840 (LWP 2489002) exited]
+  [New Thread 0xffff63fc2840 (LWP 2489003)]
+kernel messages, last 10 min:
+-- No entries --

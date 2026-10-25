@@ -1,0 +1,113 @@
+=== 00:21:55 bench.py run --stage spec --cells dna_fast_1k --modes A,B --reps 5
+[bench] block spec-20261023T002155  harness d5704e0ec3e6  commit 49ac641  cells 1
+[bench] idle baseline (before)
+[bench] canary (before)
+[bench] spec dna_fast_1k warm-up (mode A)
+[bench] spec dna_fast_1k mode A rep 1/5
+        Real 9.041s  proc 10.5s  E_in 125.4 J  P 13.87 W  gpu 833 MHz  tj 51.0 C
+[bench] spec dna_fast_1k mode A rep 2/5
+        Real 9.073s  proc 10.5s  E_in 125.7 J  P 13.86 W  gpu 830 MHz  tj 51.3 C
+[bench] spec dna_fast_1k mode A rep 3/5
+        Real 9.069s  proc 10.5s  E_in 125.9 J  P 13.88 W  gpu 829 MHz  tj 51.7 C
+[bench] spec dna_fast_1k mode A rep 4/5
+        Real 9.095s  proc 10.5s  E_in 126.0 J  P 13.85 W  gpu 829 MHz  tj 51.8 C
+[bench] spec dna_fast_1k mode A rep 5/5
+        Real 9.141s  proc 10.5s  E_in 126.5 J  P 13.84 W  gpu 825 MHz  tj 52.2 C
+[bench] spec dna_fast_1k mode B rep 1/5
+        Real 9.090s  proc 10.5s  E_in 126.1 J  P 13.88 W  gpu 826 MHz  tj 52.2 C
+[bench] spec dna_fast_1k mode B rep 2/5
+        Real 9.075s  proc 10.5s  E_in 126.1 J  P 13.89 W  gpu 833 MHz  tj 52.4 C
+[bench] spec dna_fast_1k mode B rep 3/5
+        Real 9.089s  proc 10.5s  E_in 126.1 J  P 13.87 W  gpu 832 MHz  tj 52.3 C
+[bench] spec dna_fast_1k mode B rep 4/5
+        Real 9.066s  proc 10.5s  E_in 126.1 J  P 13.91 W  gpu 831 MHz  tj 52.3 C
+[bench] spec dna_fast_1k mode B rep 5/5
+        Real 9.044s  proc 10.5s  E_in 126.0 J  P 13.93 W  gpu 831 MHz  tj 52.5 C
+[bench] canary (after)
+[bench] idle baseline (after)
+[bench] block complete
+=== 00:27:51 bench.py run --stage upstream --cells dna_fast_1k --modes A,B --reps 5
+[bench] block upstream-20261023T002751  harness d5704e0ec3e6  commit 754a74d  cells 1
+[bench] idle baseline (before)
+[bench] canary (before)
+[bench] upstream dna_fast_1k warm-up (mode A)
+[bench] upstream dna_fast_1k mode A rep 1/5
+        Real 13.805s  proc 15.0s  E_in 161.8 J  P 11.72 W  gpu 854 MHz  tj 50.6 C
+[bench] upstream dna_fast_1k mode A rep 2/5
+        Real 13.800s  proc 15.0s  E_in 161.6 J  P 11.71 W  gpu 854 MHz  tj 51.1 C
+[bench] upstream dna_fast_1k mode A rep 3/5
+        Real 13.784s  proc 15.0s  E_in 162.7 J  P 11.80 W  gpu 858 MHz  tj 51.2 C
+[bench] upstream dna_fast_1k mode A rep 4/5
+        Real 13.809s  proc 15.0s  E_in 161.9 J  P 11.73 W  gpu 854 MHz  tj 51.4 C
+[bench] upstream dna_fast_1k mode A rep 5/5
+        Real 13.798s  proc 15.0s  E_in 162.2 J  P 11.76 W  gpu 860 MHz  tj 51.2 C
+[bench] upstream dna_fast_1k mode B rep 1/5
+        Real 13.889s  proc 15.0s  E_in 161.9 J  P 11.65 W  gpu 856 MHz  tj 51.2 C
+[bench] upstream dna_fast_1k mode B rep 2/5
+        Real 13.854s  proc 15.0s  E_in 161.8 J  P 11.68 W  gpu 856 MHz  tj 51.5 C
+[bench] upstream dna_fast_1k mode B rep 3/5
+        Real 13.893s  proc 15.0s  E_in 161.6 J  P 11.63 W  gpu 857 MHz  tj 51.5 C
+[bench] upstream dna_fast_1k mode B rep 4/5
+        Real 13.874s  proc 15.0s  E_in 161.4 J  P 11.64 W  gpu 859 MHz  tj 51.6 C
+[bench] upstream dna_fast_1k mode B rep 5/5
+        Real 13.847s  proc 15.0s  E_in 162.5 J  P 11.73 W  gpu 858 MHz  tj 51.6 C
+[bench] canary (after)
+[bench] idle baseline (after)
+[bench] block complete
+=== 00:34:37 bench.py run --stage spec --cells dna_fast_1k --modes A,B --reps 5
+[bench] block spec-20261023T003437  harness d5704e0ec3e6  commit 49ac641  cells 1
+[bench] idle baseline (before)
+[bench] canary (before)
+[bench] spec dna_fast_1k warm-up (mode A)
+[bench] spec dna_fast_1k mode A rep 1/5
+        Real 9.054s  proc 10.5s  E_in 125.4 J  P 13.85 W  gpu 828 MHz  tj 51.1 C
+[bench] spec dna_fast_1k mode A rep 2/5
+        Real 9.113s  proc 10.5s  E_in 125.8 J  P 13.80 W  gpu 829 MHz  tj 51.4 C
+[bench] spec dna_fast_1k mode A rep 3/5
+        Real 9.124s  proc 10.5s  E_in 126.0 J  P 13.81 W  gpu 829 MHz  tj 51.7 C
+[bench] spec dna_fast_1k mode A rep 4/5
+        Real 9.012s  proc 10.5s  E_in 125.3 J  P 13.90 W  gpu 831 MHz  tj 52.0 C
+[bench] spec dna_fast_1k mode A rep 5/5
+        Real 9.113s  proc 10.5s  E_in 126.0 J  P 13.82 W  gpu 832 MHz  tj 52.2 C
+[bench] spec dna_fast_1k mode B rep 1/5
+        Real 9.145s  proc 10.5s  E_in 126.6 J  P 13.84 W  gpu 832 MHz  tj 52.3 C
+[bench] spec dna_fast_1k mode B rep 2/5
+        Real 9.107s  proc 10.5s  E_in 126.2 J  P 13.85 W  gpu 828 MHz  tj 52.5 C
+[bench] spec dna_fast_1k mode B rep 3/5
+        Real 9.140s  proc 10.5s  E_in 126.5 J  P 13.84 W  gpu 825 MHz  tj 52.4 C
+[bench] spec dna_fast_1k mode B rep 4/5
+        Real 9.079s  proc 10.5s  E_in 125.9 J  P 13.87 W  gpu 826 MHz  tj 52.5 C
+[bench] spec dna_fast_1k mode B rep 5/5
+        Real 9.075s  proc 10.5s  E_in 125.8 J  P 13.86 W  gpu 826 MHz  tj 52.6 C
+[bench] canary (after)
+[bench] idle baseline (after)
+[bench] block complete
+=== 00:40:33 bench.py run --stage upstream --cells dna_fast_1k --modes A,B --reps 5
+[bench] block upstream-20261023T004033  harness d5704e0ec3e6  commit 754a74d  cells 1
+[bench] idle baseline (before)
+[bench] canary (before)
+[bench] upstream dna_fast_1k warm-up (mode A)
+[bench] upstream dna_fast_1k mode A rep 1/5
+        Real 13.941s  proc 15.0s  E_in 162.2 J  P 11.64 W  gpu 854 MHz  tj 50.6 C
+[bench] upstream dna_fast_1k mode A rep 2/5
+        Real 13.843s  proc 15.0s  E_in 162.0 J  P 11.70 W  gpu 856 MHz  tj 50.8 C
+[bench] upstream dna_fast_1k mode A rep 3/5
+        Real 13.767s  proc 15.0s  E_in 161.8 J  P 11.76 W  gpu 858 MHz  tj 51.2 C
+[bench] upstream dna_fast_1k mode A rep 4/5
+        Real 13.882s  proc 15.0s  E_in 161.7 J  P 11.65 W  gpu 858 MHz  tj 51.2 C
+[bench] upstream dna_fast_1k mode A rep 5/5
+        Real 13.873s  proc 15.0s  E_in 161.6 J  P 11.65 W  gpu 858 MHz  tj 51.2 C
+[bench] upstream dna_fast_1k mode B rep 1/5
+        Real 13.868s  proc 15.0s  E_in 162.1 J  P 11.69 W  gpu 855 MHz  tj 51.3 C
+[bench] upstream dna_fast_1k mode B rep 2/5
+        Real 13.927s  proc 15.0s  E_in 162.0 J  P 11.63 W  gpu 853 MHz  tj 51.5 C
+[bench] upstream dna_fast_1k mode B rep 3/5
+        Real 13.846s  proc 15.0s  E_in 162.8 J  P 11.76 W  gpu 853 MHz  tj 51.3 C
+[bench] upstream dna_fast_1k mode B rep 4/5
+        Real 13.920s  proc 15.0s  E_in 162.4 J  P 11.67 W  gpu 856 MHz  tj 51.4 C
+[bench] upstream dna_fast_1k mode B rep 5/5
+        Real 13.851s  proc 15.0s  E_in 162.0 J  P 11.69 W  gpu 858 MHz  tj 51.2 C
+[bench] canary (after)
+[bench] idle baseline (after)
+[bench] block complete
+=== 00:47:19 validation re-run complete

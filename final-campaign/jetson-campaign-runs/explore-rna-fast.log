@@ -1,0 +1,42 @@
+[explore] reference: lb_best (non-speculative)
+  ref-lb_best            ok     Real   8.13s  alpha nan  identity 0.934396
+[explore] spec repair10_margin2
+  repair10_margin2       ok     Real   7.74s  alpha 0.905  identity 0.892756
+[explore] spec repair10_margin2.5
+  repair10_margin2.5     ok     Real   7.71s  alpha 0.905  identity 0.892756
+[explore] spec repair10_margin3
+  repair10_margin3       ok     Real   7.78s  alpha 0.867  identity 0.895579
+[explore] spec repair10_margin4
+  repair10_margin4       ok     Real   9.15s  alpha 0.027  identity 0.933912
+[explore] spec repair15_margin2
+  repair15_margin2       ok     Real   8.42s  alpha 0.534  identity 0.912571
+[explore] spec repair15_margin2.5
+  repair15_margin2.5     ok     Real   8.37s  alpha 0.534  identity 0.912571
+[explore] spec repair15_margin3
+  repair15_margin3       ok     Real   8.36s  alpha 0.532  identity 0.912791
+[explore] spec repair15_margin4
+  repair15_margin4       ok     Real   9.25s  alpha 0.009  identity 0.934084
+[explore] spec repair20_margin2
+  repair20_margin2       ok     Real   9.12s  alpha 0.000  identity 0.934396
+[explore] spec repair20_margin2.5
+  repair20_margin2.5     ok     Real   9.16s  alpha 0.000  identity 0.934396
+[explore] spec repair20_margin3
+  repair20_margin3       ok     Real   9.14s  alpha 0.000  identity 0.934396
+[explore] spec repair20_margin4
+  repair20_margin4       ok     Real   9.15s  alpha 0.000  identity 0.934396
+
+setting                   alpha  Real s   vs ref  identity    d pp bases/ref
+ref-lb_best                 nan    8.13    +0.0%  0.934396  +0.000     1.000
+repair10_margin2          0.905    7.74    -4.8%  0.892756  -4.164     0.916
+repair10_margin2.5        0.905    7.71    -5.2%  0.892756  -4.164     0.916
+repair10_margin3          0.867    7.78    -4.4%  0.895579  -3.882     0.923
+repair10_margin4          0.027    9.15   +12.5%  0.933912  -0.048     0.998
+repair15_margin2          0.534    8.42    +3.5%  0.912571  -2.182     0.962
+repair15_margin2.5        0.534    8.37    +3.0%  0.912571  -2.182     0.962
+repair15_margin3          0.532    8.36    +2.7%  0.912791  -2.161     0.962
+repair15_margin4          0.009    9.25   +13.7%  0.934084  -0.031     1.000
+repair20_margin2          0.000    9.12   +12.1%  0.934396  +0.000     1.000
+repair20_margin2.5        0.000    9.16   +12.7%  0.934396  +0.000     1.000
+repair20_margin3          0.000    9.14   +12.3%  0.934396  +0.000     1.000
+repair20_margin4          0.000    9.15   +12.5%  0.934396  +0.000     1.000
+wrote /home/riley/slorado-riley-v2/docs-riley/bench-runs/explore-rnafast1k-20261022T230513.json
