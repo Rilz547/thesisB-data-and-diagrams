@@ -8,3 +8,9 @@ final-campaign/jetson-campaign-runs/kept*/
 *.paf
 .bench.lock
 DEST
+
+# Raw Jetson campaign output (large, regenerable)
+final-campaign/jetson-campaign-runs/power/
+final-campaign/jetson-campaign-runs/console/
+final-campaign/jetson-campaign-runs/hang-hunt/
+final-campaign/jetson-campaign-runs/*.tar

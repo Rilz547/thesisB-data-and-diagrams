@@ -1,0 +1,4 @@
+timestamp,fastq,n_reads,n_alignments,map_rate,accuracy_median,expected_median,delta_vs_expected,nsys_pulled,reference
+2026-11-03T01:20:58.167502+00:00,output_fast_1k-dna-upstream_c10000.fastq,1000,1023,102.3%,0.940541,0.940696,-0.000155,,/home/riley/Desktop/slorado_analysis/ref/hg38noAlt.fa
+2026-11-03T01:21:28.945134+00:00,output_fast_20k-dna-upstream_c10000.fastq,20000,20749,103.7%,0.939419,-,-,,/home/riley/Desktop/slorado_analysis/ref/hg38noAlt.fa
+2026-11-03T01:22:18.273815+00:00,output_hac_1k-dna-upstream_c10000.fastq,1000,1109,110.9%,0.977219,0.976852,+0.000367,,/home/riley/Desktop/slorado_analysis/ref/hg38noAlt.fa

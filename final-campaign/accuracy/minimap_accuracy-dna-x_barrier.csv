@@ -1,0 +1,2 @@
+timestamp,fastq,n_reads,n_alignments,map_rate,accuracy_median,expected_median,delta_vs_expected,nsys_pulled,reference
+2026-11-02T03:17:41.925299+00:00,output_fast_500k-dna-x_barrier.fastq,500002,517795,103.6%,0.934579,-,-,,/home/riley/Desktop/slorado_analysis/ref/hg38noAlt.fa

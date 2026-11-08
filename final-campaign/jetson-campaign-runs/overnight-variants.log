@@ -1,0 +1,328 @@
+
+######## 2026-10-27 00:55:15  0. pre-flight
+  reference rna: OK      ~/data/ref/gencode.v40.transcripts.fa
+power sensor: /sys/class/hwmon/hwmon1 {'in': 1, 'cg': 2, 'soc': 3} | gpu load node: /sys/devices/platform/bus@0/17000000.gpu/load | tj zone: /sys/class/thermal/thermal_zone8/temp
+problems: none
+
+######## 2026-10-27 00:55:16  1. spec pairing: same 49ac641 binary, speculative decode off vs on (no build)
+spec_off      ~/bench-stages/spec/slorado basecaller -C 128 -c 12288 -K 4096 -p 150 --overlap-decode=yes --fixed-c-batch=no --speculative-decode=no --flush-threshold=64 -o /dev/null ~/slorado-riley-v2/models/dna_r10.4.1_e8.2_400bps_fast@v5.0.0 ~/slorado-riley-v2/test/PGXXXX230339/reads_1k.blow5
+spec_on       ~/bench-stages/spec/slorado basecaller -C 128 -c 12288 -K 4096 -p 150 --overlap-decode=yes --fixed-c-batch=no --speculative-decode=yes --spec-repair-threshold=10 --spec-margin-threshold=2 --spec-overlap-repair=yes --flush-threshold=64 -o /dev/null ~/slorado-riley-v2/models/dna_r10.4.1_e8.2_400bps_fast@v5.0.0 ~/slorado-riley-v2/t
+
+rough time: 1.2 h of Jetson time   records -> /home/riley/slorado-riley-v2/docs-riley/bench-runs/variants-pairing.jsonl
+[variants] block variants-pairing-20261027T005516  harness d5704e0ec3e6
+[variants] spec_off dna_fast_1k warm-up
+[variants] spec_on dna_fast_1k warm-up
+[variants] dna_fast_1k rep 1/5 spec_off
+        Real 9.776 s  P 13.85 W
+[variants] dna_fast_1k rep 1/5 spec_on
+        Real 9.083 s  P 13.88 W
+[variants] dna_fast_1k rep 2/5 spec_off
+        Real 9.826 s  P 13.79 W
+[variants] dna_fast_1k rep 2/5 spec_on
+        Real 9.091 s  P 13.89 W
+[variants] dna_fast_1k rep 3/5 spec_off
+        Real 9.771 s  P 13.87 W
+[variants] dna_fast_1k rep 3/5 spec_on
+        Real 9.091 s  P 13.88 W
+[variants] dna_fast_1k rep 4/5 spec_off
+        Real 9.766 s  P 13.89 W
+[variants] dna_fast_1k rep 4/5 spec_on
+        Real 9.054 s  P 13.92 W
+[variants] dna_fast_1k rep 5/5 spec_off
+        Real 9.804 s  P 13.85 W
+[variants] dna_fast_1k rep 5/5 spec_on
+        Real 9.087 s  P 13.90 W
+[variants] dna_fast_1k mode B (kept) spec_off
+[variants] dna_fast_1k mode B (kept) spec_on
+[variants] spec_off dna_hac_1k warm-up
+[variants] spec_on dna_hac_1k warm-up
+[variants] dna_hac_1k rep 1/5 spec_off
+        Real 44.941 s  P 17.05 W
+[variants] dna_hac_1k rep 1/5 spec_on
+        Real 44.530 s  P 17.03 W
+[variants] dna_hac_1k rep 2/5 spec_off
+        Real 44.884 s  P 17.03 W
+[variants] dna_hac_1k rep 2/5 spec_on
+        Real 44.762 s  P 17.02 W
+[variants] dna_hac_1k rep 3/5 spec_off
+        Real 44.940 s  P 17.09 W
+[variants] dna_hac_1k rep 3/5 spec_on
+        Real 44.622 s  P 17.07 W
+[variants] dna_hac_1k rep 4/5 spec_off
+        Real 45.033 s  P 17.03 W
+[variants] dna_hac_1k rep 4/5 spec_on
+        Real 44.738 s  P 17.11 W
+[variants] dna_hac_1k rep 5/5 spec_off
+        Real 45.082 s  P 17.02 W
+[variants] dna_hac_1k rep 5/5 spec_on
+        Real 44.552 s  P 17.10 W
+[variants] dna_hac_1k mode B (kept) spec_off
+[variants] dna_hac_1k mode B (kept) spec_on
+[variants] spec_off dna_fast_20k warm-up
+[variants] spec_on dna_fast_20k warm-up
+[variants] dna_fast_20k rep 1/3 spec_off
+        Real 172.494 s  P 15.37 W
+[variants] dna_fast_20k rep 1/3 spec_on
+        Real 158.203 s  P 15.60 W
+[variants] dna_fast_20k rep 2/3 spec_off
+        Real 173.334 s  P 15.31 W
+[variants] dna_fast_20k rep 2/3 spec_on
+        Real 158.497 s  P 15.60 W
+[variants] dna_fast_20k rep 3/3 spec_off
+        Real 172.767 s  P 15.34 W
+[variants] dna_fast_20k rep 3/3 spec_on
+        Real 157.597 s  P 15.64 W
+[variants] dna_fast_20k mode B (kept) spec_off
+[variants] dna_fast_20k mode B (kept) spec_on
+
+== summary (mode A, mean ± sd, n) and change against the first variant in each row group ==
+
+dna_fast_1k
+  spec_off          9.799 ±  0.027 (n=10)     +0.0 %   (1.000x)   [9.77 .. 9.85]
+  spec_on           9.081 ±  0.029 (n=10)     -7.3 %   (1.079x)   [9.03 .. 9.13]
+
+dna_hac_1k
+  spec_off         45.207 ±  0.253 (n=10)     +0.0 %   (1.000x)   [44.88 .. 45.49]
+  spec_on          44.876 ±  0.294 (n=10)     -0.7 %   (1.007x)   [44.53 .. 45.41]
+
+dna_fast_20k
+  spec_off        174.121 ±  1.412 (n=6)     +0.0 %   (1.000x)   [172.49 .. 175.64]
+  spec_on         159.666 ±  1.754 (n=6)     -8.3 %   (1.091x)   [157.60 .. 161.45]
+[variants] done
+
+######## 2026-10-27 01:44:13  2. build Bonson's dev (c2ca899)
+=== bonson_dev @ c2ca899 -> /home/riley/bench-stages/bonson_dev
+Submodule path 'openfish': checked out '991561a6b2563ba65c3d4df4a36d8c370d5acd1c'
+Submodule path 'slow5lib': checked out '18e0bc5d50002194b9344fd680028bd60af037cc'
+    binary already built: /home/riley/bench-stages/bonson_dev/slorado
+=== done
+
+######## 2026-10-27 01:44:13  3. dev comparison (upstream vs dev vs dev --async=yes vs spec)
+ref_upstream  ~/bench-stages/upstream/slorado basecaller -C 128 -c 12288 -K 4096 -p 150 -o /dev/null ~/slorado-riley-v2/models/dna_r10.4.1_e8.2_400bps_fast@v5.0.0 ~/slorado-riley-v2/test/PGXXXX230339/reads_1k.blow5
+bdev          ~/bench-stages/bonson_dev/slorado basecaller -C 128 -c 12288 -K 4096 -p 150 -o /dev/null ~/slorado-riley-v2/models/dna_r10.4.1_e8.2_400bps_fast@v5.0.0 ~/slorado-riley-v2/test/PGXXXX230339/reads_1k.blow5
+bdev_async    ~/bench-stages/bonson_dev/slorado basecaller -C 128 -c 12288 -K 4096 -p 150 --async=yes -o /dev/null ~/slorado-riley-v2/models/dna_r10.4.1_e8.2_400bps_fast@v5.0.0 ~/slorado-riley-v2/test/PGXXXX230339/reads_1k.blow5
+spec_on       ~/bench-stages/spec/slorado basecaller -C 128 -c 12288 -K 4096 -p 150 --overlap-decode=yes --fixed-c-batch=no --speculative-decode=yes --spec-repair-threshold=10 --spec-margin-threshold=2 --spec-overlap-repair=yes --flush-threshold=64 -o /dev/null ~/slorado-riley-v2/models/dna_r10.4.1_e8.2_400bps_fast@v5.0.0 ~/slorado-riley-v2/t
+
+rough time: 2.3 h of Jetson time   records -> /home/riley/slorado-riley-v2/docs-riley/bench-runs/variants-dev.jsonl
+[variants] block variants-dev-20261027T014414  harness d5704e0ec3e6
+[variants] ref_upstream dna_fast_1k warm-up
+[variants] bdev dna_fast_1k warm-up
+[variants] bdev_async dna_fast_1k warm-up
+[variants] spec_on dna_fast_1k warm-up
+[variants] dna_fast_1k rep 1/5 ref_upstream
+        Real 13.826 s  P 11.72 W
+[variants] dna_fast_1k rep 1/5 bdev
+        Real 13.906 s  P 11.63 W
+[variants] dna_fast_1k rep 1/5 bdev_async
+        Real 13.442 s  P 11.91 W
+[variants] dna_fast_1k rep 1/5 spec_on
+        Real 9.122 s  P 13.87 W
+[variants] dna_fast_1k rep 2/5 ref_upstream
+        Real 13.743 s  P 11.78 W
+[variants] dna_fast_1k rep 2/5 bdev
+        Real 13.861 s  P 11.65 W
+[variants] dna_fast_1k rep 2/5 bdev_async
+        Real 13.401 s  P 11.99 W
+[variants] dna_fast_1k rep 2/5 spec_on
+        Real 9.074 s  P 13.89 W
+[variants] dna_fast_1k rep 3/5 ref_upstream
+        Real 13.815 s  P 11.73 W
+[variants] dna_fast_1k rep 3/5 bdev
+        Real 13.841 s  P 11.70 W
+[variants] dna_fast_1k rep 3/5 bdev_async
+        Real 13.396 s  P 11.99 W
+[variants] dna_fast_1k rep 3/5 spec_on
+        Real 9.195 s  P 13.80 W
+[variants] dna_fast_1k rep 4/5 ref_upstream
+        Real 13.895 s  P 11.65 W
+[variants] dna_fast_1k rep 4/5 bdev
+        Real 13.843 s  P 11.69 W
+[variants] dna_fast_1k rep 4/5 bdev_async
+        Real 13.392 s  P 11.99 W
+[variants] dna_fast_1k rep 4/5 spec_on
+        Real 9.070 s  P 13.90 W
+[variants] dna_fast_1k rep 5/5 ref_upstream
+        Real 13.804 s  P 11.74 W
+[variants] dna_fast_1k rep 5/5 bdev
+        Real 13.960 s  P 11.65 W
+[variants] dna_fast_1k rep 5/5 bdev_async
+        Real 13.439 s  P 11.94 W
+[variants] dna_fast_1k rep 5/5 spec_on
+        Real 9.158 s  P 13.82 W
+[variants] dna_fast_1k mode B (kept) ref_upstream
+[variants] dna_fast_1k mode B (kept) bdev
+[variants] dna_fast_1k mode B (kept) bdev_async
+[variants] dna_fast_1k mode B (kept) spec_on
+[variants] ref_upstream dna_hac_1k warm-up
+[variants] bdev dna_hac_1k warm-up
+[variants] bdev_async dna_hac_1k warm-up
+[variants] spec_on dna_hac_1k warm-up
+[variants] dna_hac_1k rep 1/5 ref_upstream
+        Real 49.230 s  P 16.31 W
+[variants] dna_hac_1k rep 1/5 bdev
+        Real 49.228 s  P 16.30 W
+[variants] dna_hac_1k rep 1/5 bdev_async
+        Real 48.871 s  P 16.38 W
+[variants] dna_hac_1k rep 1/5 spec_on
+        Real 44.606 s  P 17.01 W
+[variants] dna_hac_1k rep 2/5 ref_upstream
+        Real 49.158 s  P 16.32 W
+[variants] dna_hac_1k rep 2/5 bdev
+        Real 49.056 s  P 16.31 W
+[variants] dna_hac_1k rep 2/5 bdev_async
+        Real 49.065 s  P 16.34 W
+[variants] dna_hac_1k rep 2/5 spec_on
+        Real 44.442 s  P 17.07 W
+[variants] dna_hac_1k rep 3/5 ref_upstream
+        Real 48.973 s  P 16.35 W
+[variants] dna_hac_1k rep 3/5 bdev
+        Real 49.069 s  P 16.30 W
+[variants] dna_hac_1k rep 3/5 bdev_async
+        Real 48.786 s  P 16.38 W
+[variants] dna_hac_1k rep 3/5 spec_on
+        Real 44.500 s  P 17.02 W
+[variants] dna_hac_1k rep 4/5 ref_upstream
+        Real 49.070 s  P 16.35 W
+[variants] dna_hac_1k rep 4/5 bdev
+        Real 49.111 s  P 16.30 W
+[variants] dna_hac_1k rep 4/5 bdev_async
+        Real 48.680 s  P 16.40 W
+[variants] dna_hac_1k rep 4/5 spec_on
+        Real 44.694 s  P 17.03 W
+[variants] dna_hac_1k rep 5/5 ref_upstream
+        Real 48.918 s  P 16.34 W
+[variants] dna_hac_1k rep 5/5 bdev
+        Real 49.353 s  P 16.26 W
+[variants] dna_hac_1k rep 5/5 bdev_async
+        Real 48.786 s  P 16.37 W
+[variants] dna_hac_1k rep 5/5 spec_on
+        Real 44.574 s  P 17.09 W
+[variants] dna_hac_1k mode B (kept) ref_upstream
+[variants] dna_hac_1k mode B (kept) bdev
+[variants] dna_hac_1k mode B (kept) bdev_async
+[variants] dna_hac_1k mode B (kept) spec_on
+[variants] ref_upstream dna_fast_20k warm-up
+[variants] bdev dna_fast_20k warm-up
+[variants] bdev_async dna_fast_20k warm-up
+[variants] spec_on dna_fast_20k warm-up
+[variants] dna_fast_20k rep 1/3 ref_upstream
+        Real 253.198 s  P 12.66 W
+[variants] dna_fast_20k rep 1/3 bdev
+        Real 253.351 s  P 12.62 W
+[variants] dna_fast_20k rep 1/3 bdev_async
+        Real 247.196 s  P 12.80 W
+[variants] dna_fast_20k rep 1/3 spec_on
+        Real 157.985 s  P 15.61 W
+[variants] dna_fast_20k rep 2/3 ref_upstream
+        Real 253.150 s  P 12.62 W
+[variants] dna_fast_20k rep 2/3 bdev
+        Real 253.507 s  P 12.56 W
+[variants] dna_fast_20k rep 2/3 bdev_async
+        Real 246.939 s  P 12.84 W
+[variants] dna_fast_20k rep 2/3 spec_on
+        Real 162.487 s  P 15.32 W
+[variants] dna_fast_20k rep 3/3 ref_upstream
+        Real 253.581 s  P 12.64 W
+[variants] dna_fast_20k rep 3/3 bdev
+        Real 252.912 s  P 12.61 W
+[variants] dna_fast_20k rep 3/3 bdev_async
+        Real 247.450 s  P 12.79 W
+[variants] dna_fast_20k rep 3/3 spec_on
+        Real 158.502 s  P 15.58 W
+[variants] dna_fast_20k mode B (kept) ref_upstream
+[variants] dna_fast_20k mode B (kept) bdev
+[variants] dna_fast_20k mode B (kept) bdev_async
+[variants] dna_fast_20k mode B (kept) spec_on
+
+== summary (mode A, mean ± sd, n) and change against the first variant in each row group ==
+
+dna_fast_1k
+  ref_upstream     13.872 ±  0.073 (n=10)     +0.0 %   (1.000x)   [13.74 .. 13.97]
+  bdev             13.899 ±  0.039 (n=10)     +0.2 %   (0.998x)   [13.84 .. 13.96]
+  bdev_async       13.476 ±  0.077 (n=10)     -2.8 %   (1.029x)   [13.39 .. 13.63]
+  spec_on           9.131 ±  0.040 (n=10)    -34.2 %   (1.519x)   [9.07 .. 9.20]
+
+dna_hac_1k
+  ref_upstream     49.329 ±  0.298 (n=10)     +0.0 %   (1.000x)   [48.92 .. 49.72]
+  bdev             49.389 ±  0.270 (n=10)     +0.1 %   (0.999x)   [49.06 .. 49.75]
+  bdev_async       49.079 ±  0.298 (n=10)     -0.5 %   (1.005x)   [48.68 .. 49.55]
+  spec_on          44.813 ±  0.284 (n=10)     -9.2 %   (1.101x)   [44.44 .. 45.27]
+
+dna_fast_20k
+  ref_upstream    254.221 ±  1.045 (n=6)     +0.0 %   (1.000x)   [253.15 .. 255.62]
+  bdev            253.624 ±  0.568 (n=6)     -0.2 %   (1.002x)   [252.91 .. 254.63]
+  bdev_async      247.834 ±  0.775 (n=6)     -2.5 %   (1.026x)   [246.94 .. 248.95]
+  spec_on         159.534 ±  1.589 (n=6)    -37.2 %   (1.594x)   [157.99 .. 162.49]
+[variants] done
+
+######## 2026-10-27 03:42:17  4. build the three old commits for the bundle split
+=== b_3403f19 @ 3403f19 -> /home/riley/bench-stages/b_3403f19
+Submodule path 'openfish': checked out '2530c2ab306dc1ad0c86ab160284515434dad7da'
+Submodule path 'slow5lib': checked out '18e0bc5d50002194b9344fd680028bd60af037cc'
+    building (log: /home/riley/bench-stages/b_3403f19/build.log) ...
+    BUILD FAILED for b_3403f19 (see /home/riley/bench-stages/b_3403f19/build.log)
+make: *** Waiting for unfinished jobs....
+cc -g -Wall -O2 -std=c99 -DSLOW5_USE_ZSTD -I include/ -I thirdparty/streamvbyte/include/ src/slow5_idx.c -c -fpic -o lib/slow5_idx.o
+cc -g -Wall -O2 -std=c99 -DSLOW5_USE_ZSTD -I include/ -I thirdparty/streamvbyte/include/ src/slow5_misc.c -c -fpic -o lib/slow5_misc.o
+cc -g -Wall -O2 -std=c99 -DSLOW5_USE_ZSTD -I include/ -I thirdparty/streamvbyte/include/ src/slow5_press.c -c -fpic -o lib/slow5_press.o
+cc -g -Wall -O2 -std=c99 -DSLOW5_USE_ZSTD -I include/ -I thirdparty/streamvbyte/include/ src/slow5_mt.c -c -fpic -o lib/slow5_mt.o
+make -C thirdparty/streamvbyte no_simd= libstreamvbyte.a
+make[2]: Entering directory '/home/riley/bench-stages/b_3403f19/slow5lib/thirdparty/streamvbyte'
+cc -fPIC -std=c99 -O3 -Wall -Wextra -pedantic -Wshadow -D__ARM_NEON__ -c ./src/streamvbyte_decode.c -Iinclude
+cc -fPIC -std=c99 -O3 -Wall -Wextra -pedantic -Wshadow -D__ARM_NEON__ -c ./src/streamvbyte_encode.c -Iinclude
+cc -fPIC -std=c99 -O3 -Wall -Wextra -pedantic -Wshadow -D__ARM_NEON__ -c ./src/streamvbyte_zigzag.c -Iinclude
+ar rcs libstreamvbyte.a streamvbyte_decode.o streamvbyte_encode.o streamvbyte_zigzag.o
+make[2]: Leaving directory '/home/riley/bench-stages/b_3403f19/slow5lib/thirdparty/streamvbyte'
+cp thirdparty/streamvbyte/libstreamvbyte.a lib/libslow5.a
+ar rcs lib/libslow5.a lib/slow5.o lib/slow5_idx.o lib/slow5_misc.o lib/slow5_press.o lib/slow5_mt.o 
+make[1]: Leaving directory '/home/riley/bench-stages/b_3403f19/slow5lib'
+=== b_e00bada @ e00bada -> /home/riley/bench-stages/b_e00bada
+Submodule path 'openfish': checked out '3d954913ff2bc77cb95bba2abc836376a304a66b'
+Submodule path 'slow5lib': checked out '18e0bc5d50002194b9344fd680028bd60af037cc'
+    building (log: /home/riley/bench-stages/b_e00bada/build.log) ...
+    BUILD FAILED for b_e00bada (see /home/riley/bench-stages/b_e00bada/build.log)
+                 from src/basecall.cpp:42:
+openfish/include/openfish/openfish.h:99:6: note: declared here
+   99 | void openfish_decode_gpu(
+      |      ^~~~~~~~~~~~~~~~~~~
+src/basecall.cpp: In function ‘void overlap_finalize_decode(runner_t*, runner_stat_t*, overlap_pending_t*)’:
+src/basecall.cpp:525:5: error: ‘openfish_decode_stats_finish’ was not declared in this scope; did you mean ‘openfish_decode_stats_t’?
+  525 |     openfish_decode_stats_finish(&ts->decode_stats);
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |     openfish_decode_stats_t
+src/basecall.cpp:528:5: error: ‘openfish_decode_free_host’ was not declared in this scope; did you mean ‘openfish_decode_stats_t’?
+  528 |     openfish_decode_free_host(pending->moves, pending->sequence, pending->qstring);
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~
+      |     openfish_decode_stats_t
+make: *** [Makefile:125: build/basecall.o] Error 1
+make: *** Waiting for unfinished jobs....
+=== b_9f8db24 @ 9f8db24 -> /home/riley/bench-stages/b_9f8db24
+Submodule path 'openfish': checked out '3d954913ff2bc77cb95bba2abc836376a304a66b'
+Submodule path 'slow5lib': checked out '18e0bc5d50002194b9344fd680028bd60af037cc'
+    building (log: /home/riley/bench-stages/b_9f8db24/build.log) ...
+    BUILD FAILED for b_9f8db24 (see /home/riley/bench-stages/b_9f8db24/build.log)
+  499 |     );
+      |     ~                   
+In file included from src/slorado.h:46,
+                 from src/torchbox.h:13,
+                 from src/basecall.cpp:42:
+openfish/include/openfish/openfish.h:99:6: note: declared here
+   99 | void openfish_decode_gpu(
+      |      ^~~~~~~~~~~~~~~~~~~
+src/basecall.cpp: In function ‘void overlap_finalize_decode(runner_t*, runner_stat_t*, overlap_pending_t*)’:
+src/basecall.cpp:522:5: error: ‘openfish_decode_stats_finish’ was not declared in this scope; did you mean ‘openfish_decode_stats_t’?
+  522 |     openfish_decode_stats_finish(&ts->decode_stats);
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |     openfish_decode_stats_t
+make: *** [Makefile:125: build/basecall.o] Error 1
+make: *** Waiting for unfinished jobs....
+=== done
+!!! no binary for u_timing (b_3403f19): left out of the bundle run
+!!! no binary for v10_off (b_e00bada): left out of the bundle run
+!!! no binary for v11_off (b_9f8db24): left out of the bundle run
+
+######## 2026-10-27 03:45:38  5. bundle split with: ref_upstream,ref_ov_off
+no old-commit binaries built; skipping
+
+######## 2026-10-27 03:45:38  ALL DONE. Records: bench-runs/variants-{pairing,dev,bundle}.jsonl; kept FASTQs: bench-runs/kept/output_*-dna-<variant>.fastq; failures above are marked '!!!'
+number of !!! lines: 3
